@@ -36,8 +36,14 @@ jobs:
         run: flutter pub get
 
       # 5. Собираем Web-версию с правильным base-href (КРИТИЧЕСКИ ВАЖНО для GitHub Pages)
+      #- name: Build Web
+      #  run: flutter build web --base-href "/schedule/"
+
+      # 5. Собираем Web-версию с передачей секретных ключей окружения
       - name: Build Web
-        run: flutter build web --base-href "/schedule/"
+        run: |
+          flutter build web --base-href "/schedule/" --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+
 
       # 6. Деплоим собранные файлы в ветку gh-pages
       - name: Deploy to GitHub Pages
