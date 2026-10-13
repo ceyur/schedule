@@ -1,0 +1,71 @@
+name: Flutter Build and Deploy
+
+# Триггер запуска: при пуше в ветку main или при создании тега (например, v1.0.0)
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build Application
+    runs-on: macos-latest # Используем macOS, так как она необходима для сборки под iOS
+
+    steps:
+      # 1. Клонирование репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Настройка Java (требуется для сборки под Android)
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # 3. Настройка Flutter-окружения
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' # Используется стабильная версия Flutter
+          # Можно жестко зафиксировать версию, например: flutter-version: '3.22.0'
+
+      # 4. Получение зависимостей проекта
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 5. Запуск статического анализа кода (линтера) и тестов
+      - name: Run analyzer and tests
+        run: |
+          flutter analyze
+          flutter test
+
+      # 6. Сборка Android APK (Релизная сборка, формат FAT APK)
+      - name: Build Android APK
+        run: flutter build apk --release
+
+      # 7. Сборка Android App Bundle (Релизная сборка для публикации в Google Play)
+      - name: Build Android App Bundle (AAB)
+        run: flutter build appbundle --release
+
+      # 8. Сборка iOS приложения (Без подписи сертификатами)
+      - name: Build iOS IPA
+        run: flutter build ios --release --no-codesign
+
+      # 9. Сохранение собранных Android артефактов в самом GitHub
+      - name: Upload Android Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/release/app-release.aab
+
+      # 10. Сохранение собранных iOS артефактов в самом GitHub
+      - name: Upload iOS Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-release
+          path: build/ios/iphoneos/Runner.app
