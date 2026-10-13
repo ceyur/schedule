@@ -1,13 +1,13 @@
 import "package:flutter/material.dart";
-import "package:supabase_flutter/supabase_flutter.dart";
+// import "package:supabase_flutter/supabase_flutter.dart";
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
 
-  await Supabase.initialize(
-    url: "https://nknqqqirkfcaxtosnyhf.supabase.co",
-    publishableKey: "YuraSer1018!",
-  );
+  // await Supabase.initialize(
+  //   url: "https://nknqqqirkfcaxtosnyhf.supabase.co",
+  //   publishableKey: "YuraSer1018!",
+  // );
 
   runApp(MyApp());
 }
