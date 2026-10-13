@@ -6,7 +6,8 @@ void main() async {
 
   await Supabase.initialize(
     url: "https://nknqqqirkfcaxtosnyhf.supabase.co",
-    publishableKey: "YuraSer1018!",
+    anonKey: "YuraSer1018!",
+    // publishableKey: "YuraSer1018!",
     // url: "https://supabase.co",
     // // Используем anonKey. Значение берется из секретов сборки (подробнее в Шаге 2)
     // anonKey: const String.fromEnvironment("SUPABASE_ANON_KEY", defaultValue: "YOUR_FALLBACK_KEY"),
