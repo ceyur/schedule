@@ -5,11 +5,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(
-    // url: "https://nknqqqirkfcaxtosnyhf.supabase.co",
-    // publishableKey: "YuraSer1018!",
-    url: "https://supabase.co",
-    // Используем anonKey. Значение берется из секретов сборки (подробнее в Шаге 2)
-    anonKey: const String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: 'YOUR_FALLBACK_KEY'),
+    url: "https://nknqqqirkfcaxtosnyhf.supabase.co",
+    publishableKey: "YuraSer1018!",
+    // url: "https://supabase.co",
+    // // Используем anonKey. Значение берется из секретов сборки (подробнее в Шаге 2)
+    // anonKey: const String.fromEnvironment("SUPABASE_ANON_KEY", defaultValue: "YOUR_FALLBACK_KEY"),
   );
 
   runApp(MyApp());
@@ -89,12 +89,16 @@ class Schedule extends StatefulWidget {
 } // Timing
 
 class _Schedule extends State<Schedule> {
-
-  final List<Subject> schedule = [
-    Subject(date: "09.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
-    Subject(date: "09.10.2026", timeStart: "10:10", timeEnd: "11:40", name: "Операционные системы", teacher: "Петров П.П.", room: "102 каб."),
-    Subject(date: "09.10.2026", timeStart: "11:50", timeEnd: "13:20", name: "Физическая культура", teacher: "Сидоров С.С.", room: "Спортзал"),
-  ];
+  
+  final schedule = await Supabase.instance.client
+    .from("schedule") // Имя вашей таблицы
+    .select();
+  
+  // final List<Subject> schedule = [
+  //   Subject(date: "09.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
+  //   Subject(date: "09.10.2026", timeStart: "10:10", timeEnd: "11:40", name: "Операционные системы", teacher: "Петров П.П.", room: "102 каб."),
+  //   Subject(date: "09.10.2026", timeStart: "11:50", timeEnd: "13:20", name: "Физическая культура", teacher: "Сидоров С.С.", room: "Спортзал"),
+  // ];
 
   String selectedValue = "23-03 ИСиП";
   int selectedIndex = 0;
