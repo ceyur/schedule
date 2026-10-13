@@ -90,6 +90,44 @@ class Schedule extends StatefulWidget {
 } // Timing
 
 class _Schedule extends State<Schedule> {
+  Future<List<Map<String, dynamic>>> getSchedule({
+    required String selectedDate,      // Например: '2026-10-13'
+    required String selectedGroupName, // Например: 'ИВТ-21'
+  }) async {
+    final supabase = Supabase.instance.client;
+  
+    // Делаем запрос и сразу сохраняем результат в массив schedule
+    final List<Map<String, dynamic>> schedule = await supabase
+        .from('main_table')
+        .select('''
+          *,
+          other_table ( id, name ),
+          groups!inner ( id, name )
+        ''')
+        .eq('date', selectedDate)
+        .eq('groups.name', selectedGroupName);
+  
+    return schedule;
+  }
+
+  List<Map<String, dynamic>> schedule = [];
+  bool isLoading = false;
+  
+  Future<void> loadSchedule() async {
+    setState(() => isLoading = true);
+    
+    try {
+      // Вызываем функцию и записываем данные в наш массив
+      schedule = await getSchedule(
+        selectedDate: '2026-10-13', 
+        selectedGroupName: 'ПИ-22',
+      );
+    } catch (e) {
+      print('Ошибка загрузки расписания: $e');
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
   
   // final schedule = await Supabase.instance.client
   //   .from("schedule") // Имя вашей таблицы
