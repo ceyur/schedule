@@ -21961,7 +21961,7 @@ var $async$agc=A.M(function(a,b){if(a===1)return A.I(b,r)
 for(;;)switch(s){case 0:if($.a2==null)A.aiD()
 $.a2.toString
 s=2
-return A.F(A.a6L("YuraSer1018!","https://supabase.co"),$async$agc)
+return A.F(A.a6L("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbnFxcWlya2ZjYXh0b3NueWhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1NDc0ODAsImV4cCI6MjEwNzEyMzQ4MH0.kEYWJ-lffILyHh_ICnmpeuFgwdqWjqkeHHeDGjeg4AQ","https://nknqqqirkfcaxtosnyhf.supabase.co"),$async$agc)
 case 2:if($.a2==null)A.aiD()
 q=$.a2
 q.toString
