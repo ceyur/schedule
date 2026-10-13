@@ -1,13 +1,16 @@
 import "package:flutter/material.dart";
-// import "package:supabase_flutter/supabase_flutter.dart";
+import "package:supabase_flutter/supabase_flutter.dart";
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
-  // await Supabase.initialize(
-  //   url: "https://nknqqqirkfcaxtosnyhf.supabase.co",
-  //   publishableKey: "YuraSer1018!",
-  // );
+  await Supabase.initialize(
+    // url: "https://nknqqqirkfcaxtosnyhf.supabase.co",
+    // publishableKey: "YuraSer1018!",
+    url: "https://supabase.co",
+    // Используем anonKey. Значение берется из секретов сборки (подробнее в Шаге 2)
+    anonKey: const String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: 'YOUR_FALLBACK_KEY'),
+  );
 
   runApp(MyApp());
 }
