@@ -1,122 +1,363 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
+import "package:supabase_flutter/supabase_flutter.dart";
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: "https://nknqqqirkfcaxtosnyhf.supabase.co",
+    publishableKey: "YuraSer1018!",
+  );
+
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyApp();
+} // MyApp
+
+class _MyApp extends State<MyApp> {
+
+  List<Widget> pages = [Schedule(), Commets(), Profile()];
+  int selectedIndex = 0;
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: IndexedStack(
+          index: selectedIndex,
+          children: pages,
+        ), // IndexedStack
+        bottomNavigationBar: Theme(
+          data: ThemeData(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+          ), // ThemeData
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(99),
+              child: BottomNavigationBar(
+                backgroundColor: Colors.tealAccent,
+                selectedItemColor: Colors.black,
+                unselectedItemColor: Colors.black45,
+                selectedFontSize: 15,
+                unselectedFontSize: 15,
+                items: const [
+                  BottomNavigationBarItem(
+                    label: "Расписание",
+                    icon: Icon(Icons.calendar_month),
+                  ), // BottomNavigationBarItem
+                  BottomNavigationBarItem(
+                    label: "Отзывы",
+                    icon: Icon(Icons.chat),
+                  ), // BottomNavigationBarItem
+                  BottomNavigationBarItem(
+                    label: "Профиль",
+                    icon: Icon(Icons.account_circle),
+                  ), // BottomNavigationBarItem
+                ], // items
+                currentIndex: selectedIndex,
+                onTap: (index) {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                }, // onTap
+              ), // BottomNavigationBar
+            ), // ClipRRect
+          ), // Padding
+        ), // Theme
+      ), // Scaffold
+    ); // MaterialApp
+  } // build
+} // _MyApp
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class Schedule extends StatefulWidget {
+  const Schedule({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+  State<Schedule> createState() => _Schedule();
+} // Timing
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _Schedule extends State<Schedule> {
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  final List<Subject> schedule = [
+    Subject(date: "09.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
+    Subject(date: "09.10.2026", timeStart: "10:10", timeEnd: "11:40", name: "Операционные системы", teacher: "Петров П.П.", room: "102 каб."),
+    Subject(date: "09.10.2026", timeStart: "11:50", timeEnd: "13:20", name: "Физическая культура", teacher: "Сидоров С.С.", room: "Спортзал"),
+  ];
+
+  String selectedValue = "23-03 ИСиП";
+  int selectedIndex = 0;
+  final now = DateTime.now();
+  int selectedDay = DateTime.now().weekday - 1;
+
+  String getDate() {
+    const months = [
+      "января", "февраля", "марта", "апреля", "мая", "июня",
+      "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    ];
+    
+    return "${now.day} ${months[now.month - 1]}";
+  } // getDate
+
+  List<BottomNavigationBarItem> daysWeek() {
+    final nowDay = now.weekday - 1;
+    final monday = now.subtract(Duration(days: nowDay));
+    const shortWeekDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
+    
+    return List.generate(7, (index) {
+      final day = monday.add(Duration(days: index));
+
+      return BottomNavigationBarItem(
+        label: "",
+        icon: Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            border: index == nowDay ? Border.all(color: Colors.teal) : null,
+            borderRadius: BorderRadius.circular(10),
+          ), // BoxDecoration
+          child: Column(
+            children: [
+              Text(
+                day.day.toString(),
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: index == selectedDay ? Colors.black : const Color.fromARGB(255, 26, 185, 169),
+                ), // TextStyle
+              ), // Text
+              Text(
+                shortWeekDays[index],
+                style: TextStyle(
+                  fontSize: 15,
+                  color: index == selectedDay ? Colors.black : const Color.fromARGB(255, 26, 185, 169),
+                ), // TextStyle
+              ), // Text
+            ], // children
+          ), // Column
+        ), // Container
+      ); // BottomNavigationBarItem
+    }); // List.generate
+  } // daysWeek
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+      appBar: AppBar(title: const Text("Расписание")),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PopupMenuButton(
+                      position: PopupMenuPosition.under,
+                      tooltip: "",
+                      initialValue: selectedValue,
+                      onSelected: (String newValue) {
+                        setState(() {
+                          selectedValue = newValue;
+                        });
+                      }, // onSelected
+                      child: Row(
+                        children: [
+                          Text(
+                            selectedValue,
+                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold,),
+                          ), // Text
+                          const Icon(Icons.keyboard_arrow_down),
+                        ], // children
+                      ), // Row
+                      itemBuilder: (BuildContext context) => [
+                        const PopupMenuItem(value: "23-03 ИСиП", child: Text("23-03 ИСиП")),
+                        const PopupMenuItem(value: "24-03 ИСиП", child: Text("24-03 ИСиП")),
+                        const PopupMenuItem(value: "25-03 ИСиП", child: Text("25-03 ИСиП")),
+                      ], // itemBuilder
+                    ), // PopupMenuButton
+                    Transform.translate(
+                      offset: const Offset(0, -5),
+                      child: Text(
+                        textAlign: TextAlign.left,
+                        getDate()
+                      ), // Text
+                    ), // Transform.translate
+                  ], // children
+                ), // Column
+                const Spacer(),
+                const Icon(Icons.filter_alt_outlined),
+                const Icon(Icons.calendar_month),
+              ], // children
+            ), // Row
+          ), // Padding
+          Theme(
+            data: ThemeData(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+            ), // ThemeData
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(99),
+                child: BottomNavigationBar(
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  type: BottomNavigationBarType.fixed,
+                  backgroundColor: const Color.fromARGB(255, 179, 255, 255),
+                  selectedItemColor: Colors.black,
+                  unselectedItemColor: Colors.teal,
+                  selectedFontSize: 5,
+                  unselectedFontSize: 5,
+                  items: daysWeek(),
+                  currentIndex: selectedDay,
+                  onTap: (index) {
+                    setState(() {
+                      selectedDay = index;
+                    });
+                  }, // onTap
+                ), // BottomNavigationBarItem
+              ), // ClipRRect
+            ), // Padding
+          ), // Theme
+          Expanded(
+            child: ListView.builder(
+              // Отступы по бокам списка
+              padding: const EdgeInsets.symmetric(horizontal: 10), 
+              // Количество элементов в списке
+              itemCount: schedule.length, 
+              // Функция сборки каждой отдельной карточки
+              itemBuilder: (context, index) {
+                final subject = schedule[index];
+                
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      children: [
+                        // Левая колонка: Время (Начало -> полоска -> Конец)
+                        Column(
+                          children: [
+                            Text(
+                              subject.timeStart,
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                            const SizedBox(height: 4),
+                            Container(width: 2, height: 15, color: Colors.teal),
+                            const SizedBox(height: 4),
+                            Text(
+                              subject.timeEnd,
+                              style: const TextStyle(color: Colors.grey, fontSize: 14),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(width: 15),
+                        
+                        // Правая колонка: Информация о предмете
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Название предмета (переносится максимум на 2 строки)
+                              Text(
+                                subject.name,
+                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 6),
+                              
+                              // Строка с преподавателем и кабинетом
+                              Row(
+                                children: [
+                                  const Icon(Icons.person, size: 16, color: Colors.grey),
+                                  const SizedBox(width: 4),
+                                  Expanded(
+                                    child: Text(
+                                      subject.teacher,
+                                      style: const TextStyle(color: Colors.grey, fontSize: 13),
+                                    ),
+                                  ),
+                                  // Голубой бэдж для номера кабинета
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.teal,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      subject.room,
+                                      style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.bold, fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
+          ),
+        ], // children
+      ), // Column
+    ); // Scaffold
+  } // build
+} // _Timing
+
+class Subject {
+  final String date;
+  final String timeStart;
+  final String timeEnd;
+  final String name;
+  final String teacher;
+  final String room;
+
+  Subject({
+    required this.date,
+    required this.timeStart,
+    required this.timeEnd,
+    required this.name,
+    required this.teacher,
+    required this.room,
+  });
 }
+
+class Commets extends StatelessWidget {
+  const Commets({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Отзывы")),
+    ); // Scaffold
+  } // build
+} // _Commets
+
+class Profile extends StatelessWidget {
+  const Profile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Профиль")),
+    ); // Scaffold
+  } // build
+} // _Profile
