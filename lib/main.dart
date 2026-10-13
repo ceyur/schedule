@@ -6,7 +6,7 @@ void main() async {
 
   await Supabase.initialize(
     url: "https://nknqqqirkfcaxtosnyhf.supabase.co",
-    anonKey: "YuraSer1018!",
+    anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbnFxcWlya2ZjYXh0b3NueWhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1NDc0ODAsImV4cCI6MjEwNzEyMzQ4MH0.kEYWJ-lffILyHh_ICnmpeuFgwdqWjqkeHHeDGjeg4AQ",
     // publishableKey: "YuraSer1018!",
     // url: "https://supabase.co",
     // // Используем anonKey. Значение берется из секретов сборки (подробнее в Шаге 2)
