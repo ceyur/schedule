@@ -1,71 +1,47 @@
-name: Flutter Build and Deploy
+name: Deploy to GitHub Pages
 
-# Триггер запуска: при пуше в ветку main или при создании тега (например, v1.0.0)
 on:
   push:
     branches:
-      - main
-    tags:
-      - 'v*'
+      - main # Убедитесь, что ветка совпадает с вашей основной (в вашем репо это main)
+
+permissions:
+  contents: write # Необходимо для записи собранного билда в ветку gh-pages
 
 jobs:
-  build:
-    name: Build Application
-    runs-on: macos-latest # Используем macOS, так как она необходима для сборки под iOS
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
     steps:
-      # 1. Клонирование репозитория
-      - name: Checkout repository
+      # 1. Клонируем репозиторий
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Настройка Java (требуется для сборки под Android)
-      - name: Set up Java
+      # 2. Устанавливаем Java (требуется для стабильной работы некоторых инструментов Flutter)
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      # 3. Настройка Flutter-окружения
-      - name: Set up Flutter
+      # 3. Настраиваем Flutter
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable' # Используется стабильная версия Flutter
-          # Можно жестко зафиксировать версию, например: flutter-version: '3.22.0'
+          channel: 'stable' # Используем стабильную ветку
+          architecture: x64
 
-      # 4. Получение зависимостей проекта
+      # 4. Скачиваем зависимости приложения
       - name: Install dependencies
         run: flutter pub get
 
-      # 5. Запуск статического анализа кода (линтера) и тестов
-      - name: Run analyzer and tests
-        run: |
-          flutter analyze
-          flutter test
+      # 5. Собираем Web-версию с правильным base-href (КРИТИЧЕСКИ ВАЖНО для GitHub Pages)
+      - name: Build Web
+        run: flutter build web --base-href "/schedule/"
 
-      # 6. Сборка Android APK (Релизная сборка, формат FAT APK)
-      - name: Build Android APK
-        run: flutter build apk --release
-
-      # 7. Сборка Android App Bundle (Релизная сборка для публикации в Google Play)
-      - name: Build Android App Bundle (AAB)
-        run: flutter build appbundle --release
-
-      # 8. Сборка iOS приложения (Без подписи сертификатами)
-      - name: Build iOS IPA
-        run: flutter build ios --release --no-codesign
-
-      # 9. Сохранение собранных Android артефактов в самом GitHub
-      - name: Upload Android Artifacts
-        uses: actions/upload-artifact@v4
+      # 6. Деплоим собранные файлы в ветку gh-pages
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          name: android-release
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/bundle/release/app-release.aab
-
-      # 10. Сохранение собранных iOS артефактов в самом GitHub
-      - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ios-release
-          path: build/ios/iphoneos/Runner.app
+          folder: build/web # Папка, куда Flutter складывает билд
+          branch: gh-pages # Ветка, из которой GitHub Pages будет брать сайт
