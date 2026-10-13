@@ -96,7 +96,7 @@ class _Schedule extends State<Schedule> {
   //   .select();
   
   final List<Subject> schedule = [
-    Subject(date: "09.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
+    Subject(date: "11.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
     Subject(date: "09.10.2026", timeStart: "10:10", timeEnd: "11:40", name: "Операционные системы", teacher: "Петров П.П.", room: "102 каб."),
     Subject(date: "09.10.2026", timeStart: "11:50", timeEnd: "13:20", name: "Физическая культура", teacher: "Сидоров С.С.", room: "Спортзал"),
   ];
