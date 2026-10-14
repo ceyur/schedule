@@ -99,6 +99,7 @@ class _Schedule extends State<Schedule> {
   int selectedIndex = 0;
   final now = DateTime.now();
   int selectedDay = DateTime.now().weekday - 1;
+  date selectedDayDate = DateTime.now();
   
   final schedule = Supabase.instance.client
     .from("schedule")
