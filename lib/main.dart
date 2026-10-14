@@ -8,8 +8,6 @@ Future<void> main() async {
     url: "https://nknqqqirkfcaxtosnyhf.supabase.co",
     anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbnFxcWlya2ZjYXh0b3NueWhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1NDc0ODAsImV4cCI6MjEwNzEyMzQ4MH0.kEYWJ-lffILyHh_ICnmpeuFgwdqWjqkeHHeDGjeg4AQ",
     // publishableKey: "sb_publishable_F5iQTu_jSHTlkVTsfmTVaQ_OlYME8mu",
-    // url: "https://supabase.co",
-    // // Используем anonKey. Значение берется из секретов сборки (подробнее в Шаге 2)
     // anonKey: const String.fromEnvironment("SUPABASE_ANON_KEY", defaultValue: "YOUR_FALLBACK_KEY"),
   );
 
@@ -91,45 +89,10 @@ class Schedule extends StatefulWidget {
 } // Timing
 
 class _Schedule extends State<Schedule> {
-  // Future<List<Map<String, dynamic>>> getSchedule({
-  //   required String selectedDate,
-  //   required String selectedGroup,
-  // }) async {
-  //   final List<Map<String, dynamic>> schedule = await Supabase.instance.client
-  //       .from('main_table')
-  //       .select('''
-  //         *,
-  //         other_table ( id, name ),
-  //         groups!inner ( id, name )
-  //       ''')
-  //       .eq('date', selectedDate)
-  //       .eq('groups.name', selectedGroupName);
-  
-  //   return schedule;
-  // }
-
-  // List<Map<String, dynamic>> schedule = [];
-  // bool isLoading = false;
-  
-  // Future<void> loadSchedule() async {
-  //   setState(() => isLoading = true);
-    
-  //   try {
-  //     // Вызываем функцию и записываем данные в наш массив
-  //     schedule = await getSchedule(
-  //       selectedDate: '2026-10-13', 
-  //       selectedGroupName: 'ПИ-22',
-  //     );
-  //   } catch (e) {
-  //     print('Ошибка загрузки расписания: $e');
-  //   } finally {
-  //     setState(() => isLoading = false);
-  //   }
-  // }
-  
-  final schedule1 = Supabase.instance.client
+    final schedule1 = Supabase.instance.client
     .from("schedule")
     .select();
+  final rows = schedule.map((e) => Schedule.fromJson(e)).toList();
   
   final List<Subject> schedule = [
     Subject(date: "11.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
@@ -274,91 +237,113 @@ class _Schedule extends State<Schedule> {
             ), // Padding
           ), // Theme
           Expanded(
-            child: ListView.builder(
-              // Отступы по бокам списка
-              padding: const EdgeInsets.symmetric(horizontal: 10), 
-              // Количество элементов в списке
-              itemCount: schedule.length, 
-              // Функция сборки каждой отдельной карточки
-              itemBuilder: (context, index) {
-                final subject = schedule[index];
+            child: FutureBuilder(
+        future: schedule1,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error loading instruments: ${snapshot.error}'));
+          }
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final instruments = snapshot.data!;
+          return ListView.builder(
+            itemCount: instruments.length,
+            itemBuilder: ((context, index) {
+              final instrument = instruments[index];
+              return ListTile(
+                title: Text(instrument['date']),
+              );
+            }),
+          );
+        },
+      ),
+            // ListView.builder(
+            //   // Отступы по бокам списка
+            //   padding: const EdgeInsets.symmetric(horizontal: 10), 
+            //   // Количество элементов в списке
+            //   itemCount: schedule.length, 
+            //   // Функция сборки каждой отдельной карточки
+            //   itemBuilder: (context, index) {
+            //     final subject = schedule[index];
                 
-                return Card(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        // Левая колонка: Время (Начало -> полоска -> Конец)
-                        Column(
-                          children: [
-                            Text(
-                              subject.timeStart,
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                            const SizedBox(height: 4),
-                            Container(width: 2, height: 15, color: Colors.teal),
-                            const SizedBox(height: 4),
-                            Text(
-                              subject.timeEnd,
-                              style: const TextStyle(color: Colors.grey, fontSize: 14),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 15),
+            //     return Card(
+            //       margin: const EdgeInsets.only(bottom: 10),
+            //       elevation: 2,
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(15),
+            //       ),
+            //       child: Padding(
+            //         padding: const EdgeInsets.all(12),
+            //         child: Row(
+            //           children: [
+            //             // Левая колонка: Время (Начало -> полоска -> Конец)
+            //             Column(
+            //               children: [
+            //                 Text(
+            //                   subject.timeStart,
+            //                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            //                 ),
+            //                 const SizedBox(height: 4),
+            //                 Container(width: 2, height: 15, color: Colors.teal),
+            //                 const SizedBox(height: 4),
+            //                 Text(
+            //                   subject.timeEnd,
+            //                   style: const TextStyle(color: Colors.grey, fontSize: 14),
+            //                 ),
+            //               ],
+            //             ),
+            //             const SizedBox(width: 15),
                         
-                        // Правая колонка: Информация о предмете
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Название предмета (переносится максимум на 2 строки)
-                              Text(
-                                subject.name,
-                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 6),
+            //             // Правая колонка: Информация о предмете
+            //             Expanded(
+            //               child: Column(
+            //                 crossAxisAlignment: CrossAxisAlignment.start,
+            //                 children: [
+            //                   // Название предмета (переносится максимум на 2 строки)
+            //                   Text(
+            //                     subject.name,
+            //                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            //                     maxLines: 2,
+            //                     overflow: TextOverflow.ellipsis,
+            //                   ),
+            //                   const SizedBox(height: 6),
                               
-                              // Строка с преподавателем и кабинетом
-                              Row(
-                                children: [
-                                  const Icon(Icons.person, size: 16, color: Colors.grey),
-                                  const SizedBox(width: 4),
-                                  Expanded(
-                                    child: Text(
-                                      subject.teacher,
-                                      style: const TextStyle(color: Colors.grey, fontSize: 13),
-                                    ),
-                                  ),
-                                  // Голубой бэдж для номера кабинета
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      color: Colors.teal,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      subject.room,
-                                      style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.bold, fontSize: 12),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+            //                   // Строка с преподавателем и кабинетом
+            //                   Row(
+            //                     children: [
+            //                       const Icon(Icons.person, size: 16, color: Colors.grey),
+            //                       const SizedBox(width: 4),
+            //                       Expanded(
+            //                         child: Text(
+            //                           subject.teacher,
+            //                           style: const TextStyle(color: Colors.grey, fontSize: 13),
+            //                         ),
+            //                       ),
+            //                       // Голубой бэдж для номера кабинета
+            //                       Container(
+            //                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            //                         decoration: BoxDecoration(
+            //                           color: Colors.teal,
+            //                           borderRadius: BorderRadius.circular(8),
+            //                         ),
+            //                         child: Text(
+            //                           subject.room,
+            //                           style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.bold, fontSize: 12),
+            //                         ),
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
+            
           ),
         ], // children
       ), // Column
