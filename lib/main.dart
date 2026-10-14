@@ -90,48 +90,45 @@ class Schedule extends StatefulWidget {
 } // Timing
 
 class _Schedule extends State<Schedule> {
-  Future<List<Map<String, dynamic>>> getSchedule({
-    required String selectedDate,      // Например: '2026-10-13'
-    required String selectedGroupName, // Например: 'ИВТ-21'
-  }) async {
-    final supabase = Supabase.instance.client;
+  // Future<List<Map<String, dynamic>>> getSchedule({
+  //   required String selectedDate,
+  //   required String selectedGroup,
+  // }) async {
+  //   final List<Map<String, dynamic>> schedule = await Supabase.instance.client
+  //       .from('main_table')
+  //       .select('''
+  //         *,
+  //         other_table ( id, name ),
+  //         groups!inner ( id, name )
+  //       ''')
+  //       .eq('date', selectedDate)
+  //       .eq('groups.name', selectedGroupName);
   
-    // Делаем запрос и сразу сохраняем результат в массив schedule
-    final List<Map<String, dynamic>> schedule = await supabase
-        .from('main_table')
-        .select('''
-          *,
-          other_table ( id, name ),
-          groups!inner ( id, name )
-        ''')
-        .eq('date', selectedDate)
-        .eq('groups.name', selectedGroupName);
-  
-    return schedule;
-  }
+  //   return schedule;
+  // }
 
-  List<Map<String, dynamic>> schedule = [];
-  bool isLoading = false;
+  // List<Map<String, dynamic>> schedule = [];
+  // bool isLoading = false;
   
-  Future<void> loadSchedule() async {
-    setState(() => isLoading = true);
+  // Future<void> loadSchedule() async {
+  //   setState(() => isLoading = true);
     
-    try {
-      // Вызываем функцию и записываем данные в наш массив
-      schedule = await getSchedule(
-        selectedDate: '2026-10-13', 
-        selectedGroupName: 'ПИ-22',
-      );
-    } catch (e) {
-      print('Ошибка загрузки расписания: $e');
-    } finally {
-      setState(() => isLoading = false);
-    }
-  }
+  //   try {
+  //     // Вызываем функцию и записываем данные в наш массив
+  //     schedule = await getSchedule(
+  //       selectedDate: '2026-10-13', 
+  //       selectedGroupName: 'ПИ-22',
+  //     );
+  //   } catch (e) {
+  //     print('Ошибка загрузки расписания: $e');
+  //   } finally {
+  //     setState(() => isLoading = false);
+  //   }
+  // }
   
-  // final schedule = await Supabase.instance.client
-  //   .from("schedule") // Имя вашей таблицы
-  //   .select();
+  final schedule1 = await Supabase.instance.client
+    .from("schedule")
+    .select();
   
   final List<Subject> schedule = [
     Subject(date: "11.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
