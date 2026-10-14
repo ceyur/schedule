@@ -103,7 +103,7 @@ class _Schedule extends State<Schedule> {
   final schedule = Supabase.instance.client
     .from("schedule")
     .select('''date,
-      pairs(time_start time_end),
+      pairs(time_start, time_end),
       groups(group),
       subjects(subject),
       teachers(teacher),
