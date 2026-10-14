@@ -111,7 +111,7 @@ class _Schedule extends State<Schedule> {
       rooms(room)
     ''')
     .eq("groups.group", selectedValue)
-    .eq("date", selectedDay);
+    .eq("date", now);
   
   String getDate() {
     const months = [
