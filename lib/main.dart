@@ -7,7 +7,7 @@ void main() async {
   await Supabase.initialize(
     url: "https://nknqqqirkfcaxtosnyhf.supabase.co",
     anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rbnFxcWlya2ZjYXh0b3NueWhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1NDc0ODAsImV4cCI6MjEwNzEyMzQ4MH0.kEYWJ-lffILyHh_ICnmpeuFgwdqWjqkeHHeDGjeg4AQ",
-    // publishableKey: "YuraSer1018!",
+    // publishableKey: "sb_publishable_F5iQTu_jSHTlkVTsfmTVaQ_OlYME8mu",
     // url: "https://supabase.co",
     // // Используем anonKey. Значение берется из секретов сборки (подробнее в Шаге 2)
     // anonKey: const String.fromEnvironment("SUPABASE_ANON_KEY", defaultValue: "YOUR_FALLBACK_KEY"),
@@ -32,6 +32,7 @@ class _MyApp extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: "Расписание",
       home: Scaffold(
         body: IndexedStack(
           index: selectedIndex,
