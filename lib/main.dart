@@ -89,12 +89,11 @@ class Schedule extends StatefulWidget {
 } // Timing
 
 class _Schedule extends State<Schedule> {
-    final schedule1 = Supabase.instance.client
+  final schedule = Supabase.instance.client
     .from("schedule")
     .select();
-  // final rows = schedule.map((e) => Schedule.fromJson(e)).toList();
   
-  final List<Subject> schedule = [
+  final List<Subject> schedule1 = [
     Subject(date: "11.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
     Subject(date: "09.10.2026", timeStart: "10:10", timeEnd: "11:40", name: "Операционные системы", teacher: "Петров П.П.", room: "102 каб."),
     Subject(date: "09.10.2026", timeStart: "11:50", timeEnd: "13:20", name: "Физическая культура", teacher: "Сидоров С.С.", room: "Спортзал"),
@@ -157,7 +156,6 @@ class _Schedule extends State<Schedule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Расписание")),
       body: Column(
         children: [
           Padding(
@@ -238,26 +236,97 @@ class _Schedule extends State<Schedule> {
           ), // Theme
           Expanded(
             child: FutureBuilder(
-        future: schedule1,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text('Error loading instruments: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          final instruments = snapshot.data!;
-          return ListView.builder(
-            itemCount: instruments.length,
-            itemBuilder: ((context, index) {
-              final instrument = instruments[index];
-              return ListTile(
-                title: Text(instrument['date']),
-              );
-            }),
-          );
-        },
-      ),
+              future: schedule,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text("Ошибка загрузки: ${snapshot.error}"));
+                }
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final instruments = snapshot.data!;
+                return ListView.builder(
+                  itemCount: instruments.length,
+                  itemBuilder: ((context, index) {
+                    final instrument = instruments[index];
+                    return Card(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            // Левая колонка: Время (Начало -> полоска -> Конец)
+                            Column(
+                              children: [
+                                Text(
+                                  instrument["timeStart"],
+                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                ),
+                                const SizedBox(height: 4),
+                                Container(width: 2, height: 15, color: Colors.teal),
+                                const SizedBox(height: 4),
+                                Text(
+                                  instrument["timeEnd"],
+                                  style: const TextStyle(color: Colors.grey, fontSize: 14),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(width: 15),
+                            
+                            // Правая колонка: Информация о предмете
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Название предмета (переносится максимум на 2 строки)
+                                  Text(
+                                    instrument["name"],
+                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 6),
+                                  
+                                  // Строка с преподавателем и кабинетом
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.person, size: 16, color: Colors.grey),
+                                      const SizedBox(width: 4),
+                                      Expanded(
+                                        child: Text(
+                                          instrument["teacher"],
+                                          style: const TextStyle(color: Colors.grey, fontSize: 13),
+                                        ),
+                                      ),
+                                      // Голубой бэдж для номера кабинета
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: Colors.teal,
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          instrument["room"],
+                                          style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.bold, fontSize: 12),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                );
+              },
+            ),
             // ListView.builder(
             //   // Отступы по бокам списка
             //   padding: const EdgeInsets.symmetric(horizontal: 10), 
