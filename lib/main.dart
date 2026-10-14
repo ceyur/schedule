@@ -251,7 +251,7 @@ class _Schedule extends State<Schedule> {
                     final instrument = instruments[index];
                     return Text(
                       "${instrument["date"]} ${instrument["group_id"]} ${instrument["pair_id"]} ${instrument["subject_id"]} ${instrument["teacher_id"]} ${instrument["room_id"]}"
-                    ),
+                    );
                     // return Card(
                     //   margin: const EdgeInsets.only(bottom: 10),
                     //   elevation: 2,
