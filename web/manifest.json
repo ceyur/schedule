@@ -6,7 +6,7 @@
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
     "description": "Расписание заниятий",
-    "orientation": "portrait-primary",
+    "orientation": "portrait",
     "icons": [
         {
             "src": "icons/Icon-192.png",
