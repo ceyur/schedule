@@ -109,7 +109,7 @@ class _Schedule extends State<Schedule> {
       teachers(teacher),
       rooms(room)
     ''')
-    .eq("group", selectedValue)
+    .eq("groups.group", selectedValue)
     .eq("date", selectedDay);
   
   String getDate() {
