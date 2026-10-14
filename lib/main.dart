@@ -127,9 +127,9 @@ class _Schedule extends State<Schedule> {
   //   }
   // }
   
-  // final schedule1 = await Supabase.instance.client
-  //   .from("schedule")
-  //   .select();
+  final schedule1 = Supabase.instance.client
+    .from("schedule")
+    .select();
   
   final List<Subject> schedule = [
     Subject(date: "11.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
