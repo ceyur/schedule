@@ -70548,7 +70548,7 @@ return new A.FE(new A.a6G(new A.aen(q),s,!0,!0,!0,r),r,B.ar,!1,r,r,B.xd,!1,r,r,s
 $S:472}
 A.aen.prototype={
 $2(a,b){var s=J.df(this.a,b)
-return A.qg(A.i(s.i(0,"date"))+" "+A.i(s.i(0,"group_id"))+" "+A.i(s.i(0,"pair_id"))+" "+A.i(s.i(0,"subject_id"))+" "+A.i(s.i(0,"teacher_id"))+" "+A.i(s.i(0,"room_id")),null,null,null)},
+return A.qg(A.i(s.i(0,"date"))+" "+A.i(s.i(0,"group"))+" "+A.i(s.i(0,"time_start"))+" "+A.i(s.i(0,"time_end"))+" "+A.i(s.i(0,"subject"))+" "+A.i(s.i(0,"teacher"))+" "+A.i(s.i(0,"room")),null,null,null)},
 $S:473}
 A.DI.prototype={
 L(a){return A.a4k(A.alf(B.NM),null,null)}}
