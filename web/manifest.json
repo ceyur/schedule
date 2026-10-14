@@ -1,12 +1,12 @@
 {
-    "name": "schedule",
-    "short_name": "schedule",
+    "name": "Расписание",
+    "short_name": "Расписание",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
+    "description": "Расписание заниятий",
+    "orientation": "portrait",
     "prefer_related_applications": false,
     "icons": [
         {
