@@ -109,9 +109,9 @@ class _Schedule extends State<Schedule> {
       subjects(subject),
       teachers(teacher),
       rooms(room)
-    ''')
-    .eq("groups.group", "23-03 ИСиП")
-    .eq("date", "2026-10-09");
+    ''');
+    // .eq("groups.group", "23-03 ИСиП")
+    // .eq("date", "2026-10-09");
   
   String getDate() {
     const months = [
