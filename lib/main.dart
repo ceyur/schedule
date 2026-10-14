@@ -99,7 +99,7 @@ class _Schedule extends State<Schedule> {
   int selectedIndex = 0;
   final now = DateTime.now();
   int selectedDay = DateTime.now().weekday - 1;
-  date selectedDayDate = DateTime.now();
+  final selectedDayDate = DateTime.now();
   
   final schedule = Supabase.instance.client
     .from("schedule")
@@ -110,7 +110,7 @@ class _Schedule extends State<Schedule> {
       teachers(teacher),
       rooms(room)
     ''')
-    .eq("groups.group", selectedValue)
+    .eq("groups.group", "23-03 ИСиП")
     .eq("date", "2026-10-09");
   
   String getDate() {
