@@ -258,8 +258,8 @@ class _Schedule extends State<Schedule> {
                   itemBuilder: ((context, index) {
                     final instrument = instruments[index];
                     return Text(
-                      // "ль"
-                      '${instrument["date"]} ${instrument["group_id"]} ${instrument["pair_id"]} ${instrument["subject_id"]} ${instrument["teacher_id"]} ${instrument["room_id"]}'
+                      "ль"
+                      // '${instrument["date"]} ${instrument["group_id"]} ${instrument["pair_id"]} ${instrument["subject_id"]} ${instrument["teacher_id"]} ${instrument["room_id"]}'
                     );
                     // return Card(
                     //   margin: const EdgeInsets.only(bottom: 10),
