@@ -1,6 +1,6 @@
-# schedule
+# Расписание
 
-A new Flutter project.
+Расписание занятий УрГЭУ.
 
 ## Getting Started
 
