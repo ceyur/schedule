@@ -70547,8 +70547,8 @@ s=J.bT(q)
 return new A.FE(new A.a6G(new A.aen(q),s,!0,!0,!0,r),r,B.ar,!1,r,r,B.xd,!1,r,r,s,B.bz,r,r,B.ad,B.as,r)},
 $S:472}
 A.aen.prototype={
-$2(a,b){J.df(this.a,b)
-return A.qg("\u043b\u044c",null,null,null)},
+$2(a,b){var s=J.df(this.a,b)
+return A.qg(A.i(s.i(0,"date"))+" "+A.i(s.i(0,"group_id"))+" "+A.i(s.i(0,"pair_id"))+" "+A.i(s.i(0,"subject_id"))+" "+A.i(s.i(0,"teacher_id"))+" "+A.i(s.i(0,"room_id")),null,null,null)},
 $S:473}
 A.DI.prototype={
 L(a){return A.a4k(A.alf(B.NM),null,null)}}
