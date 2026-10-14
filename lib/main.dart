@@ -89,21 +89,28 @@ class Schedule extends StatefulWidget {
 } // Timing
 
 class _Schedule extends State<Schedule> {
-  final schedule = Supabase.instance.client
-    .from("schedule")
-    .select();
-  
-  final List<Subject> schedule1 = [
-    Subject(date: "11.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
-    Subject(date: "09.10.2026", timeStart: "10:10", timeEnd: "11:40", name: "Операционные системы", teacher: "Петров П.П.", room: "102 каб."),
-    Subject(date: "09.10.2026", timeStart: "11:50", timeEnd: "13:20", name: "Физическая культура", teacher: "Сидоров С.С.", room: "Спортзал"),
-  ];
+  // final List<Subject> schedule1 = [
+  //   Subject(date: "11.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
+  //   Subject(date: "09.10.2026", timeStart: "10:10", timeEnd: "11:40", name: "Операционные системы", teacher: "Петров П.П.", room: "102 каб."),
+  //   Subject(date: "09.10.2026", timeStart: "11:50", timeEnd: "13:20", name: "Физическая культура", teacher: "Сидоров С.С.", room: "Спортзал"),
+  // ];
 
   String selectedValue = "23-03 ИСиП";
   int selectedIndex = 0;
   final now = DateTime.now();
   int selectedDay = DateTime.now().weekday - 1;
-
+  
+  final schedule = Supabase.instance.client
+    .from("schedule")
+    .select("date,
+            pairs(time_start time_end),
+            groups(group),
+            subjects(subject),
+            teachers(teacher),
+            rooms(room)")
+    .eq("group", selectedValue)
+    .eq("group", selectedDay);
+  
   String getDate() {
     const months = [
       "января", "февраля", "марта", "апреля", "мая", "июня",
