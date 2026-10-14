@@ -92,7 +92,7 @@ class _Schedule extends State<Schedule> {
     final schedule1 = Supabase.instance.client
     .from("schedule")
     .select();
-  final rows = schedule.map((e) => Schedule.fromJson(e)).toList();
+  // final rows = schedule.map((e) => Schedule.fromJson(e)).toList();
   
   final List<Subject> schedule = [
     Subject(date: "11.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
