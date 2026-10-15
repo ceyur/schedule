@@ -103,10 +103,11 @@ class _Schedule extends State<Schedule> {
   
   final schedule = Supabase.instance.client
     .from("schedule")
-    // .select()
-    // .join('groups', on: 'group_id = id')
+    .select()
+    .join('groups', on: 'group_id = id')
+    .execute();
     // .join('teachers', on: 'teacher_id = id');
-    .select('''date, groups(group)''');
+    // .select('''date, groups(group)''');
     //   pairs(time_start, time_end),
      
     //   subjects(subject),
@@ -262,8 +263,8 @@ class _Schedule extends State<Schedule> {
                   itemBuilder: ((context, index) {
                     final instrument = instruments[index];
                     return Text(
-                     // "овов"
-                      instrument["group"]
+                     "овов"
+                     // instrument["group"]
                      // "${instrument["date"]} ${instrument["group"]} ${instrument["time_start"]} ${instrument["time_end"]} ${instrument["subject"]} ${instrument["teacher"]} ${instrument["room"]}"
                     );
                     // return Card(
