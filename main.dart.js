@@ -70487,7 +70487,7 @@ r===$&&A.a();++j.dy.a
 q=A.cC(j.d+"/schedule",0,o)
 A.dQ(n)
 p=A.aoc(B.vP,t.S)
-return new A.Oc(new A.cq(m,0,!1),A.anM(new A.cq(l,0,!1))-1,new A.cq(k,0,!1),new A.IM(new A.NX(q,s,"public",o,o,r,j.cy,o,!1,new A.adY(!0,3,p,A.aED()),o,o),o,A.dQ(n)).Sa("date,\n    //   pairs(time_start, time_end),\n     groups(group)\n    //   subjects(subject),\n    //   teachers(teacher),\n    //   rooms(room)\n    "))}}
+return new A.Oc(new A.cq(m,0,!1),A.anM(new A.cq(l,0,!1))-1,new A.cq(k,0,!1),new A.IM(new A.NX(q,s,"public",o,o,r,j.cy,o,!1,new A.adY(!0,3,p,A.aED()),o,o),o,A.dQ(n)).Sa("date, groups(group)"))}}
 A.Oc.prototype={
 a8y(){var s=this.f,r=A.anM(s)-1
 return A.air(7,new A.aeu(this,s.t1(0-A.cw(r,0,0,0).a),r),!0,t.Rd)},
