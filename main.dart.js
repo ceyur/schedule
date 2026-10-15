@@ -70487,7 +70487,7 @@ r===$&&A.a();++j.dy.a
 q=A.cC(j.d+"/schedule",0,o)
 A.dQ(n)
 p=A.aoc(B.vP,t.S)
-return new A.Oc(new A.cq(m,0,!1),A.anM(new A.cq(l,0,!1))-1,new A.cq(k,0,!1),new A.IM(new A.NX(q,s,"public",o,o,r,j.cy,o,!1,new A.adY(!0,3,p,A.aED()),o,o),o,A.dQ(n)).Sa("date,\n      pairs(time_start, time_end),\n      groups(group),\n      subjects(subject),\n      teachers(teacher),\n      rooms(room)\n    "))}}
+return new A.Oc(new A.cq(m,0,!1),A.anM(new A.cq(l,0,!1))-1,new A.cq(k,0,!1),new A.IM(new A.NX(q,s,"public",o,o,r,j.cy,o,!1,new A.adY(!0,3,p,A.aED()),o,o),o,A.dQ(n)).Sa("date,\n    //   pairs(time_start, time_end),\n     groups(group)\n    //   subjects(subject),\n    //   teachers(teacher),\n    //   rooms(room)\n    "))}}
 A.Oc.prototype={
 a8y(){var s=this.f,r=A.anM(s)-1
 return A.air(7,new A.aeu(this,s.t1(0-A.cw(r,0,0,0).a),r),!0,t.Rd)},
@@ -70535,8 +70535,8 @@ s=J.bT(q)
 return new A.FE(new A.a6G(new A.aen(q),s,!0,!0,!0,r),r,B.ar,!1,r,r,B.xd,!1,r,r,s,B.bz,r,r,B.ad,B.as,r)},
 $S:472}
 A.aen.prototype={
-$2(a,b){var s=J.df(this.a,b)
-return A.qg(A.i(s.i(0,"date"))+" "+A.i(s.i(0,"group"))+" "+A.i(s.i(0,"time_start"))+" "+A.i(s.i(0,"time_end"))+" "+A.i(s.i(0,"subject"))+" "+A.i(s.i(0,"teacher"))+" "+A.i(s.i(0,"room")),null,null,null)},
+$2(a,b){J.df(this.a,b)
+return A.qg("\u043e\u0432\u043e\u0432",null,null,null)},
 $S:473}
 A.DI.prototype={
 L(a){return A.a4k(A.alf(B.NM),null,null)}}
