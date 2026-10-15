@@ -103,16 +103,16 @@ class _Schedule extends State<Schedule> {
   
   final schedule = Supabase.instance.client
     .from("schedule")
-    .select()
-    .join('groups', on: 'group_id = id')
-    .join('teachers', on: 'teacher_id = id');
-    // .select('''date,
+    // .select()
+    // .join('groups', on: 'group_id = id')
+    // .join('teachers', on: 'teacher_id = id');
+    .select('''date,
     //   pairs(time_start, time_end),
-    //   groups(group),
+     groups(group)
     //   subjects(subject),
     //   teachers(teacher),
     //   rooms(room)
-    // ''');
+    ''');
     // .eq("groups.group", "23-03 ИСиП")
     // .eq("date", "2026-10-09");
   
