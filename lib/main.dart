@@ -272,8 +272,8 @@ class _Schedule extends State<Schedule> {
                   itemBuilder: ((context, index) {
                     final instrument = instruments[index];
                     return Text(
-                     "овов"
-                     // instrument["group"]
+                     // "овов"
+                     instrument["group_name"]
                      // "${instrument["date"]} ${instrument["group"]} ${instrument["time_start"]} ${instrument["time_end"]} ${instrument["subject"]} ${instrument["teacher"]} ${instrument["room"]}"
                     );
                     // return Card(
