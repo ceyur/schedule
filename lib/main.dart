@@ -206,7 +206,7 @@ class _Schedule extends State<Schedule> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+            padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
             child: Row(
               children: [
                 Column(
