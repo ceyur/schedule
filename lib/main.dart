@@ -246,13 +246,13 @@ class _Schedule extends State<Schedule> {
                   itemBuilder: ((context, index) {
                     final instrument = instruments[index];
                     return Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ), // RoundedRectangleBorder
                         child: Padding(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(15),
                           child: Row(
                             children: [
                               // Левая колонка: Время + Предмет + Преподаватель
