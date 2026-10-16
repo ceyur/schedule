@@ -44468,7 +44468,7 @@ gbi(){var s=this.gtM().x1
 return s==null?B.l:s},
 gbx(){return B.y},
 gbR(){return B.I6},
-gqK(){return B.AW}}
+gqK(){return B.AX}}
 A.ad5.prototype={
 $1(a){var s,r=this.a,q=r.ch
 if(q===$){s=r.gJD()
@@ -70263,7 +70263,7 @@ m=A.Ht(A.d([A.tO(A.d([new A.py(new A.aef(),o,new A.aeg(q),"",A.Ht(A.d([A.kQ(o,p,
 o=A.IT(p,p,B.y,B.y,B.y,p)
 s=A.ol(99)
 r=q.a8l()
-return A.a4c(p,A.tO(A.d([new A.dm(B.AY,m,p),new A.nu(o,new A.dm(B.l7,A.ahB(s,A.alb(B.Ad,q.r,r,new A.aeh(q),5,B.l,!1,!1,B.jR,5,B.FP)),p),p),A.Vh(new A.oW(q.x,new A.aei(),p,t.zS),1)],n),B.ay,B.az,B.b1),p)}}
+return A.a4c(p,A.tO(A.d([new A.dm(B.AW,m,p),new A.nu(o,new A.dm(B.l7,A.ahB(s,A.alb(B.Ad,q.r,r,new A.aeh(q),5,B.l,!1,!1,B.jR,5,B.FP)),p),p),A.Vh(new A.oW(q.x,new A.aei(),p,t.zS),1)],n),B.ay,B.az,B.b1),p)}}
 A.aej.prototype={
 $1(a){var s,r,q,p,o,n,m=null,l=this.b.rV(A.cx(a,0,0,0).a)
 if(a===this.c){s=new A.bN(B.l,1,B.J,-1)
@@ -70301,7 +70301,7 @@ return new A.pa(new A.a6y(new A.aec(q),s,!0,!0,!0,r),r,B.ap,!1,r,r,B.xh,!1,r,r,s
 $S:471}
 A.aec.prototype={
 $2(a,b){var s=null,r=J.df(this.a,b),q=J.bf(r),p=t.E
-return new A.dm(B.AX,new A.De(new A.d0(A.ol(20),B.r),new A.dm(B.B_,A.Ht(A.d([A.Vh(A.tO(A.d([A.kQ(J.ahb(J.ahb(q.i(r,"time_start"),"-"),q.i(r,"time_end")),s,B.wx,s),B.wd,A.kQ(q.i(r,"subject"),s,B.wy,s),B.wd,A.kQ(q.i(r,"teacher"),s,B.wx,s)],p),B.aY,B.az,B.b1),1),B.JM,A.tO(A.d([A.kQ(q.i(r,"room"),s,B.wy,s)],p),B.ay,B.az,B.b1)],p),B.ay,B.az,B.b1,0),s),s),s)},
+return new A.dm(B.AY,new A.De(new A.d0(A.ol(20),B.r),new A.dm(B.B_,A.Ht(A.d([A.Vh(A.tO(A.d([A.kQ(J.ahb(J.ahb(q.i(r,"time_start"),"-"),q.i(r,"time_end")),s,B.wx,s),B.wd,A.kQ(q.i(r,"subject"),s,B.wy,s),B.wd,A.kQ(q.i(r,"teacher"),s,B.wx,s)],p),B.aY,B.az,B.b1),1),B.JM,A.tO(A.d([A.kQ(q.i(r,"room"),s,B.wy,s)],p),B.ay,B.az,B.b1)],p),B.ay,B.az,B.b1,0),s),s),s)},
 $S:472}
 A.DF.prototype={
 L(a){return A.a4c(A.al5(B.NQ),null,null)}}
@@ -74465,9 +74465,9 @@ B.AT=new A.aM(6e6)
 B.AU=new A.aM(-38e3)
 B.AV=new A.Uw(0,"tonalSpot")
 B.bc=new A.bw(0,0,0,0)
-B.AW=new A.bw(0,8,0,8)
-B.AX=new A.bw(10,10,0,10)
-B.AY=new A.bw(10,10,10,0)
+B.AW=new A.bw(0,10,10,10)
+B.AX=new A.bw(0,8,0,8)
+B.AY=new A.bw(10,10,0,10)
 B.l7=new A.bw(10,10,10,10)
 B.AZ=new A.bw(12,0,12,0)
 B.B_=new A.bw(15,15,15,15)
