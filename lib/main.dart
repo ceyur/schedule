@@ -252,7 +252,7 @@ class _Schedule extends State<Schedule> {
                           borderRadius: BorderRadius.circular(20),
                         ), // RoundedRectangleBorder
                         child: Padding(
-                          // padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Row(
                             children: [
                               // Левая колонка: Время + Предмет + Преподаватель
