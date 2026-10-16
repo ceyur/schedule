@@ -325,8 +325,8 @@ class _Schedule extends State<Schedule> {
                             ],
                           ),
                         ),
-                      ); // Card
-                    ),
+                      ), // Card
+                    );
                   }),
                 );
               },
