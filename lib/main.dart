@@ -248,7 +248,7 @@ class _Schedule extends State<Schedule> {
                     return Text(
                      // "овов"
                      // instrument["group_name"]
-                     "${instrument["date"]} ${instrument["group"]} ${instrument["time_start"]} ${instrument["time_end"]} ${instrument["subject"]} ${instrument["teacher"]} ${instrument["room"]}"
+                     "${instrument["date"]} ${instrument["group_name"]} ${instrument["time_start"]} ${instrument["time_end"]} ${instrument["subject"]} ${instrument["teacher"]} ${instrument["room"]}"
                     );
                     // return Card(
                     //   margin: const EdgeInsets.only(bottom: 10),
