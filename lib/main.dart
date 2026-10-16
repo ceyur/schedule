@@ -206,7 +206,7 @@ class _Schedule extends State<Schedule> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            padding: const EdgeInsets.all(10),
             child: Row(
               children: [
                 Column(
@@ -258,7 +258,7 @@ class _Schedule extends State<Schedule> {
               hoverColor: Colors.transparent,
             ), // ThemeData
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(99),
                 child: BottomNavigationBar(
