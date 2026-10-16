@@ -70463,7 +70463,7 @@ al(){var s,r,q,p,o,n=null,m="supabase.postgrest",l=Date.now(),k=Date.now(),j=Dat
 i===$&&A.a()
 s=t.N
 r=t.z
-q=A.a7(["select_date","2026-10-16","select_group","23-03 \u0418\u0421\u0438\u041f"],s,r)
+q=A.a7(["select_date","2026-10-09","select_group","23-03 \u0418\u0421\u0438\u041f"],s,r)
 p=i.CW
 p===$&&A.a()
 p.b.J(0,A.hS(i.x,s,s))
