@@ -102,10 +102,19 @@ class _Schedule extends State<Schedule> {
   final selectedDayDate = DateTime.now();
   
   final schedule = Supabase.instance.client
-    .from("schedule")
-    .select()
-    .join('groups', on: 'group_id = id')
-    .execute();
+    .rpc(
+        "pairsDayGroup",
+        params: {
+          "select_date": "2026-10-16",
+          "select_group": "23-03 ИСиП",
+        },
+      );
+
+  // final schedule = Supabase.instance.client
+  //   .from("schedule")
+  //   .select()
+  //   .join('groups', on: 'group_id = id')
+    // .execute();
     // .join('teachers', on: 'teacher_id = id');
     // .select('''date, groups(group)''');
     //   pairs(time_start, time_end),
