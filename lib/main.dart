@@ -103,7 +103,7 @@ class _Schedule extends State<Schedule> {
   
   final schedule = Supabase.instance.client
     .rpc(
-        "pairsDayGroup",
+        "pairsdaygroup",
         params: {
           "select_date": "2026-10-09",
           "select_group": "23-03 ИСиП",
