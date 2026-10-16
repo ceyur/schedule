@@ -156,7 +156,6 @@ class _Schedule extends State<Schedule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      title: "Hшоао",
       body: Column(
         children: [
           Padding(
