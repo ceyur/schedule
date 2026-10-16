@@ -91,8 +91,8 @@ class Schedule extends StatefulWidget {
 class _Schedule extends State<Schedule> {
   String selectedValue = "23-03 ИСиП";
   int selectedIndex = 0;
-  final now = DateTime.now();
-  int selectedDay = DateTime.now().weekday - 1;
+  final now = DateTime.now(); // Сегодняшняя дата
+  int selectedDay = DateTime.now().weekday - 1; // Выбранная дата (индекс)
   final selectedDayDate = DateTime.now();
   
   final schedule = Supabase.instance.client
@@ -103,7 +103,8 @@ class _Schedule extends State<Schedule> {
           "select_group": "23-03 ИСиП",
         },
       );
-  
+
+  // Получить сегодняшнюю дату (16 октября)
   String getDate() {
     const months = [
       "января", "февраля", "марта", "апреля", "мая", "июня",
@@ -113,6 +114,7 @@ class _Schedule extends State<Schedule> {
     return "${now.day} ${months[now.month - 1]}";
   } // getDate
 
+  // Навигационная панель сверху
   List<BottomNavigationBarItem> daysWeek() {
     final nowDay = now.weekday - 1;
     final monday = now.subtract(Duration(days: nowDay));
@@ -126,7 +128,7 @@ class _Schedule extends State<Schedule> {
         icon: Container(
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
-            border: index == nowDay ? Border.all(color: Colors.teal) : null,
+            border: index == nowDay ? Border.all(color: Colors.black) : null,
             borderRadius: BorderRadius.circular(10),
           ), // BoxDecoration
           child: Column(
@@ -178,7 +180,7 @@ class _Schedule extends State<Schedule> {
                         children: [
                           Text(
                             selectedValue,
-                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold,),
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),
                           ), // Text
                           const Icon(Icons.keyboard_arrow_down),
                         ], // children
@@ -238,96 +240,90 @@ class _Schedule extends State<Schedule> {
             child: FutureBuilder(
               future: schedule,
               builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(child: Text("Ошибка загрузки: ${snapshot.error}"));
-                }
-                if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
                 final instruments = snapshot.data!;
                 return ListView.builder(
                   itemCount: instruments.length,
                   itemBuilder: ((context, index) {
                     final instrument = instruments[index];
-                    // return Text(
-                    //  // "овов"
-                    //  // instrument["group_name"]
-                    //  "${instrument["date"]} ${instrument["group"]} ${instrument["time_start"]} ${instrument["time_end"]} ${instrument["subject"]} ${instrument["teacher"]} ${instrument["room"]}"
-                    // );
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Row(
-                          children: [
-                            // Левая колонка: Время (Начало -> полоска -> Конец)
-                            Column(
-                              children: [
-                                Text(
-                                  instrument["time_start"],
-                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                ),
-                                const SizedBox(height: 4),
-                                Container(width: 2, height: 15, color: Colors.teal),
-                                const SizedBox(height: 4),
-                                Text(
-                                  instrument["time_end"],
-                                  style: const TextStyle(color: Colors.grey, fontSize: 14),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(width: 15),
+                    return Text(
+                     // "овов"
+                     // instrument["group_name"]
+                     "${instrument["date"]} ${instrument["group"]} ${instrument["time_start"]} ${instrument["time_end"]} ${instrument["subject"]} ${instrument["teacher"]} ${instrument["room"]}"
+                    );
+                    // return Card(
+                    //   margin: const EdgeInsets.only(bottom: 10),
+                    //   elevation: 2,
+                    //   shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(15),
+                    //   ),
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.all(12),
+                    //     child: Row(
+                    //       children: [
+                    //         // Левая колонка: Время (Начало -> полоска -> Конец)
+                    //         Column(
+                    //           children: [
+                    //             Text(
+                    //               instrument["time_start"],
+                    //               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    //             ),
+                    //             const SizedBox(height: 4),
+                    //             Container(width: 2, height: 15, color: Colors.teal),
+                    //             const SizedBox(height: 4),
+                    //             Text(
+                    //               instrument["time_end"],
+                    //               style: const TextStyle(color: Colors.grey, fontSize: 14),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         const SizedBox(width: 15),
                             
-                            // Правая колонка: Информация о предмете
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Название предмета (переносится максимум на 2 строки)
-                                  Text(
-                                    instrument["subject"],
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 6),
+                    //         // Правая колонка: Информация о предмете
+                    //         Expanded(
+                    //           child: Column(
+                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                    //             children: [
+                    //               // Название предмета (переносится максимум на 2 строки)
+                    //               Text(
+                    //                 instrument["subject"],
+                    //                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    //                 maxLines: 2,
+                    //                 overflow: TextOverflow.ellipsis,
+                    //               ),
+                    //               const SizedBox(height: 6),
                                   
-                                  // Строка с преподавателем и кабинетом
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.person, size: 16, color: Colors.grey),
-                                      const SizedBox(width: 4),
-                                      Expanded(
-                                        child: Text(
-                                          instrument["teacher"],
-                                          style: const TextStyle(color: Colors.grey, fontSize: 13),
-                                        ),
-                                      ),
-                                      // Голубой бэдж для номера кабинета
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                        decoration: BoxDecoration(
-                                          color: Colors.teal,
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        child: Text(
-                                          instrument["room"],
-                                          style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.bold, fontSize: 12),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ); // Card
+                    //               // Строка с преподавателем и кабинетом
+                    //               Row(
+                    //                 children: [
+                    //                   const Icon(Icons.person, size: 16, color: Colors.grey),
+                    //                   const SizedBox(width: 4),
+                    //                   Expanded(
+                    //                     child: Text(
+                    //                       instrument["teacher"],
+                    //                       style: const TextStyle(color: Colors.grey, fontSize: 13),
+                    //                     ),
+                    //                   ),
+                    //                   // Голубой бэдж для номера кабинета
+                    //                   Container(
+                    //                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    //                     decoration: BoxDecoration(
+                    //                       color: Colors.teal,
+                    //                       borderRadius: BorderRadius.circular(8),
+                    //                     ),
+                    //                     child: Text(
+                    //                       instrument["room"],
+                    //                       style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.bold, fontSize: 12),
+                    //                     ),
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ); // Card
                   }),
                 );
               },
