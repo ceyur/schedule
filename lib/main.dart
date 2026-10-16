@@ -30,7 +30,7 @@ class _MyApp extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Расписание",
+      // title: "Расписание",
       home: Scaffold(
         body: IndexedStack(
           index: selectedIndex,
@@ -89,12 +89,6 @@ class Schedule extends StatefulWidget {
 } // Timing
 
 class _Schedule extends State<Schedule> {
-  // final List<Subject> schedule1 = [
-  //   Subject(date: "11.10.2026", timeStart: "08:30", timeEnd: "10:00", name: "Разработка мобильных приложений", teacher: "Иванов И.И.", room: "404 каб."),
-  //   Subject(date: "09.10.2026", timeStart: "10:10", timeEnd: "11:40", name: "Операционные системы", teacher: "Петров П.П.", room: "102 каб."),
-  //   Subject(date: "09.10.2026", timeStart: "11:50", timeEnd: "13:20", name: "Физическая культура", teacher: "Сидоров С.С.", room: "Спортзал"),
-  // ];
-
   String selectedValue = "23-03 ИСиП";
   int selectedIndex = 0;
   final now = DateTime.now();
@@ -109,22 +103,6 @@ class _Schedule extends State<Schedule> {
           "select_group": "23-03 ИСиП",
         },
       );
-
-  // final schedule = Supabase.instance.client
-  //   .from("schedule")
-  //   .select()
-  //   .join('groups', on: 'group_id = id')
-    // .execute();
-    // .join('teachers', on: 'teacher_id = id');
-    // .select('''date, groups(group)''');
-    //   pairs(time_start, time_end),
-     
-    //   subjects(subject),
-    //   teachers(teacher),
-    //   rooms(room)
-    
-    // .eq("groups.group", "23-03 ИСиП")
-    // .eq("date", "2026-10-09");
   
   String getDate() {
     const months = [
@@ -178,6 +156,7 @@ class _Schedule extends State<Schedule> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      title: "Hшоао",
       body: Column(
         children: [
           Padding(
