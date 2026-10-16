@@ -70468,7 +70468,7 @@ p=i.CW
 p===$&&A.a()
 p.b.J(0,A.hS(i.x,s,s))
 s=A.ca(p.b,s,s)
-i=A.cC(p.a+"/rpc/pairsDayGroup",0,n)
+i=A.cC(p.a+"/rpc/pairsdaygroup",0,n)
 A.dQ(m)
 o=A.aoa(p.x,t.S)
 return new A.Ob(new A.cq(l,0,!1),A.anK(new A.cq(k,0,!1))-1,new A.cq(j,0,!1),new A.GC(new A.NW(i,s,p.c,n,n,p.d,p.e,n,!1,new A.adW(!0,p.w,o,A.aEB()),p.y,n),n,A.dQ(m)).adR(q,!1,r))}}
