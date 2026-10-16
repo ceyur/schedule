@@ -206,7 +206,7 @@ class _Schedule extends State<Schedule> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: Row(
               children: [
                 Column(
@@ -291,7 +291,7 @@ class _Schedule extends State<Schedule> {
                   itemBuilder: ((context, index) {
                     final instrument = instruments[index];
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
+                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
