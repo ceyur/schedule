@@ -258,7 +258,7 @@ class _Schedule extends State<Schedule> {
               hoverColor: Colors.transparent,
             ), // ThemeData
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(99),
                 child: BottomNavigationBar(
@@ -291,7 +291,7 @@ class _Schedule extends State<Schedule> {
                   itemBuilder: ((context, index) {
                     final instrument = instruments[index];
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
