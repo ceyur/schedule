@@ -105,7 +105,7 @@ class _Schedule extends State<Schedule> {
     .rpc(
         "pairsDayGroup",
         params: {
-          "select_date": "2026-10-16",
+          "select_date": "2026-10-09",
           "select_group": "23-03 ИСиП",
         },
       );
