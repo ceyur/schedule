@@ -70249,7 +70249,7 @@ return new A.p6(new A.a6w(new A.ae8(q),s,!0,!0,!0,r),r,B.ap,!1,r,r,B.x9,!1,r,r,s
 $S:471}
 A.ae8.prototype={
 $2(a,b){var s=J.de(this.a,b),r=J.bf(s)
-return A.xZ(A.i(r.i(s,"date"))+" "+A.i(r.i(s,"group"))+" "+A.i(r.i(s,"time_start"))+" "+A.i(r.i(s,"time_end"))+" "+A.i(r.i(s,"subject"))+" "+A.i(r.i(s,"teacher"))+" "+A.i(r.i(s,"room")),null,null,null)},
+return A.xZ(A.i(r.i(s,"date"))+" "+A.i(r.i(s,"group_name"))+" "+A.i(r.i(s,"time_start"))+" "+A.i(r.i(s,"time_end"))+" "+A.i(r.i(s,"subject"))+" "+A.i(r.i(s,"teacher"))+" "+A.i(r.i(s,"room")),null,null,null)},
 $S:472}
 A.DD.prototype={
 L(a){return A.a4a(A.al1(B.NA),null,null)}}
