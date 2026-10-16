@@ -245,205 +245,65 @@ class _Schedule extends State<Schedule> {
                   itemCount: instruments.length,
                   itemBuilder: ((context, index) {
                     final instrument = instruments[index];
-                    // return Text(
-                    //  // "овов"
-                    //  // instrument["group_name"]
-                    //  "${instrument["date"]} ${instrument["group_name"]} ${instrument["time_start"]} ${instrument["time_end"]} ${instrument["subject"]} ${instrument["teacher"]} ${instrument["room"]}"
-                    // );
                     return Padding(
                       padding: const EdgeInsets.all(15),
                       child: Card(
-                        elevation: 2,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
-                        ),
+                        ), // RoundedRectangleBorder
                         child: Padding(
                           padding: const EdgeInsets.all(15),
                           child: Row(
                             children: [
-                              // Левая колонка: Время (Начало -> полоска -> Конец)
-                              Column(
-                                children: [
-                                  Text(
-                                    instrument["time_start"],
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Container(width: 2, height: 15, color: Colors.teal),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    instrument["time_end"],
-                                    style: const TextStyle(color: Colors.grey, fontSize: 14),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 15),
-                              
-                              // Правая колонка: Информация о предмете
+                              // Левая колонка: Время + Предмет + Преподаватель
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       instrument["time_start"] + "-" + instrument["time_end"],
-                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                      style: const TextStyle(color: Colors.grey, fontSize: 15),
+                                    ), // Text
+                                    const SizedBox(height: 4),
                                     Text(
                                       instrument["subject"],
                                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 6),
-                                    
-                                    // Строка с преподавателем и кабинетом
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.person, size: 16, color: Colors.grey),
-                                        const SizedBox(width: 4),
-                                        Expanded(
-                                          child: Text(
-                                            instrument["teacher"],
-                                            style: const TextStyle(color: Colors.grey, fontSize: 13),
-                                          ),
-                                        ),
-                                        // Голубой бэдж для номера кабинета
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                          decoration: BoxDecoration(
-                                            color: Colors.teal,
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          child: Text(
-                                            instrument["room"],
-                                            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ), // Card
-                    );
-                  }),
-                );
-              },
-            ),
-            // ListView.builder(
-            //   // Отступы по бокам списка
-            //   padding: const EdgeInsets.symmetric(horizontal: 10), 
-            //   // Количество элементов в списке
-            //   itemCount: schedule.length, 
-            //   // Функция сборки каждой отдельной карточки
-            //   itemBuilder: (context, index) {
-            //     final subject = schedule[index];
-                
-            //     return Card(
-            //       margin: const EdgeInsets.only(bottom: 10),
-            //       elevation: 2,
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(15),
-            //       ),
-            //       child: Padding(
-            //         padding: const EdgeInsets.all(12),
-            //         child: Row(
-            //           children: [
-            //             // Левая колонка: Время (Начало -> полоска -> Конец)
-            //             Column(
-            //               children: [
-            //                 Text(
-            //                   subject.timeStart,
-            //                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            //                 ),
-            //                 const SizedBox(height: 4),
-            //                 Container(width: 2, height: 15, color: Colors.teal),
-            //                 const SizedBox(height: 4),
-            //                 Text(
-            //                   subject.timeEnd,
-            //                   style: const TextStyle(color: Colors.grey, fontSize: 14),
-            //                 ),
-            //               ],
-            //             ),
-            //             const SizedBox(width: 15),
-                        
-            //             // Правая колонка: Информация о предмете
-            //             Expanded(
-            //               child: Column(
-            //                 crossAxisAlignment: CrossAxisAlignment.start,
-            //                 children: [
-            //                   // Название предмета (переносится максимум на 2 строки)
-            //                   Text(
-            //                     subject.name,
-            //                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-            //                     maxLines: 2,
-            //                     overflow: TextOverflow.ellipsis,
-            //                   ),
-            //                   const SizedBox(height: 6),
+                                    ), // Text
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      instrument["teacher"],
+                                      style: const TextStyle(color: Colors.grey, fontSize: 15),
+                                    ), // Text
+                                  ], // children
+                                ), // Column
+                              ), // Expanded
+                              const SizedBox(width: 15),
                               
-            //                   // Строка с преподавателем и кабинетом
-            //                   Row(
-            //                     children: [
-            //                       const Icon(Icons.person, size: 16, color: Colors.grey),
-            //                       const SizedBox(width: 4),
-            //                       Expanded(
-            //                         child: Text(
-            //                           subject.teacher,
-            //                           style: const TextStyle(color: Colors.grey, fontSize: 13),
-            //                         ),
-            //                       ),
-            //                       // Голубой бэдж для номера кабинета
-            //                       Container(
-            //                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            //                         decoration: BoxDecoration(
-            //                           color: Colors.teal,
-            //                           borderRadius: BorderRadius.circular(8),
-            //                         ),
-            //                         child: Text(
-            //                           subject.room,
-            //                           style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.bold, fontSize: 12),
-            //                         ),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                 ],
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     );
-            //   },
-            // ),
-            
-          ),
+                              // Правая колонка: Кабинет
+                              Column(
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    instrument["room"],
+                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                  ), // Text
+                                ], // children
+                              ), // Column
+                            ], // children
+                          ), // Row
+                        ), // Padding
+                      ), // Card
+                    ); // Padding
+                  }), // itemBuilder
+                ); // ListView.builder
+              }, // builder
+            ), // FutureBuilder
+          ), // Expanded
         ], // children
       ), // Column
     ); // Scaffold
   } // build
 } // _Timing
-
-class Subject {
-  final String date;
-  final String timeStart;
-  final String timeEnd;
-  final String name;
-  final String teacher;
-  final String room;
-
-  Subject({
-    required this.date,
-    required this.timeStart,
-    required this.timeEnd,
-    required this.name,
-    required this.teacher,
-    required this.room,
-  });
-}
 
 class Commets extends StatelessWidget {
   const Commets({super.key});
