@@ -253,7 +253,6 @@ class _Schedule extends State<Schedule> {
                     return Padding(
                       padding: const EdgeInsets.all(15),
                       child: Card(
-                        margin: const EdgeInsets.only(bottom: 10),
                         elevation: 2,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
@@ -285,7 +284,11 @@ class _Schedule extends State<Schedule> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // Название предмета (переносится максимум на 2 строки)
+                                    Text(
+                                      instrument["time_start"] + "-" instrument["time_end"],
+                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                     Text(
                                       instrument["subject"],
                                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
