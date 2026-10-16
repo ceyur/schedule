@@ -1,3 +1,48 @@
+// class _MyPageState extends State<MyPage> {
+//   DateTime selectedDate = DateTime.now();
+//   DateTime startOfWeek = /* понедельник текущей недели */;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text('Ваше приложение')),
+//       body: Column(
+//         children: [
+//           // ПАНЕЛЬ С ДАТАМИ
+//           GestureDetector(
+//             onHorizontalDragEnd: (details) {
+//               setState(() {
+//                 final v = details.primaryVelocity ?? 0;
+//                 if (v < 0) {
+//                   startOfWeek = startOfWeek.add(const Duration(days: 7));  // свайп влево
+//                 } else if (v > 0) {
+//                   startOfWeek = startOfWeek.subtract(const Duration(days: 7)); // вправо
+//                 }
+//                 // при желании: selectedDate = тот же день недели новой недели
+//               });
+//             },
+//             child: Row(
+//               children: [
+//                 for (int i = 0; i < 7; i++)
+//                   Builder(builder: (context) {
+//                     final day = startOfWeek.add(Duration(days: i));
+//                     return GestureDetector(
+//                       onTap: () => setState(() => selectedDate = day),
+//                       child: DayCell(day: day, isSelected: day == selectedDate),
+//                     );
+//                   }),
+//               ],
+//             ),
+//           ),
+//           // НАПОЛНЕНИЕ
+//           Expanded(
+//             child: YourContentWidget(selectedDate: selectedDate),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 import "package:flutter/material.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
 
