@@ -285,7 +285,7 @@ class _Schedule extends State<Schedule> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      instrument["time_start"] + "-" instrument["time_end"],
+                                      instrument["time_start"] + "-" + instrument["time_end"],
                                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                                       overflow: TextOverflow.ellipsis,
                                     ),
