@@ -71,13 +71,19 @@ class MyApp extends StatefulWidget {
 
 class _MyApp extends State<MyApp> {
   final List<Widget> pages = [Schedule(), Comments(), Profile()];
-  int selectedIndex = 0;
+  int selectIndex = 0;
+
+  const items = [
+    BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month),),
+    BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat),),
+    BottomNavigationBarItem(label: "Профиль", icon: Icon(Icons.account_circle),),
+  ] // items
   
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // title: "Расписание",
+      title: items[selectIndex].label,
       home: Scaffold(
         body: IndexedStack(
           index: selectedIndex,
@@ -99,24 +105,12 @@ class _MyApp extends State<MyApp> {
                 unselectedItemColor: Colors.black45,
                 selectedFontSize: 15,
                 unselectedFontSize: 15,
-                items: const [
-                  BottomNavigationBarItem(
-                    label: "Расписание",
-                    icon: Icon(Icons.calendar_month),
-                  ), // BottomNavigationBarItem
-                  BottomNavigationBarItem(
-                    label: "Отзывы",
-                    icon: Icon(Icons.chat),
-                  ), // BottomNavigationBarItem
-                  BottomNavigationBarItem(
-                    label: "Профиль",
-                    icon: Icon(Icons.account_circle),
-                  ), // BottomNavigationBarItem
-                ], // items
-                currentIndex: selectedIndex,
+                items: items,
+                currentIndex: selectIndex,
                 onTap: (index) {
                   setState(() {
-                    selectedIndex = index;
+                    selectIndex = index;
+                    // title = items[index].label;
                   });
                 }, // onTap
               ), // BottomNavigationBar
