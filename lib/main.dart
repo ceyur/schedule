@@ -73,7 +73,7 @@ class _MyApp extends State<MyApp> {
   final List<Widget> pages = [Schedule(), Comments(), Profile()];
   int selectedIndex = 0;
 
-  const items = [
+  final items = [
     BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month),),
     BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat),),
     BottomNavigationBarItem(label: "Профиль", icon: Icon(Icons.account_circle),),
