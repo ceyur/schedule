@@ -70,14 +70,14 @@ class MyApp extends StatefulWidget {
 } // MyApp
 
 class _MyApp extends State<MyApp> {
-  final List<Widget> pages = [Schedule(), Comments(), Profile()];
-  int selectedIndex = 0;
-
-  final items = [
+  state const List<Widget> pages = [Schedule(), Comments(), Profile()];
+  state const items = [
     BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month),),
     BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat),),
     BottomNavigationBarItem(label: "Профиль", icon: Icon(Icons.account_circle),),
   ]; // items
+  
+  int selectedIndex = 0;
   
   @override
   Widget build(BuildContext context) {
@@ -91,9 +91,9 @@ class _MyApp extends State<MyApp> {
         ), // IndexedStack
         bottomNavigationBar: Theme(
           data: ThemeData(
-            splashColor: Colors.transparent,
+            splashColor: NoSplash.splashFactory,
             highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
+            // hoverColor: Colors.transparent,
           ), // ThemeData
           child: Padding(
             padding: const EdgeInsets.all(10),
