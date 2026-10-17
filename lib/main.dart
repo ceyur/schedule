@@ -45,7 +45,7 @@
 // }
 import "package:flutter/material.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
-import "package:flutter/schedule.dart";
+import "package:schedule/schedule.dart";
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
