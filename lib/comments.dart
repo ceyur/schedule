@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
 
-class Commets extends StatelessWidget {
-  const Commets({super.key});
+class Comments extends StatelessWidget {
+  const Comments({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,4 +10,4 @@ class Commets extends StatelessWidget {
       appBar: AppBar(title: const Text("Отзывы")),
     ); // Scaffold
   } // build
-} // _Commets
+} // _Comments
