@@ -77,7 +77,7 @@ class _MyApp extends State<MyApp> {
     BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month),),
     BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat),),
     BottomNavigationBarItem(label: "Профиль", icon: Icon(Icons.account_circle),),
-  ] // items
+  ]; // items
   
   @override
   Widget build(BuildContext context) {
