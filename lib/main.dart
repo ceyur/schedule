@@ -70,8 +70,7 @@ class MyApp extends StatefulWidget {
 } // MyApp
 
 class _MyApp extends State<MyApp> {
-
-  List<Widget> pages = [Schedule(), Comments(), Profile()];
+  const List<Widget> pages = [Schedule(), Comments(), Profile()];
   int selectedIndex = 0;
   
   @override
