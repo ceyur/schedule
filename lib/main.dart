@@ -71,7 +71,7 @@ class MyApp extends StatefulWidget {
 
 class _MyApp extends State<MyApp> {
   final List<Widget> pages = [Schedule(), Comments(), Profile()];
-  int selectIndex = 0;
+  int selectedIndex = 0;
 
   const items = [
     BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month),),
@@ -83,7 +83,7 @@ class _MyApp extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: items[selectIndex].label,
+      title: items[selectedIndex].label,
       home: Scaffold(
         body: IndexedStack(
           index: selectedIndex,
@@ -106,10 +106,10 @@ class _MyApp extends State<MyApp> {
                 selectedFontSize: 15,
                 unselectedFontSize: 15,
                 items: items,
-                currentIndex: selectIndex,
+                currentIndex: selectedIndex,
                 onTap: (index) {
                   setState(() {
-                    selectIndex = index;
+                    selectedIndex = index;
                     // title = items[index].label;
                   });
                 }, // onTap
