@@ -79,14 +79,14 @@ class _Schedule extends State<Schedule> {
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
-                  color: index == selectedDay ? Colors.black : Colors.teal, // const Color.fromARGB(255, 26, 185, 169),
+                  color: index == selectedDayIndex ? Colors.black : Colors.teal, // const Color.fromARGB(255, 26, 185, 169),
                 ), // TextStyle
               ), // Text
               Text(
                 shortWeekDays[index],
                 style: TextStyle(
                   fontSize: 15,
-                  color: index == selectedDay ? Colors.black : Colors.teal, // const Color.fromARGB(255, 26, 185, 169),
+                  color: index == selectedDayIndex ? Colors.black : Colors.teal, // const Color.fromARGB(255, 26, 185, 169),
                 ), // TextStyle
               ), // Text
             ], // children
