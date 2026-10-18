@@ -1,6 +1,4 @@
-// ш
 import "package:flutter/material.dart";
-import 'package:intl/intl.dart';
 import "package:supabase_flutter/supabase_flutter.dart";
 
 class Schedule extends StatefulWidget {
@@ -10,13 +8,12 @@ class Schedule extends StatefulWidget {
   State<Schedule> createState() => _Schedule();
 } // Schedule
 
-  // String selectedValue = "23-03 ИСиП"; //-
 class _Schedule extends State<Schedule> {
+  String selectedValue = "23-03 ИСиП"; //-
+  int selectedIndex = 0;
   final now = DateTime.now(); // Сегодняшняя дата
-  // final selectedDayDate = DateTime.now();
-  
-  // int selectedIndex = 0;
-  int selectedDayIndex = DateTime.now().weekday - 1; // Выбранная дата (индекс в массиве)
+  int selectedDay = DateTime.now().weekday - 1; // Выбранная дата (индекс)
+  final selectedDayDate = DateTime.now();
   
   final schedule = Supabase.instance.client
     .rpc(
@@ -27,25 +24,7 @@ class _Schedule extends State<Schedule> {
         },
       );
 
-  static const mySchedule = [
-    "23-03 ИСиП",
-    "Шаидова Насиба Абдрашитовна",
-    "ОЗИВТ(ППК-2)-25-1-у"
-  ];
-  int selectedSchedule = 0;
-  
-  getSchedule(date) {
-    return Supabase.instance.client
-      .rpc(
-        "pairsdaygroup",
-        params: {
-          "select_date": date,
-          "select_group": "23-03 ИСиП",
-        },
-      );
-  }
-  
-  // Получить сегодняшнюю дату в виде 16 октября
+  // Получить сегодняшнюю дату (16 октября)
   String getDate() {
     const months = [
       "января", "февраля", "марта", "апреля", "мая", "июня",
@@ -57,7 +36,6 @@ class _Schedule extends State<Schedule> {
 
   // Навигационная панель сверху
   List<BottomNavigationBarItem> daysWeek() {
-    // final now = DateTime.now();
     final nowDay = now.weekday - 1;
     final monday = now.subtract(Duration(days: nowDay));
     const shortWeekDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
@@ -80,14 +58,14 @@ class _Schedule extends State<Schedule> {
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
-                  color: index == selectedDayIndex ? Colors.black : Colors.teal, // const Color.fromARGB(255, 26, 185, 169),
+                  color: index == selectedDay ? Colors.black : Colors.teal, // const Color.fromARGB(255, 26, 185, 169),
                 ), // TextStyle
               ), // Text
               Text(
                 shortWeekDays[index],
                 style: TextStyle(
                   fontSize: 15,
-                  color: index == selectedDayIndex ? Colors.black : Colors.teal, // const Color.fromARGB(255, 26, 185, 169),
+                  color: index == selectedDay ? Colors.black : Colors.teal, // const Color.fromARGB(255, 26, 185, 169),
                 ), // TextStyle
               ), // Text
             ], // children
@@ -112,32 +90,26 @@ class _Schedule extends State<Schedule> {
                     PopupMenuButton(
                       position: PopupMenuPosition.under,
                       tooltip: "",
-                      initialValue: selectedSchedule,
-                      onSelected: (index) {
+                      initialValue: selectedValue,
+                      onSelected: (String newValue) {
                         setState(() {
-                          selectedSchedule = index;
+                          selectedValue = newValue;
                         });
                       }, // onSelected
                       child: Row(
                         children: [
                           Text(
-                            mySchedule[selectedSchedule],
+                            selectedValue,
                             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ), // Text
                           const Icon(Icons.keyboard_arrow_down),
                         ], // children
                       ), // Row
-                      itemBuilder: (BuildContext context) => mySchedule.map((group) {
-                        return PopupMenuItem(
-                          value: group,
-                          child: Text(group),
-                        );
-                      }).toList(),
-                      // itemBuilder: (BuildContext context) => [
-                      //   const PopupMenuItem(value: "23-03 ИСиП", child: Text("23-03 ИСиП")),
-                      //   const PopupMenuItem(value: "24-03 ИСиП", child: Text("24-03 ИСиП")),
-                      //   const PopupMenuItem(value: "25-03 ИСиП", child: Text("25-03 ИСиП")),
-                      // ], // itemBuilder
+                      itemBuilder: (BuildContext context) => [
+                        const PopupMenuItem(value: "23-03 ИСиП", child: Text("23-03 ИСиП")),
+                        const PopupMenuItem(value: "24-03 ИСиП", child: Text("24-03 ИСиП")),
+                        const PopupMenuItem(value: "25-03 ИСиП", child: Text("25-03 ИСиП")),
+                      ], // itemBuilder
                     ), // PopupMenuButton
                     Transform.translate(
                       offset: const Offset(0, -5),
@@ -174,10 +146,10 @@ class _Schedule extends State<Schedule> {
                   selectedFontSize: 5,
                   unselectedFontSize: 5,
                   items: daysWeek(),
-                  currentIndex: selectedDayIndex,
+                  currentIndex: selectedDay,
                   onTap: (index) {
                     setState(() {
-                      selectedDayIndex = index;
+                      selectedDay = index;
                     });
                   }, // onTap
                 ), // BottomNavigationBar
@@ -186,7 +158,7 @@ class _Schedule extends State<Schedule> {
           ), // Theme
           Expanded(
             child: FutureBuilder(
-              future: getSchedule(DateFormat('yyyy-MM-dd').format(now)),
+              future: schedule,
               builder: (context, snapshot) {
                 final instruments = snapshot.data!;
                 return ListView.builder(
