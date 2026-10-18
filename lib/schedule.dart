@@ -9,7 +9,7 @@ class Schedule extends StatefulWidget {
 } // Schedule
 
 class _Schedule extends State<Schedule> {
-  String selectedValue = "23-03 ИСиП";
+  String selectedValue = "23-03 ИСиП"; //-
   int selectedIndex = 0;
   final now = DateTime.now(); // Сегодняшняя дата
   int selectedDay = DateTime.now().weekday - 1; // Выбранная дата (индекс)
@@ -58,14 +58,14 @@ class _Schedule extends State<Schedule> {
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
-                  color: index == selectedDay ? Colors.black : const Color.fromARGB(255, 26, 185, 169),
+                  color: index == selectedDay ? Colors.black : const Color.teal, // const Color.fromARGB(255, 26, 185, 169),
                 ), // TextStyle
               ), // Text
               Text(
                 shortWeekDays[index],
                 style: TextStyle(
                   fontSize: 15,
-                  color: index == selectedDay ? Colors.black : const Color.fromARGB(255, 26, 185, 169),
+                  color: index == selectedDay ? Colors.black : const Color.teal, // const Color.fromARGB(255, 26, 185, 169),
                 ), // TextStyle
               ), // Text
             ], // children
@@ -100,7 +100,7 @@ class _Schedule extends State<Schedule> {
                         children: [
                           Text(
                             selectedValue,
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ), // Text
                           const Icon(Icons.keyboard_arrow_down),
                         ], // children
@@ -152,7 +152,7 @@ class _Schedule extends State<Schedule> {
                       selectedDay = index;
                     });
                   }, // onTap
-                ), // BottomNavigationBarItem
+                ), // BottomNavigationBar
               ), // ClipRRect
             ), // Padding
           ), // Theme
