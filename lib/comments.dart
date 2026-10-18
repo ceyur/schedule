@@ -10,4 +10,4 @@ class Comments extends StatelessWidget {
       appBar: AppBar(title: const Text("Отзывы")),
     ); // Scaffold
   } // build
-} // _Comments
+} // Comments
