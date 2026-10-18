@@ -10,4 +10,4 @@ class Profile extends StatelessWidget {
       appBar: AppBar(title: const Text("Профиль")),
     ); // Scaffold
   } // build
-} // _Profile
+} // Profile
