@@ -8,12 +8,13 @@ class Schedule extends StatefulWidget {
   State<Schedule> createState() => _Schedule();
 } // Schedule
 
+  // String selectedValue = "23-03 ИСиП"; //-
 class _Schedule extends State<Schedule> {
-  String selectedValue = "23-03 ИСиП"; //-
-  int selectedIndex = 0;
   final now = DateTime.now(); // Сегодняшняя дата
-  int selectedDay = DateTime.now().weekday - 1; // Выбранная дата (индекс)
-  final selectedDayDate = DateTime.now();
+  // final selectedDayDate = DateTime.now();
+  
+  // int selectedIndex = 0;
+  int selectedDay = now.weekday - 1; // Выбранная дата (индекс в массиве)
   
   final schedule = Supabase.instance.client
     .rpc(
@@ -24,7 +25,25 @@ class _Schedule extends State<Schedule> {
         },
       );
 
-  // Получить сегодняшнюю дату (16 октября)
+  static const mySchedule = [
+    "23-03 ИСиП",
+    "Шаидова Насиба Абдрашитовна",
+    "ОЗИВТ(ППК-2)-25-1-у"
+  ];
+  int selectedSchedule = 0;
+  
+  getSchedule(date) {
+    return Supabase.instance.client
+      .rpc(
+        "pairsdaygroup",
+        params: {
+          "select_date": date,
+          "select_group": "23-03 ИСиП",
+        },
+      );
+  }
+  
+  // Получить сегодняшнюю дату в виде 16 октября
   String getDate() {
     const months = [
       "января", "февраля", "марта", "апреля", "мая", "июня",
@@ -36,6 +55,7 @@ class _Schedule extends State<Schedule> {
 
   // Навигационная панель сверху
   List<BottomNavigationBarItem> daysWeek() {
+    // final now = DateTime.now();
     final nowDay = now.weekday - 1;
     final monday = now.subtract(Duration(days: nowDay));
     const shortWeekDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
@@ -90,10 +110,10 @@ class _Schedule extends State<Schedule> {
                     PopupMenuButton(
                       position: PopupMenuPosition.under,
                       tooltip: "",
-                      initialValue: selectedValue,
-                      onSelected: (String newValue) {
+                      initialValue: selectedSchedule,
+                      onSelected: (String value) {
                         setState(() {
-                          selectedValue = newValue;
+                          selectedSchedule = value;
                         });
                       }, // onSelected
                       child: Row(
@@ -105,11 +125,17 @@ class _Schedule extends State<Schedule> {
                           const Icon(Icons.keyboard_arrow_down),
                         ], // children
                       ), // Row
-                      itemBuilder: (BuildContext context) => [
-                        const PopupMenuItem(value: "23-03 ИСиП", child: Text("23-03 ИСиП")),
-                        const PopupMenuItem(value: "24-03 ИСиП", child: Text("24-03 ИСиП")),
-                        const PopupMenuItem(value: "25-03 ИСиП", child: Text("25-03 ИСиП")),
-                      ], // itemBuilder
+                      itemBuilder: (BuildContext context) => mySchedule.map((group) {
+                        return PopupMenuItem(
+                          value: group,
+                          child: Text(group),
+                        );
+                      }).toList(),
+                      // itemBuilder: (BuildContext context) => [
+                      //   const PopupMenuItem(value: "23-03 ИСиП", child: Text("23-03 ИСиП")),
+                      //   const PopupMenuItem(value: "24-03 ИСиП", child: Text("24-03 ИСиП")),
+                      //   const PopupMenuItem(value: "25-03 ИСиП", child: Text("25-03 ИСиП")),
+                      // ], // itemBuilder
                     ), // PopupMenuButton
                     Transform.translate(
                       offset: const Offset(0, -5),
@@ -158,7 +184,7 @@ class _Schedule extends State<Schedule> {
           ), // Theme
           Expanded(
             child: FutureBuilder(
-              future: schedule,
+              future: getSchedule(DateFormat('yyyy-MM-dd').format(now)),
               builder: (context, snapshot) {
                 final instruments = snapshot.data!;
                 return ListView.builder(
