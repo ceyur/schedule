@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:intl/intl.dart';
 import "package:supabase_flutter/supabase_flutter.dart";
 
 class Schedule extends StatefulWidget {
@@ -14,7 +15,7 @@ class _Schedule extends State<Schedule> {
   // final selectedDayDate = DateTime.now();
   
   // int selectedIndex = 0;
-  int selectedDay = now.weekday - 1; // Выбранная дата (индекс в массиве)
+  int selectedDayIndex = DateTime.now().weekday - 1; // Выбранная дата (индекс в массиве)
   
   final schedule = Supabase.instance.client
     .rpc(
@@ -111,15 +112,15 @@ class _Schedule extends State<Schedule> {
                       position: PopupMenuPosition.under,
                       tooltip: "",
                       initialValue: selectedSchedule,
-                      onSelected: (String value) {
+                      onSelected: (index) {
                         setState(() {
-                          selectedSchedule = value;
+                          selectedSchedule = index;
                         });
                       }, // onSelected
                       child: Row(
                         children: [
                           Text(
-                            selectedValue,
+                            mySchedule[selectedSchedule],
                             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ), // Text
                           const Icon(Icons.keyboard_arrow_down),
@@ -172,10 +173,10 @@ class _Schedule extends State<Schedule> {
                   selectedFontSize: 5,
                   unselectedFontSize: 5,
                   items: daysWeek(),
-                  currentIndex: selectedDay,
+                  currentIndex: selectedDayIndex,
                   onTap: (index) {
                     setState(() {
-                      selectedDay = index;
+                      selectedDayIndex = index;
                     });
                   }, // onTap
                 ), // BottomNavigationBar
