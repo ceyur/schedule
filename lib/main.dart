@@ -77,16 +77,16 @@ class _MyApp extends State<MyApp> {
     BottomNavigationBarItem(label: "Профиль", icon: Icon(Icons.account_circle),),
   ]; // items
   
-  int selectedIndex = 0;
+  int selectedPage = 0;
   
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: items[selectedIndex].label,
+      title: items[selectedPage].label,
       home: Scaffold(
         body: IndexedStack(
-          index: selectedIndex,
+          index: selectedPage,
           children: pages,
         ), // IndexedStack
         bottomNavigationBar: Theme(
@@ -106,10 +106,10 @@ class _MyApp extends State<MyApp> {
                 selectedFontSize: 15,
                 unselectedFontSize: 15,
                 items: items,
-                currentIndex: selectedIndex,
+                currentIndex: selectedPage,
                 onTap: (index) {
                   setState(() {
-                    selectedIndex = index;
+                    selectedPage = index;
                     // title = items[index].label;
                   });
                 }, // onTap
