@@ -30,6 +30,17 @@ class _Schedule extends State<Schedule> {
         },
       );
 
+  getSchedule() {
+    return Supabase.instance.client
+    .rpc(
+        "pairsdaygroup",
+        params: {
+          "select_date": "2026-10-09",
+          "select_group": "23-03 ИСиП",
+        },
+      );
+  }
+
   // Получить сегодняшнюю дату (16 октября)
   String getDate() {
     const months = [
@@ -170,7 +181,7 @@ class _Schedule extends State<Schedule> {
           ), // Theme
           Expanded(
             child: FutureBuilder(
-              future: schedule,
+              future: getSchedule(),
               builder: (context, snapshot) {
                 final instruments = snapshot.data!;
                 return ListView.builder(
