@@ -9,6 +9,12 @@ class Schedule extends StatefulWidget {
 } // Schedule
 
 class _Schedule extends State<Schedule> {
+  static const mySchedule = [
+    "23-03 ИСиП",
+    "Шаидова Насиба Абдрашитовна",
+    "ОЗИВТ(ППК-2)-25-1-у"
+  ];
+  
   String selectedValue = "23-03 ИСиП"; //-
   int selectedIndex = 0;
   final now = DateTime.now(); // Сегодняшняя дата
@@ -105,11 +111,17 @@ class _Schedule extends State<Schedule> {
                           const Icon(Icons.keyboard_arrow_down),
                         ], // children
                       ), // Row
-                      itemBuilder: (BuildContext context) => [
-                        const PopupMenuItem(value: "23-03 ИСиП", child: Text("23-03 ИСиП")),
-                        const PopupMenuItem(value: "24-03 ИСиП", child: Text("24-03 ИСиП")),
-                        const PopupMenuItem(value: "25-03 ИСиП", child: Text("25-03 ИСиП")),
-                      ], // itemBuilder
+                      itemBuilder: (BuildContext context) => mySchedule.map((group) {
+                        return PopupMenuItem(
+                          value: group,
+                          child: Text(group),
+                        );
+                      }).toList(),
+                      // itemBuilder: (BuildContext context) => [
+                      //   const PopupMenuItem(value: "23-03 ИСиП", child: Text("23-03 ИСиП")),
+                      //   const PopupMenuItem(value: "24-03 ИСиП", child: Text("24-03 ИСиП")),
+                      //   const PopupMenuItem(value: "25-03 ИСиП", child: Text("25-03 ИСиП")),
+                      // ], // itemBuilder
                     ), // PopupMenuButton
                     Transform.translate(
                       offset: const Offset(0, -5),
