@@ -180,7 +180,7 @@ class _Schedule extends State<Schedule> {
             ), // Padding
           ), // Theme
           Expanded(
-            child: FutureBuilder(
+            child: FutureBuilder<List<dynamic>>(
               future: getSchedule(),
               builder: (context, snapshot) {
                 final instruments = snapshot.data!;
