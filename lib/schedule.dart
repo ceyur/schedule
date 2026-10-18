@@ -21,6 +21,17 @@ class _Schedule extends State<Schedule> {
   int selectedDay = DateTime.now().weekday - 1; // Выбранная дата (индекс)
   final selectedDayDate = DateTime.now();
 
+  Future<List<dynamic>> scheduleFuture = getSchedule();
+
+  DateTime get monday => now.subtract(Duration(days: now.weekday - 1));
+
+  // Дата, выбранная в панели сверху
+  DateTime get selectedDate => monday.add(Duration(days: selectedDay));
+
+  // Дата в формате "2026-10-18"
+  String formatDate(DateTime d) =>
+      "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}";
+
   // Получить сегодняшнюю дату в виде 16 октября
   String getDate() {
     const months = [
@@ -78,7 +89,7 @@ class _Schedule extends State<Schedule> {
     .rpc(
         "pairsdaygroup",
         params: {
-          "select_date": "2026-10-09",
+          "select_date": formatDate(selectedDate),
           "select_group": "23-03 ИСиП",
         },
       );
@@ -103,6 +114,7 @@ class _Schedule extends State<Schedule> {
                       onSelected: (String newValue) {
                         setState(() {
                           selectedValue = newValue;
+                          scheduleFuture = getSchedule();
                         });
                       }, // onSelected
                       child: Row(
@@ -165,6 +177,7 @@ class _Schedule extends State<Schedule> {
                   onTap: (index) {
                     setState(() {
                       selectedDay = index;
+                      scheduleFuture = getSchedule();
                     });
                   }, // onTap
                 ), // BottomNavigationBar
@@ -173,7 +186,7 @@ class _Schedule extends State<Schedule> {
           ), // Theme
           Expanded(
             child: FutureBuilder<List<dynamic>>(
-              future: getSchedule(),
+              future: scheduleFuture,
               builder: (context, snapshot) {
                 final instruments = snapshot.data!;
                 return ListView.builder(
