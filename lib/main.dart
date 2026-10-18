@@ -102,7 +102,7 @@ class _MyApp extends State<MyApp> {
               child: BottomNavigationBar(
                 backgroundColor: Colors.tealAccent,
                 selectedItemColor: Colors.black,
-                unselectedItemColor: Colors.black45,
+                unselectedItemColor: const Color.teal, // Colors.black45,
                 selectedFontSize: 15,
                 unselectedFontSize: 15,
                 items: items,
