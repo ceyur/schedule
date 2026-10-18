@@ -20,28 +20,8 @@ class _Schedule extends State<Schedule> {
   final now = DateTime.now(); // Сегодняшняя дата
   int selectedDay = DateTime.now().weekday - 1; // Выбранная дата (индекс)
   final selectedDayDate = DateTime.now();
-  
-  final schedule = Supabase.instance.client
-    .rpc(
-        "pairsdaygroup",
-        params: {
-          "select_date": "2026-10-09",
-          "select_group": "23-03 ИСиП",
-        },
-      );
 
-  getSchedule() {
-    return Supabase.instance.client
-    .rpc(
-        "pairsdaygroup",
-        params: {
-          "select_date": "2026-10-09",
-          "select_group": "23-03 ИСиП",
-        },
-      );
-  }
-
-  // Получить сегодняшнюю дату (16 октября)
+  // Получить сегодняшнюю дату в виде 16 октября
   String getDate() {
     const months = [
       "января", "февраля", "марта", "апреля", "мая", "июня",
@@ -51,7 +31,7 @@ class _Schedule extends State<Schedule> {
     return "${now.day} ${months[now.month - 1]}";
   } // getDate
 
-  // Навигационная панель сверху
+  // Элементы навигационной панели сверху
   List<BottomNavigationBarItem> daysWeek() {
     final nowDay = now.weekday - 1;
     final monday = now.subtract(Duration(days: nowDay));
@@ -91,6 +71,18 @@ class _Schedule extends State<Schedule> {
       ); // BottomNavigationBarItem
     }); // List.generate
   } // daysWeek
+
+  // Получить расписание на день
+  Future<List<dynamic>> getSchedule() {
+    return Supabase.instance.client
+    .rpc(
+        "pairsdaygroup",
+        params: {
+          "select_date": "2026-10-09",
+          "select_group": "23-03 ИСиП",
+        },
+      );
+  } // getShedule
 
   @override
   Widget build(BuildContext context) {
