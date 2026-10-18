@@ -15,7 +15,7 @@ class _Schedule extends State<Schedule> {
     "ОЗИВТ(ППК-2)-25-1-у"
   ];
   
-  String selectedValue = "23-03 ИСиП"; //-
+  String selectedValue = mySchedule[0];
   int selectedIndex = 0;
   final now = DateTime.now(); // Сегодняшняя дата
   int selectedDay = DateTime.now().weekday - 1; // Выбранная дата (индекс)
