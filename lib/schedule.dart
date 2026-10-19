@@ -26,7 +26,7 @@ class _Schedule extends State<Schedule> {
   DateTime get monday => now.subtract(Duration(days: now.weekday - 1));
 
   // Дата, выбранная в панели сверху
-  DateTime get selectedDate => monday.add(Duration(days: selectedDay));
+  DateTime get selectedDate => monday.add(Duration(days: _selectedDay));
 
   // Дата в формате "2026-10-18"
   String formatDate(DateTime d) =>
