@@ -26,7 +26,7 @@ class _Schedule extends State<Schedule> {
   DateTime get monday => now.subtract(Duration(days: now.weekday - 1));
 
   // Дата, выбранная в панели сверху
-  DateTime get selectedDate => monday.add(Duration(days: selectedDay));
+  // DateTime get selectedDate => monday.add(Duration(days: selectedDay));
 
   // Дата в формате "2026-10-18"
   String formatDate(DateTime d) =>
@@ -71,9 +71,9 @@ class _Schedule extends State<Schedule> {
       _baseMonday.add(Duration(days: (page - _initialPage) * 7));
   
   // удобно для getSchedule(): выбранный день с учётом недели
-  // DateTime get selectedDate =>
-  //     _mondayOfWeek(_pageController.page?.round() ?? _initialPage)
-  //         .add(Duration(days: _selectedDay));
+  DateTime get selectedDate =>
+      _mondayOfWeek(_pageController.page?.round() ?? _initialPage)
+          .add(Duration(days: _selectedDay));
   
   List<BottomNavigationBarItem> daysWeek(int page) {
     final monday = _mondayOfWeek(page);
@@ -238,7 +238,7 @@ class _Schedule extends State<Schedule> {
             data: ThemeData(
               splashFactory: NoSplash.splashFactory,
               highlightColor: Colors.transparent,
-              hoverColor: Colors.transparent,
+              // hoverColor: Colors.transparent,
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
