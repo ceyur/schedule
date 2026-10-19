@@ -237,8 +237,6 @@ class _Schedule extends State<Schedule> {
           Theme(
             data: ThemeData(
               splashFactory: NoSplash.splashFactory,
-              highlightColor: Colors.transparent,
-              // hoverColor: Colors.transparent,
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
