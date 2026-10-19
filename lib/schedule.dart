@@ -29,7 +29,7 @@ class _Schedule extends State<Schedule> {
   DateTime get selectedDate => monday.add(Duration(days: _selectedDay));
 
 
-  удобно для getSchedule(): выбранный день с учётом недели
+  // удобно для getSchedule(): выбранный день с учётом недели
   // DateTime get selectedDate =>
   //     _mondayOfWeek(_pageController.page?.round() ?? _initialPage)
   //         .add(Duration(days: _selectedDay));
