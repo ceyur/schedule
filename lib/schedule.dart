@@ -251,8 +251,8 @@ class _Schedule extends State<Schedule> {
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(99),
-                child: SizedBox(
-                  height: 70,
+                // child: SizedBox(
+                //   height: 70,
                   child: PageView.builder(
                     controller: _pageController,
                     itemCount: 1000, // запас недель в обе стороны
@@ -281,7 +281,7 @@ class _Schedule extends State<Schedule> {
                       );
                     },
                   ),
-                ),
+                // ),
               ),
             ),
           ),
