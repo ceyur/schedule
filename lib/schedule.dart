@@ -196,7 +196,7 @@ class _Schedule extends State<Schedule> {
                 }
                 final instruments = snapshot.data!;
                 if (instruments.length == 0) {
-                  return Text("В этот день нет пар")
+                  return Text("В этот день нет пар");
                 }
                 else {
                   return ListView.builder(
