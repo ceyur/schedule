@@ -153,37 +153,65 @@ class _Schedule extends State<Schedule> {
               ], // children
             ), // Row
           ), // Padding
-          Theme(
-            data: ThemeData(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              hoverColor: Colors.transparent,
-            ), // ThemeData
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(99),
-                child: BottomNavigationBar(
-                  showSelectedLabels: false,
-                  showUnselectedLabels: false,
-                  type: BottomNavigationBarType.fixed,
-                  backgroundColor: const Color.fromARGB(255, 179, 255, 255),
-                  selectedItemColor: Colors.black,
-                  unselectedItemColor: Colors.teal,
-                  selectedFontSize: 5,
-                  unselectedFontSize: 5,
-                  items: daysWeek(),
-                  currentIndex: selectedDay,
-                  onTap: (index) {
-                    setState(() {
-                      selectedDay = index;
-                      // scheduleFuture = getSchedule();
-                    });
-                  }, // onTap
-                ), // BottomNavigationBar
-              ), // ClipRRect
-            ), // Padding
-          ), // Theme
+          
+          
+          GestureDetector(
+            onHorizontalDragEnd: (details) {
+              setState(() {
+                final v = details.primaryVelocity ?? 0;
+                if (v < 0) {
+                  startOfWeek = startOfWeek.add(const Duration(days: 7));  // свайп влево
+                } else if (v > 0) {
+                  startOfWeek = startOfWeek.subtract(const Duration(days: 7)); // вправо
+                }
+                // при желании: selectedDate = тот же день недели новой недели
+              });
+            },
+            child: Row(
+              children: [
+                for (int i = 0; i < 7; i++)
+                  Builder(builder: (context) {
+                    final day = startOfWeek.add(Duration(days: i));
+                    return GestureDetector(
+                      onTap: () => setState(() => selectedDate = day),
+                      child: DayCell(day: day, isSelected: day == selectedDate),
+                    );
+                  }),
+              ],
+            ),
+          ),
+          
+          // Theme(
+          //   data: ThemeData(
+          //     splashColor: Colors.transparent,
+          //     highlightColor: Colors.transparent,
+          //     hoverColor: Colors.transparent,
+          //   ), // ThemeData
+          //   child: Padding(
+          //     padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+          //     child: ClipRRect(
+          //       borderRadius: BorderRadius.circular(99),
+          //       child: BottomNavigationBar(
+          //         showSelectedLabels: false,
+          //         showUnselectedLabels: false,
+          //         type: BottomNavigationBarType.fixed,
+          //         backgroundColor: const Color.fromARGB(255, 179, 255, 255),
+          //         selectedItemColor: Colors.black,
+          //         unselectedItemColor: Colors.teal,
+          //         selectedFontSize: 5,
+          //         unselectedFontSize: 5,
+          //         items: daysWeek(),
+          //         currentIndex: selectedDay,
+          //         onTap: (index) {
+          //           setState(() {
+          //             selectedDay = index;
+          //             // scheduleFuture = getSchedule();
+          //           });
+          //         }, // onTap
+          //       ), // BottomNavigationBar
+          //     ), // ClipRRect
+          //   ), // Padding
+          // ), // Theme
           Expanded(
             child: FutureBuilder<List<dynamic>>(
               future: getSchedule(),
