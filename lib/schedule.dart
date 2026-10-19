@@ -159,7 +159,7 @@ class _Schedule extends State<Schedule> {
                   child: PageView.builder(
                     controller: weekController,
                     itemCount: 1000,
-                    onPageChanged: (page) {
+                    onPageChanged: (week) {
                       setState(() {
                         selectedWeekI = week;
                       });
