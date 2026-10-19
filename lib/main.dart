@@ -92,6 +92,8 @@ class _MyApp extends State<MyApp> {
         bottomNavigationBar: Theme(
           data: ThemeData(
             splashFactory: NoSplash.splashFactory,
+            highlightColor: Colors.transparent,
+            // hoverColor: Colors.transparent,
           ), // ThemeData
           child: Padding(
             padding: const EdgeInsets.all(10),
