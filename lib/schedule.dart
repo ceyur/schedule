@@ -188,6 +188,12 @@ class _Schedule extends State<Schedule> {
             child: FutureBuilder<List<dynamic>>(
               future: getSchedule(),
               builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error loading instruments: ${snapshot.error}'));
+                }
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
                 final instruments = snapshot.data!;
                 return ListView.builder(
                   itemCount: instruments.length,
