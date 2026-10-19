@@ -196,7 +196,12 @@ class _Schedule extends State<Schedule> {
                 }
                 final instruments = snapshot.data!;
                 if (instruments.length == 0) {
-                  return Text("В этот день нет пар");
+                  return const Text(
+                    "В этот день нет пар",
+                    style: TextStyle(
+                      fontSize: 20,
+                    )
+                  );
                 }
                 else {
                   return ListView.builder(
