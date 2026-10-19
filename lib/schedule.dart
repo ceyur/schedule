@@ -11,7 +11,7 @@ class Schedule extends StatefulWidget {
 
 class _Schedule extends State<Schedule> {
   static const startWeek = 500;
-  final pageController = PageController(initialPage: startWeek);
+  final weekController = PageController(initialPage: startWeek);
   static const mySchedule = [
     "23-03 ИСиП",
     "Шаидова Насиба Абдрашитовна",
@@ -157,9 +157,14 @@ class _Schedule extends State<Schedule> {
                 child: SizedBox(
                   height: 60,
                   child: PageView.builder(
-                    controller: pageController,
+                    controller: weekController,
                     itemCount: 1000,
-                    itemBuilder: (context, page) {
+                    onPageChanged: (page) {
+                      setState(() {
+                        selectedWeekI = week;
+                      });
+                    },
+                    itemBuilder: (context, week) {
                       return BottomNavigationBar(
                         showSelectedLabels: false,
                         showUnselectedLabels: false,
@@ -173,7 +178,6 @@ class _Schedule extends State<Schedule> {
                         currentIndex: selectedDayI,
                         onTap: (index) {
                           setState(() {
-                            selectedWeekI = page;
                             selectedDayI = index;
                             selectedDay = mondayOfWeek.add(Duration(days: selectedDayI));
                           });
