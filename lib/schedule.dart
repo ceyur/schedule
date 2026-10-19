@@ -28,6 +28,12 @@ class _Schedule extends State<Schedule> {
   // Дата, выбранная в панели сверху
   DateTime get selectedDate => monday.add(Duration(days: _selectedDay));
 
+
+  удобно для getSchedule(): выбранный день с учётом недели
+  // DateTime get selectedDate =>
+  //     _mondayOfWeek(_pageController.page?.round() ?? _initialPage)
+  //         .add(Duration(days: _selectedDay));
+
   // Дата в формате "2026-10-18"
   String formatDate(DateTime d) =>
       "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}";
@@ -237,6 +243,8 @@ class _Schedule extends State<Schedule> {
           Theme(
             data: ThemeData(
               splashFactory: NoSplash.splashFactory,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
@@ -249,7 +257,7 @@ class _Schedule extends State<Schedule> {
                     itemCount: 1000, // запас недель в обе стороны
                     onPageChanged: (page) {
                       setState(() {
-                        _selectedDay = 0; // сбрасываем выбранный день при смене недели
+                        // _selectedDay = 0; // сбрасываем выбранный день при смене недели
                       });
                     },
                     itemBuilder: (context, page) {
