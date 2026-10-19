@@ -195,61 +195,66 @@ class _Schedule extends State<Schedule> {
                   return const Center(child: CircularProgressIndicator());
                 }
                 final instruments = snapshot.data!;
-                return ListView.builder(
-                  itemCount: instruments.length,
-                  itemBuilder: ((context, index) {
-                    final instrument = instruments[index];
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ), // RoundedRectangleBorder
-                        child: Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Row(
-                            children: [
-                              // Левая колонка: Время + Предмет + Преподаватель
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                if (instruments.length == 0) {
+                  return Text("В этот день нет пар")
+                }
+                else {
+                  return ListView.builder(
+                    itemCount: instruments.length,
+                    itemBuilder: ((context, index) {
+                      final instrument = instruments[index];
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ), // RoundedRectangleBorder
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Row(
+                              children: [
+                                // Левая колонка: Время + Предмет + Преподаватель
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        instrument["time_start"] + "-" + instrument["time_end"],
+                                        style: const TextStyle(color: Colors.grey, fontSize: 15),
+                                      ), // Text
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        instrument["subject"],
+                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                      ), // Text
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        instrument["teacher"],
+                                        style: const TextStyle(color: Colors.grey, fontSize: 15),
+                                      ), // Text
+                                    ], // children
+                                  ), // Column
+                                ), // Expanded
+                                const SizedBox(width: 15),
+                                
+                                // Правая колонка: Кабинет
+                                Column(
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      instrument["time_start"] + "-" + instrument["time_end"],
-                                      style: const TextStyle(color: Colors.grey, fontSize: 15),
-                                    ), // Text
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      instrument["subject"],
+                                      instrument["room"],
                                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                    ), // Text
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      instrument["teacher"],
-                                      style: const TextStyle(color: Colors.grey, fontSize: 15),
                                     ), // Text
                                   ], // children
                                 ), // Column
-                              ), // Expanded
-                              const SizedBox(width: 15),
-                              
-                              // Правая колонка: Кабинет
-                              Column(
-                                // crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    instrument["room"],
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                  ), // Text
-                                ], // children
-                              ), // Column
-                            ], // children
-                          ), // Row
-                        ), // Padding
-                      ), // Card
-                    ); // Padding
-                  }), // itemBuilder
-                ); // ListView.builder
+                              ], // children
+                            ), // Row
+                          ), // Padding
+                        ), // Card
+                      ); // Padding
+                    }), // itemBuilder
+                  ); // ListView.builder
+                } // else
               }, // builder
             ), // FutureBuilder
           ), // Expanded
