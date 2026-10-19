@@ -93,7 +93,7 @@ class _MyApp extends State<MyApp> {
           data: ThemeData(
             splashFactory: NoSplash.splashFactory,
             highlightColor: Colors.transparent,
-            // hoverColor: Colors.transparent,
+            hoverColor: Colors.transparent,
           ), // ThemeData
           child: Padding(
             padding: const EdgeInsets.all(10),
