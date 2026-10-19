@@ -42,46 +42,125 @@ class _Schedule extends State<Schedule> {
     return "${now.day} ${months[now.month - 1]}";
   } // getDate
 
-  // Элементы навигационной панели сверху
-  List<BottomNavigationBarItem> daysWeek() {
-    final nowDay = now.weekday - 1;
-    final monday = now.subtract(Duration(days: nowDay));
+
+
+
+
+  static const int _initialPage = 500; // страница "сейчас"
+  
+  final DateTime _now = DateTime.now();
+  late final DateTime _baseMonday; // понедельник текущей недели
+  int _selectedDay = 0;
+  late final PageController _pageController;
+  
+  @override
+  void initState() {
+    super.initState();
+    _baseMonday = _now.subtract(Duration(days: _now.weekday - 1));
+    _pageController = PageController(initialPage: _initialPage);
+  }
+  
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+  
+  // понедельник недели для конкретной страницы свайпа
+  DateTime _mondayOfWeek(int page) =>
+      _baseMonday.add(Duration(days: (page - _initialPage) * 7));
+  
+  // удобно для getSchedule(): выбранный день с учётом недели
+  // DateTime get selectedDate =>
+  //     _mondayOfWeek(_pageController.page?.round() ?? _initialPage)
+  //         .add(Duration(days: _selectedDay));
+  
+  List<BottomNavigationBarItem> daysWeek(int page) {
+    final monday = _mondayOfWeek(page);
+    final weekOffset = page - _initialPage;
+    final nowDay = _now.weekday - 1;
     const shortWeekDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
-    
+  
     return List.generate(7, (index) {
       final day = monday.add(Duration(days: index));
-
+      final isToday = weekOffset == 0 && index == nowDay;
+  
       return BottomNavigationBarItem(
         label: "",
         icon: Container(
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
-            border: index == nowDay ? Border.all(color: Colors.black) : null,
+            border: isToday ? Border.all(color: Colors.black) : null,
             borderRadius: BorderRadius.circular(10),
-          ), // BoxDecoration
+          ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 day.day.toString(),
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
-                  color: index == selectedDay ? Colors.black : Colors.teal, // const Color.fromARGB(255, 26, 185, 169),
-                ), // TextStyle
-              ), // Text
+                  color: index == _selectedDay ? Colors.black : Colors.teal,
+                ),
+              ),
               Text(
                 shortWeekDays[index],
                 style: TextStyle(
                   fontSize: 15,
-                  color: index == selectedDay ? Colors.black : Colors.teal, // const Color.fromARGB(255, 26, 185, 169),
-                ), // TextStyle
-              ), // Text
-            ], // children
-          ), // Column
-        ), // Container
-      ); // BottomNavigationBarItem
-    }); // List.generate
-  } // daysWeek
+                  color: index == _selectedDay ? Colors.black : Colors.teal,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
+
+
+  
+  // Элементы навигационной панели сверху
+  // List<BottomNavigationBarItem> daysWeek() {
+  //   final nowDay = now.weekday - 1;
+  //   final monday = now.subtract(Duration(days: nowDay));
+  //   const shortWeekDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
+    
+  //   return List.generate(7, (index) {
+  //     final day = monday.add(Duration(days: index));
+
+  //     return BottomNavigationBarItem(
+  //       label: "",
+  //       icon: Container(
+  //         padding: const EdgeInsets.all(5),
+  //         decoration: BoxDecoration(
+  //           border: index == nowDay ? Border.all(color: Colors.black) : null,
+  //           borderRadius: BorderRadius.circular(10),
+  //         ), // BoxDecoration
+  //         child: Column(
+  //           children: [
+  //             Text(
+  //               day.day.toString(),
+  //               style: TextStyle(
+  //                 fontSize: 15,
+  //                 fontWeight: FontWeight.bold,
+  //                 color: index == selectedDay ? Colors.black : Colors.teal, // const Color.fromARGB(255, 26, 185, 169),
+  //               ), // TextStyle
+  //             ), // Text
+  //             Text(
+  //               shortWeekDays[index],
+  //               style: TextStyle(
+  //                 fontSize: 15,
+  //                 color: index == selectedDay ? Colors.black : Colors.teal, // const Color.fromARGB(255, 26, 185, 169),
+  //               ), // TextStyle
+  //             ), // Text
+  //           ], // children
+  //         ), // Column
+  //       ), // Container
+  //     ); // BottomNavigationBarItem
+  //   }); // List.generate
+  // } // daysWeek
 
   // Получить расписание на день
   Future<List<dynamic>> getSchedule() {
@@ -155,31 +234,51 @@ class _Schedule extends State<Schedule> {
           ), // Padding
           
           
-          GestureDetector(
-            onHorizontalDragEnd: (details) {
-              setState(() {
-                final v = details.primaryVelocity ?? 0;
-                if (v < 0) {
-                  startOfWeek = startOfWeek.add(const Duration(days: 7));  // свайп влево
-                } else if (v > 0) {
-                  startOfWeek = startOfWeek.subtract(const Duration(days: 7)); // вправо
-                }
-                // при желании: selectedDate = тот же день недели новой недели
-              });
-            },
-            child: Row(
-              children: [
-                for (int i = 0; i < 7; i++)
-                  Builder(builder: (context) {
-                    final day = startOfWeek.add(Duration(days: i));
-                    return GestureDetector(
-                      onTap: () => setState(() => selectedDate = day),
-                      child: DayCell(day: day, isSelected: day == selectedDate),
-                    );
-                  }),
-              ],
+          Theme(
+            data: ThemeData(
+              splashFactory: NoSplash.splashFactory,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(99),
+                child: SizedBox(
+                  height: 70,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: 1000, // запас недель в обе стороны
+                    onPageChanged: (page) {
+                      setState(() {
+                        _selectedDay = 0; // сбрасываем выбранный день при смене недели
+                      });
+                    },
+                    itemBuilder: (context, page) {
+                      return BottomNavigationBar(
+                        showSelectedLabels: false,
+                        showUnselectedLabels: false,
+                        type: BottomNavigationBarType.fixed,
+                        backgroundColor: const Color.fromARGB(255, 179, 255, 255),
+                        selectedItemColor: Colors.black,
+                        unselectedItemColor: Colors.teal,
+                        selectedFontSize: 5,
+                        unselectedFontSize: 5,
+                        items: daysWeek(page),
+                        currentIndex: _selectedDay,
+                        onTap: (index) {
+                          setState(() {
+                            _selectedDay = index;
+                          });
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
             ),
           ),
+
           
           // Theme(
           //   data: ThemeData(
