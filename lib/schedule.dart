@@ -12,6 +12,10 @@ class Schedule extends StatefulWidget {
 class _Schedule extends State<Schedule> {
   static const startWeek = 500;
   final weekController = PageController(initialPage: startWeek);
+  static const months = [
+    "января", "февраля", "марта", "апреля", "мая", "июня",
+    "июля", "августа", "сентября", "октября", "ноября", "декабря"
+  ];
   static const mySchedule = [
     "23-03 ИСиП",
     "Шаидова Насиба Абдрашитовна",
@@ -26,16 +30,6 @@ class _Schedule extends State<Schedule> {
   DateTime monday = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
 
   DateTime get mondayOfWeek => monday.add(Duration(days: (selectedWeekI - 500) * 7));
-
-  // Получить сегодняшнюю дату в виде 16 октября
-  String getDate() {
-    const months = [
-      "января", "февраля", "марта", "апреля", "мая", "июня",
-      "июля", "августа", "сентября", "октября", "ноября", "декабря"
-    ];
-    
-    return "${DateTime.now().day} ${months[DateTime.now().month - 1]}";
-  } // getDate
   
   List<BottomNavigationBarItem> daysWeek() {
     final monday = mondayOfWeek;
@@ -132,7 +126,7 @@ class _Schedule extends State<Schedule> {
                     Transform.translate(
                       offset: const Offset(0, -5),
                       child: Text(
-                        getDate(),
+                        "${DateTime.now().day} ${months[DateTime.now().month - 1]}",
                         textAlign: TextAlign.left,
                       ), // Text
                     ), // Transform.translate
