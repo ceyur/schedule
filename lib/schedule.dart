@@ -150,6 +150,7 @@ class _Schedule extends State<Schedule> {
               onPageChanged: (week) {
                 setState(() {
                   selectedWeekI = week;
+                  selectedDay = mondayOfWeek.add(Duration(days: selectedDayI));
                 });
               },
               itemBuilder: (context, week) {
