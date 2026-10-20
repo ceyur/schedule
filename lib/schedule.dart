@@ -143,6 +143,7 @@ class _Schedule extends State<Schedule> {
               borderRadius: BorderRadius.circular(99),
             ), // BoxDecoration
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+            height: 69,
             child: PageView.builder(
               controller: weekController,
               itemCount: 1000,
