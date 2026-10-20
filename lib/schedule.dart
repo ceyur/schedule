@@ -263,9 +263,7 @@ class _Schedule extends State<Schedule> {
                 if (instruments.isEmpty) {
                   return const Text(
                     "В этот день нет пар",
-                    style: TextStyle(
-                      fontSize: 20,
-                    )
+                    style: const TextStyle(fontSize: 20),
                   );
                 }
                 else {
@@ -276,14 +274,13 @@ class _Schedule extends State<Schedule> {
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                         child: Card(
-                          shape: RoundedRectangleBorder(
+                          shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ), // RoundedRectangleBorder
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Row(
                               children: [
-                                // Левая колонка: Время + Предмет + Преподаватель
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,24 +292,22 @@ class _Schedule extends State<Schedule> {
                                       const SizedBox(height: 4),
                                       Text(
                                         instrument["subject"],
-                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                       ), // Text
                                       const SizedBox(height: 4),
                                       Text(
                                         instrument["teacher"],
-                                        style: const TextStyle(color: Colors.grey, fontSize: 15),
+                                        style: const TextStyle(fontSize: 15, color: Colors.grey),
                                       ), // Text
                                     ], // children
                                   ), // Column
                                 ), // Expanded
                                 const SizedBox(width: 15),
-                                // Правая колонка: Кабинет
                                 Column(
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       instrument["room"],
-                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                     ), // Text
                                   ], // children
                                 ), // Column
