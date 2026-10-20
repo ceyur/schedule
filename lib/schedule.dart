@@ -1,3 +1,4 @@
+// Рабочая версия
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
@@ -10,8 +11,8 @@ class Schedule extends StatefulWidget {
 } // Schedule
 
 class _Schedule extends State<Schedule> {
-  static const startWeek = 500;
-  final weekController = PageController(initialPage: startWeek);
+  static const startWeekI = 500;
+  final weekController = PageController(initialPage: startWeekI);
   static const months = [
     "января", "февраля", "марта", "апреля", "мая", "июня",
     "июля", "августа", "сентября", "октября", "ноября", "декабря"
@@ -23,7 +24,7 @@ class _Schedule extends State<Schedule> {
   ];
   
   String selectedSchedule = mySchedule[0];
-  int selectedWeekI = 500;
+  int selectedWeekI = startWeekI;
 
   DateTime selectedDay = DateTime.now();
   int selectedDayI = DateTime.now().weekday - 1;
@@ -48,7 +49,7 @@ class _Schedule extends State<Schedule> {
           decoration: BoxDecoration(
             border: isToday ? Border.all(color: Colors.black) : null,
             borderRadius: BorderRadius.circular(10),
-          ),
+          ), // Container
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -58,23 +59,22 @@ class _Schedule extends State<Schedule> {
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color: index == selectedDayI ? Colors.black : Colors.teal,
-                ),
-              ),
+                ), // TextStyle
+              ), // Text
               Text(
                 shortWeekDays[index],
                 style: TextStyle(
                   fontSize: 15,
                   color: index == selectedDayI ? Colors.black : Colors.teal,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    });
-  }
+                ), // TextStyle
+              ), // Text
+            ], // children
+          ), // Column
+        ), // Container
+      ); // BottomNavigationBarItem
+    }); // List.generate
+  } // daysWeek
 
-  // Получить расписание на день
   Future<List<dynamic>> getSchedule() {
     return Supabase.instance.client
     .rpc(
@@ -149,7 +149,7 @@ class _Schedule extends State<Schedule> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(99),
                 child: SizedBox(
-                  height: 60,
+                  height: 69,
                   child: PageView.builder(
                     controller: weekController,
                     itemCount: 1000,
