@@ -32,8 +32,14 @@ class _Schedule extends State<Schedule> {
   DateTime get mondayOfWeek => monday.add(Duration(days: (selectedWeekI - 500) * 7));
 
 
-  Future<List<dynamic>> schedule = getSchedule();
+  late Future<List<dynamic>> schedule;
 
+
+  @override
+  void initState() {
+    super.initState();
+    schedule = getSchedule();
+  }
   
   // List<BottomNavigationBarItem> daysWeek() {
   //   final monday = mondayOfWeek;
@@ -78,7 +84,7 @@ class _Schedule extends State<Schedule> {
   //   }); // List.generate
   // } // daysWeek
 
-  static Future<List<dynamic>> getSchedule() {
+  Future<List<dynamic>> getSchedule() {
     return Supabase.instance.client
     .rpc(
         "pairsdaygroup",
