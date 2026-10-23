@@ -1,4 +1,3 @@
-// Рабочая версия
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:intl/date_symbol_data_local.dart";
@@ -22,13 +21,18 @@ class _Schedule extends State<Schedule> {
     "ОЗИВТ(ППК-2)-25-1-у"
   ];
   String selectedSchedule = mySchedule[0];
-
-  static const startWeekI = 500;
+// 100 * 7 + 100 * 7 = 1400
+// 700 : 100 = 7
+// 700 % 100 = 0
+  static const startWeekI = 100;
   final weekController = PageController(initialPage: startWeekI);
   int selectedWeekI = startWeekI;
 
   DateTime selectedDay = DateTime.now();
-  int selectedDayI = DateTime.now().weekday - 1;
+  int startDayI = startWeekI * 7 + DateTime.now().weekday - 1;
+  final dayController = PageController(initialPage: startDayI);
+  int selectedDayI = startWeekI * 7 + DateTime.now().weekday - 1; // 700 + 4
+  // startWeekI * 7 % startWeekI
   DateTime monday = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
 
   DateTime get mondayOfWeek => monday.add(Duration(days: (selectedWeekI - startWeekI) * 7));
@@ -120,13 +124,15 @@ class _Schedule extends State<Schedule> {
                   onPageChanged: (week) {
                     setState(() {
                       selectedWeekI = week;
-                      selectedDay = mondayOfWeek.add(Duration(days: selectedDayI));
+                      selectedDayI = selectedDayI - 7;
+                      selectedDay = mondayOfWeek.add(Duration(days: selectedDayI - selectedWeekI * 7));
                       schedule = getSchedule();
+                      dayController.jumpToPage(selectedDayI);
                     });
                   }, // onPageChanged
                   itemBuilder: (context, week) {
                     final monday = mondayOfWeek;
-                    final weekOffset = selectedWeekI - 500;
+                    final weekOffset = selectedWeekI - selectedWeekI;
                     final nowDay = DateTime.now().weekday - 1;
                     
                     return Row(
@@ -138,9 +144,10 @@ class _Schedule extends State<Schedule> {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
-                              selectedDayI = index;
-                              selectedDay = mondayOfWeek.add(Duration(days: selectedDayI));
+                              selectedDayI = selectedWeekI * 7 + index;
+                              selectedDay = mondayOfWeek.add(Duration(days: selectedDayI - selectedWeekI * 7));
                               schedule = getSchedule();
+                              dayController.jumpToPage(selectedDayI);
                             });
                           }, // onTap
                           child: Container(
@@ -157,14 +164,14 @@ class _Schedule extends State<Schedule> {
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
-                                    color: index == selectedDayI ? Colors.black : Colors.teal,
+                                    color: index == selectedDayI - selectedWeekI * 7 ? Colors.black : Colors.teal,
                                   ), // TextStyle
                                 ), // Text
                                 Text(
                                   DateFormat("EEE", "ru").format(day).toUpperCase(),
                                   style: TextStyle(
                                     fontSize: 15,
-                                    color: index == selectedDayI ? Colors.black : Colors.teal,
+                                    color: index == selectedDayI - selectedWeekI * 7 ? Colors.black : Colors.teal,
                                   ), // TextStyle
                                 ), // Text
                               ], // children
@@ -179,103 +186,116 @@ class _Schedule extends State<Schedule> {
             ), // ClipRRect
           ), // Padding
           Expanded(
-            child: FutureBuilder<List<dynamic>>(
-              future: schedule,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Text("Ошибка загрузки: ${snapshot.error}"),
-                      ), // Padding
-                       Theme(
-                        data: ThemeData(
-                          splashFactory: NoSplash.splashFactory,
-                          highlightColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                        ), // ThemeData
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                          ), // ElevatedButton.styleFrom
-                          onPressed: () {
-                            setState(() {
-                              schedule = getSchedule();
-                            }); // setState
-                          }, // onPressed
-                          child: const Text("Попробовать снова"),
-                        ), // ElevatedButton
-                      ), // Theme
-                    ], // children
-                  ); // Column
-                } // if
-                if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                } // if
-                final instruments = snapshot.data!;
-                if (instruments.isEmpty) {
-                  return const Text(
-                    "В этот день нет пар",
-                    style: const TextStyle(fontSize: 20),
-                  ); // Text
-                } // if
-                else {
-                  return ListView.builder(
-                    itemCount: instruments.length,
-                    itemBuilder: ((context, index) {
-                      final instrument = instruments[index];
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                        child: Card(
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ), // RoundedRectangleBorder
-                          child: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "${instrument["time_start"]}–${instrument["time_end"]}",
-                                        style: const TextStyle(color: Colors.grey, fontSize: 15),
-                                      ), // Text
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        instrument["subject"],
-                                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                      ), // Text
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        instrument["teacher"],
-                                        style: const TextStyle(fontSize: 15, color: Colors.grey),
-                                      ), // Text
-                                    ], // children
-                                  ), // Column
-                                ), // Expanded
-                                const SizedBox(width: 15),
-                                Column(
-                                  children: [
-                                    Text(
-                                      instrument["room"],
-                                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                    ), // Text
-                                  ], // children
-                                ), // Column
-                              ], // children
-                            ), // Row
+            child: PageView.builder(
+              controller: dayController,
+              itemCount: startDayI * 2,
+              onPageChanged: (day) {
+                setState(() {
+                  selectedDayI = day;
+                  selectedDay = mondayOfWeek.add(Duration(days: selectedDayI - selectedWeekI * 7));
+                  schedule = getSchedule();
+                });
+              }, // onPageChanged
+              itemBuilder: (context, day) {
+                return FutureBuilder<List<dynamic>>(
+                  future: schedule,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text("Ошибка загрузки: ${snapshot.error}"),
                           ), // Padding
-                        ), // Card
-                      ); // Padding
-                    }), // itemBuilder
-                  ); // ListView.builder
-                } // else
-              }, // builder
-            ), // FutureBuilder
+                          Theme(
+                            data: ThemeData(
+                              splashFactory: NoSplash.splashFactory,
+                              highlightColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                            ), // ThemeData
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                              ), // ElevatedButton.styleFrom
+                              onPressed: () {
+                                setState(() {
+                                  schedule = getSchedule();
+                                }); // setState
+                              }, // onPressed
+                              child: const Text("Попробовать снова"),
+                            ), // ElevatedButton
+                          ), // Theme
+                        ], // children
+                      ); // Column
+                    } // if
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    } // if
+                    final instruments = snapshot.data!;
+                    if (instruments.isEmpty) {
+                      return const Text(
+                        "В этот день нет пар",
+                        style: const TextStyle(fontSize: 20),
+                      ); // Text
+                    } // if
+                    else {
+                      return ListView.builder(
+                        itemCount: instruments.length,
+                        itemBuilder: ((context, index) {
+                          final instrument = instruments[index];
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                            child: Card(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ), // RoundedRectangleBorder
+                              child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${instrument["time_start"]}–${instrument["time_end"]}",
+                                            style: const TextStyle(color: Colors.grey, fontSize: 15),
+                                          ), // Text
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            instrument["subject"],
+                                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                          ), // Text
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            instrument["teacher"],
+                                            style: const TextStyle(fontSize: 15, color: Colors.grey),
+                                          ), // Text
+                                        ], // children
+                                      ), // Column
+                                    ), // Expanded
+                                    const SizedBox(width: 15),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          instrument["room"],
+                                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                        ), // Text
+                                      ], // children
+                                    ), // Column
+                                  ], // children
+                                ), // Row
+                              ), // Padding
+                            ), // Card
+                          ); // Padding
+                        }), // itemBuilder
+                      ); // ListView.builder
+                    } // else
+                  }, // builder
+                ); // FutureBuilder
+              }, // itemBuilder
+            ), // PageView.builder
           ), // Expanded
         ], // children
       ), // Column
