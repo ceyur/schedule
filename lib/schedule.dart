@@ -179,24 +179,25 @@ class _Schedule extends State<Schedule> {
               future: schedule,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  // return Center(child: Text("Error loading instruments: ${snapshot.error}"));
-                  return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text("Ошибка загрузки: ${snapshot.error}"),
-                        const SizedBox(height: 12),
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              schedule = getSchedule();
-                            });
-                          },
-                          child: const Text("Попробовать снова"),
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text("Ошибка загрузки: ${snapshot.error}"),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
                         ),
-                      ],
-                    ) // Column
-                  ); // Center
+                        onPressed: () {
+                          setState(() {
+                            schedule = getSchedule();
+                          });
+                        },
+                        child: const Text("Попробовать снова"),
+                      ),
+                    ],
+                  );
                 }
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
