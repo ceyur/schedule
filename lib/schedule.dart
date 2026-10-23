@@ -132,13 +132,13 @@ class _Schedule extends State<Schedule> {
                     //const shortWeekDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
     
                     return Row(
-                      children: [
-                        SizedBox(
-                          width: 2,
-                          child: Container(color: Colors.teal.withOpacity(0.3)),
-                        ),
-                        Expanded(
-                          child: Row(
+                      // children: [
+                      //   SizedBox(
+                      //     width: 2,
+                      //     child: Container(color: Colors.teal.withOpacity(0.3)),
+                      //   ),
+                      //   Expanded(
+                      //     child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: List.generate(7, (index) {
                               final day = monday.add(Duration(days: index));
@@ -181,9 +181,9 @@ class _Schedule extends State<Schedule> {
                                 ), // Container
                               ); // GestureDetector
                             }), // List.generate
-                          ), // Row
-                        ), // Expanded
-                      ], // children
+                          // ), // Row
+                        // ), // Expanded
+                      // ], // children
                     ); // Row
                   }, // itemBuilder
                 ), // PageView.builder
