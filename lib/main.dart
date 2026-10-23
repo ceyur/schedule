@@ -7,7 +7,7 @@ import "package:schedule/profile.dart";
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('ru_RU');
+  await initializeDateFormatting("ru_RU");
   
   await Supabase.initialize(
     url: "https://nknqqqirkfcaxtosnyhf.supabase.co",
