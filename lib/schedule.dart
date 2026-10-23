@@ -123,9 +123,9 @@ class _Schedule extends State<Schedule> {
                   itemCount: startWeekI * 2,
                   onPageChanged: (week) {
                     setState(() {
-                      selectedWeekI = week;
-                      selectedDayI = selectedDayI - 7;
+                      selectedDayI = selectedDayI.add(Duration(days: week - selectedWeekI * 7));
                       selectedDay = mondayOfWeek.add(Duration(days: selectedDayI - selectedWeekI * 7));
+                      selectedWeekI = week;
                       schedule = getSchedule();
                       dayController.jumpToPage(selectedDayI);
                     });
