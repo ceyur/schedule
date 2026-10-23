@@ -158,7 +158,7 @@ class _Schedule extends State<Schedule> {
                               ), // TextStyle
                             ), // Text
                             Text(
-                              DateFormat('EEE', 'ru').format(day).toUpperCase(),
+                              (DateFormat('EEE', 'ru').format(day)).toUpperCase(),
                               style: TextStyle(
                                 fontSize: 15,
                                 color: index == selectedDayI ? Colors.black : Colors.teal,
