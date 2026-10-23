@@ -78,7 +78,7 @@ class _Schedule extends State<Schedule> {
   //   }); // List.generate
   // } // daysWeek
 
-  Future<List<dynamic>> getSchedule() {
+  static Future<List<dynamic>> getSchedule() {
     return Supabase.instance.client
     .rpc(
         "pairsdaygroup",
