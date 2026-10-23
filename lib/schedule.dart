@@ -111,9 +111,7 @@ class _Schedule extends State<Schedule> {
               child: Container(
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 179, 255, 255),
-                  // borderRadius: BorderRadius.circular(99),
                 ), // BoxDecoration
-                // margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                 height: 69,
                 child: PageView.builder(
                   controller: weekController,
@@ -124,72 +122,61 @@ class _Schedule extends State<Schedule> {
                       selectedDay = mondayOfWeek.add(Duration(days: selectedDayI));
                       schedule = getSchedule();
                     });
-                  },
+                  }, // onPageChanged
                   itemBuilder: (context, week) {
                     final monday = mondayOfWeek;
                     final weekOffset = selectedWeekI - 500;
                     final nowDay = DateTime.now().weekday - 1;
-                    //const shortWeekDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
-    
+                    
                     return Row(
-                      // children: [
-                      //   SizedBox(
-                      //     width: 2,
-                      //     child: Container(color: Colors.teal.withOpacity(0.3)),
-                      //   ),
-                      //   Expanded(
-                      //     child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: List.generate(7, (index) {
-                              final day = monday.add(Duration(days: index));
-                              final isToday = weekOffset == 0 && index == nowDay;
-                          
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedDayI = index;
-                                    selectedDay = mondayOfWeek.add(Duration(days: selectedDayI));
-                                    schedule = getSchedule();
-                                  });
-                                }, // onTap
-                                child: Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    border: isToday ? Border.all(color: Colors.black) : null,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ), // Container
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        day.day.toString(),
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          color: index == selectedDayI ? Colors.black : Colors.teal,
-                                        ), // TextStyle
-                                      ), // Text
-                                      Text(
-                                        DateFormat("EEE", "ru").format(day).toUpperCase(),
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          color: index == selectedDayI ? Colors.black : Colors.teal,
-                                        ), // TextStyle
-                                      ), // Text
-                                    ], // children
-                                  ), // Column
-                                ), // Container
-                              ); // GestureDetector
-                            }), // List.generate
-                          // ), // Row
-                        // ), // Expanded
-                      // ], // children
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: List.generate(7, (index) {
+                        final day = monday.add(Duration(days: index));
+                        final isToday = weekOffset == 0 && index == nowDay;
+                    
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedDayI = index;
+                              selectedDay = mondayOfWeek.add(Duration(days: selectedDayI));
+                              schedule = getSchedule();
+                            });
+                          }, // onTap
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: isToday ? Border.all(color: Colors.black) : null,
+                              borderRadius: BorderRadius.circular(10),
+                            ), // Container
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  day.day.toString(),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: index == selectedDayI ? Colors.black : Colors.teal,
+                                  ), // TextStyle
+                                ), // Text
+                                Text(
+                                  DateFormat("EEE", "ru").format(day).toUpperCase(),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: index == selectedDayI ? Colors.black : Colors.teal,
+                                  ), // TextStyle
+                                ), // Text
+                              ], // children
+                            ), // Column
+                          ), // Container
+                        ); // GestureDetector
+                      }), // List.generate
                     ); // Row
                   }, // itemBuilder
                 ), // PageView.builder
               ), // Container
-            ),
-          ),
+            ), // ClipRRect
+          ), // Padding
           Expanded(
             child: FutureBuilder<List<dynamic>>(
               future: schedule,
