@@ -128,48 +128,58 @@ class _Schedule extends State<Schedule> {
                 //const shortWeekDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
 
                 return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List.generate(7, (index) {
-                    final day = monday.add(Duration(days: index));
-                    final isToday = weekOffset == 0 && index == nowDay;
-                
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedDayI = index;
-                          selectedDay = mondayOfWeek.add(Duration(days: selectedDayI));
-                          schedule = getSchedule();
-                        });
-                      }, // onTap
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          border: isToday ? Border.all(color: Colors.black) : null,
-                          borderRadius: BorderRadius.circular(10),
-                        ), // Container
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              day.day.toString(),
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: index == selectedDayI ? Colors.black : Colors.teal,
-                              ), // TextStyle
-                            ), // Text
-                            Text(
-                              DateFormat("EEE", "ru").format(day).toUpperCase(),
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: index == selectedDayI ? Colors.black : Colors.teal,
-                              ), // TextStyle
-                            ), // Text
-                          ], // children
-                        ), // Column
-                      ), // Container
-                    ); // GestureDetector
-                  }), // List.generate
+                  children: [
+                    SizedBox(
+                      width: 2,
+                      child: Container(color: Colors.teal.withOpacity(0.3)),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: List.generate(7, (index) {
+                          final day = monday.add(Duration(days: index));
+                          final isToday = weekOffset == 0 && index == nowDay;
+                      
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedDayI = index;
+                                selectedDay = mondayOfWeek.add(Duration(days: selectedDayI));
+                                schedule = getSchedule();
+                              });
+                            }, // onTap
+                            child: Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                border: isToday ? Border.all(color: Colors.black) : null,
+                                borderRadius: BorderRadius.circular(10),
+                              ), // Container
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    day.day.toString(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: index == selectedDayI ? Colors.black : Colors.teal,
+                                    ), // TextStyle
+                                  ), // Text
+                                  Text(
+                                    DateFormat("EEE", "ru").format(day).toUpperCase(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: index == selectedDayI ? Colors.black : Colors.teal,
+                                    ), // TextStyle
+                                  ), // Text
+                                ], // children
+                              ), // Column
+                            ), // Container
+                          ); // GestureDetector
+                        }), // List.generate
+                      ), // Row
+                    ), // Expanded
+                  ], // children
                 ); // Row
               }, // itemBuilder
             ), // PageView.builder
@@ -185,16 +195,23 @@ class _Schedule extends State<Schedule> {
                         padding: const EdgeInsets.all(10),
                         child: Text("Ошибка загрузки: ${snapshot.error}"),
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
+                       Theme(
+                        data: ThemeData(
+                          splashFactory: NoSplash.splashFactory,
+                          highlightColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                        ), // ThemeData
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              schedule = getSchedule();
+                            });
+                          },
+                          child: const Text("Попробовать снова"),
                         ),
-                        onPressed: () {
-                          setState(() {
-                            schedule = getSchedule();
-                          });
-                        },
-                        child: const Text("Попробовать снова"),
                       ),
                     ],
                   );
