@@ -30,6 +30,10 @@ class _Schedule extends State<Schedule> {
   DateTime monday = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
 
   DateTime get mondayOfWeek => monday.add(Duration(days: (selectedWeekI - 500) * 7));
+
+
+  Future<List<dynamic>> schedule = getSchedule();
+
   
   // List<BottomNavigationBarItem> daysWeek() {
   //   final monday = mondayOfWeek;
@@ -104,6 +108,7 @@ class _Schedule extends State<Schedule> {
                       onSelected: (String value) {
                         setState(() {
                           selectedSchedule = value;
+                          // schedule = getSchedule();
                         });
                       }, // onSelected
                       child: Row(
@@ -151,6 +156,7 @@ class _Schedule extends State<Schedule> {
                 setState(() {
                   selectedWeekI = week;
                   selectedDay = mondayOfWeek.add(Duration(days: selectedDayI));
+                  schedule = getSchedule();
                 });
               },
               itemBuilder: (context, week) {
@@ -170,6 +176,7 @@ class _Schedule extends State<Schedule> {
                         setState(() {
                           selectedDayI = index;
                           selectedDay = mondayOfWeek.add(Duration(days: selectedDayI));
+                          schedule = getSchedule();
                         });
                       }, // onTap
                       child: Container(
@@ -252,7 +259,7 @@ class _Schedule extends State<Schedule> {
           // ), // Theme
           Expanded(
             child: FutureBuilder<List<dynamic>>(
-              future: getSchedule(),
+              future: schedule,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(child: Text("Error loading instruments: ${snapshot.error}"));
