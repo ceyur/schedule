@@ -29,7 +29,7 @@ class _Schedule extends State<Schedule> {
   int selectedWeekI = startWeekI;
 
   DateTime selectedDay = DateTime.now();
-  int startDayI = startWeekI * 7 + DateTime.now().weekday - 1;
+  static int startDayI = startWeekI * 7 + DateTime.now().weekday - 1;
   final dayController = PageController(initialPage: startDayI);
   int selectedDayI = startWeekI * 7 + DateTime.now().weekday - 1; // 700 + 4
   // startWeekI * 7 % startWeekI
