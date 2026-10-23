@@ -275,6 +275,7 @@ class _Schedule extends State<Schedule> {
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                         child: Card(
+                          elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ), // RoundedRectangleBorder
