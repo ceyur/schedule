@@ -31,58 +31,13 @@ class _Schedule extends State<Schedule> {
 
   DateTime get mondayOfWeek => monday.add(Duration(days: (selectedWeekI - 500) * 7));
 
-
   late Future<List<dynamic>> schedule;
-
 
   @override
   void initState() {
     super.initState();
     schedule = getSchedule();
   }
-  
-  // List<BottomNavigationBarItem> daysWeek() {
-  //   final monday = mondayOfWeek;
-  //   final weekOffset = selectedWeekI - 500;
-  //   final nowDay = DateTime.now().weekday - 1;
-  //   const shortWeekDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
-  
-  //   return List.generate(7, (index) {
-  //     final day = monday.add(Duration(days: index));
-  //     final isToday = weekOffset == 0 && index == nowDay;
-  
-  //     return BottomNavigationBarItem(
-  //       label: "",
-  //       icon: Container(
-  //         padding: const EdgeInsets.all(5),
-  //         decoration: BoxDecoration(
-  //           border: isToday ? Border.all(color: Colors.black) : null,
-  //           borderRadius: BorderRadius.circular(10),
-  //         ), // Container
-  //         child: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             Text(
-  //               day.day.toString(),
-  //               style: TextStyle(
-  //                 fontSize: 15,
-  //                 fontWeight: FontWeight.bold,
-  //                 color: index == selectedDayI ? Colors.black : Colors.teal,
-  //               ), // TextStyle
-  //             ), // Text
-  //             Text(
-  //               shortWeekDays[index],
-  //               style: TextStyle(
-  //                 fontSize: 15,
-  //                 color: index == selectedDayI ? Colors.black : Colors.teal,
-  //               ), // TextStyle
-  //             ), // Text
-  //           ], // children
-  //         ), // Column
-  //       ), // Container
-  //     ); // BottomNavigationBarItem
-  //   }); // List.generate
-  // } // daysWeek
 
   Future<List<dynamic>> getSchedule() {
     return Supabase.instance.client
@@ -169,7 +124,7 @@ class _Schedule extends State<Schedule> {
                 final monday = mondayOfWeek;
                 final weekOffset = selectedWeekI - 500;
                 final nowDay = DateTime.now().weekday - 1;
-                const shortWeekDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
+                //const shortWeekDays = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
 
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -203,7 +158,7 @@ class _Schedule extends State<Schedule> {
                               ), // TextStyle
                             ), // Text
                             Text(
-                              shortWeekDays[index],
+                              DateFormat('EEE', 'ru').format(day).toUpperCase(),
                               style: TextStyle(
                                 fontSize: 15,
                                 color: index == selectedDayI ? Colors.black : Colors.teal,
@@ -218,51 +173,6 @@ class _Schedule extends State<Schedule> {
               }, // itemBuilder
             ), // PageView.builder
           ), // Container
-          // Theme(
-          //   data: ThemeData(
-          //     splashFactory: NoSplash.splashFactory,
-          //     highlightColor: Colors.transparent,
-          //     hoverColor: Colors.transparent,
-          //   ), // ThemeData
-          //   child: Padding(
-          //     padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-          //     child: ClipRRect(
-          //       borderRadius: BorderRadius.circular(99),
-          //       child: SizedBox(
-          //         height: 69,
-          //         child: PageView.builder(
-          //           controller: weekController,
-          //           itemCount: 1000,
-          //           onPageChanged: (week) {
-          //             setState(() {
-          //               selectedWeekI = week;
-          //             });
-          //           },
-          //           itemBuilder: (context, week) {
-          //             return BottomNavigationBar(
-          //               showSelectedLabels: false,
-          //               showUnselectedLabels: false,
-          //               type: BottomNavigationBarType.fixed,
-          //               backgroundColor: const Color.fromARGB(255, 179, 255, 255),
-          //               selectedItemColor: Colors.black,
-          //               unselectedItemColor: Colors.teal,
-          //               selectedFontSize: 5,
-          //               unselectedFontSize: 5,
-          //               items: daysWeek(),
-          //               currentIndex: selectedDayI,
-          //               onTap: (index) {
-          //                 setState(() {
-          //                   selectedDayI = index;
-          //                   selectedDay = mondayOfWeek.add(Duration(days: selectedDayI));
-          //                 });
-          //               }, // onTap
-          //             ); // BottomNavigationBar
-          //           }, // itemBuilder
-          //         ), // PageView.builder
-          //       ), // SizedBox
-          //     ), // ClipRRect
-          //   ), // Padding
-          // ), // Theme
           Expanded(
             child: FutureBuilder<List<dynamic>>(
               future: schedule,
