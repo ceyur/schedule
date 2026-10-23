@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
+import "package:intl/date_symbol_data_local.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
 
 class Schedule extends StatefulWidget {
@@ -178,7 +179,23 @@ class _Schedule extends State<Schedule> {
               future: schedule,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return Center(child: Text("Error loading instruments: ${snapshot.error}"));
+                  // return Center(child: Text("Error loading instruments: ${snapshot.error}"));
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("Ошибка загрузки: ${snapshot.error}"),
+                        const SizedBox(height: 12),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              schedule = getSchedule();
+                            });
+                          },
+                          child: const Text("Попробовать снова"),
+                        ),
+                      ],
+                    ),
                 }
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
