@@ -142,7 +142,7 @@ class _Schedule extends State<Schedule> {
               color: const Color.fromARGB(255, 179, 255, 255),
               borderRadius: BorderRadius.circular(99),
             ), // BoxDecoration
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+            margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             height: 69,
             child: PageView.builder(
               controller: weekController,
