@@ -1,3 +1,4 @@
+// Рабочая версия
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:intl/date_symbol_data_local.dart";
@@ -11,8 +12,6 @@ class Schedule extends StatefulWidget {
 } // Schedule
 
 class _Schedule extends State<Schedule> {
-  static const startWeekI = 500;
-  final weekController = PageController(initialPage: startWeekI);
   static const months = [
     "января", "февраля", "марта", "апреля", "мая", "июня",
     "июля", "августа", "сентября", "октября", "ноября", "декабря"
@@ -22,23 +21,19 @@ class _Schedule extends State<Schedule> {
     "Шаидова Насиба Абдрашитовна",
     "ОЗИВТ(ППК-2)-25-1-у"
   ];
-  
   String selectedSchedule = mySchedule[0];
+
+  static const startWeekI = 500;
+  final weekController = PageController(initialPage: startWeekI);
   int selectedWeekI = startWeekI;
 
   DateTime selectedDay = DateTime.now();
   int selectedDayI = DateTime.now().weekday - 1;
   DateTime monday = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
 
-  DateTime get mondayOfWeek => monday.add(Duration(days: (selectedWeekI - 500) * 7));
+  DateTime get mondayOfWeek => monday.add(Duration(days: (selectedWeekI - startWeekI) * 7));
 
   late Future<List<dynamic>> schedule;
-
-  @override
-  void initState() {
-    super.initState();
-    schedule = getSchedule();
-  }
 
   Future<List<dynamic>> getSchedule() {
     return Supabase.instance.client
@@ -50,6 +45,12 @@ class _Schedule extends State<Schedule> {
         },
       );
   } // getSchedule
+
+  @override
+  void initState() {
+    super.initState();
+    schedule = getSchedule();
+  } // initState
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +87,7 @@ class _Schedule extends State<Schedule> {
                         return PopupMenuItem(
                           value: group,
                           child: Text(group),
-                        );
+                        ); // PopupMenuItem
                       }).toList(),
                     ), // PopupMenuButton
                     Transform.translate(
@@ -115,7 +116,7 @@ class _Schedule extends State<Schedule> {
                 height: 69,
                 child: PageView.builder(
                   controller: weekController,
-                  itemCount: 1000,
+                  itemCount: startWeekI * 2,
                   onPageChanged: (week) {
                     setState(() {
                       selectedWeekI = week;
@@ -187,7 +188,7 @@ class _Schedule extends State<Schedule> {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: Text("Ошибка загрузки: ${snapshot.error}"),
-                      ),
+                      ), // Padding
                        Theme(
                         data: ThemeData(
                           splashFactory: NoSplash.splashFactory,
@@ -197,28 +198,28 @@ class _Schedule extends State<Schedule> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             elevation: 0,
-                          ),
+                          ), // ElevatedButton.styleFrom
                           onPressed: () {
                             setState(() {
                               schedule = getSchedule();
-                            });
-                          },
+                            }); // setState
+                          }, // onPressed
                           child: const Text("Попробовать снова"),
-                        ),
-                      ),
-                    ],
-                  );
-                }
+                        ), // ElevatedButton
+                      ), // Theme
+                    ], // children
+                  ); // Column
+                } // if
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
-                }
+                } // if
                 final instruments = snapshot.data!;
                 if (instruments.isEmpty) {
                   return const Text(
                     "В этот день нет пар",
                     style: const TextStyle(fontSize: 20),
-                  );
-                }
+                  ); // Text
+                } // if
                 else {
                   return ListView.builder(
                     itemCount: instruments.length,
