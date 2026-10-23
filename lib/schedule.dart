@@ -159,7 +159,7 @@ class _Schedule extends State<Schedule> {
                               ), // TextStyle
                             ), // Text
                             Text(
-                              (DateFormat('EEE', 'ru').format(day)).toUpperCase(),
+                              DateFormat("EEE", "ru").format(day).toUpperCase(),
                               style: TextStyle(
                                 fontSize: 15,
                                 color: index == selectedDayI ? Colors.black : Colors.teal,
@@ -195,7 +195,8 @@ class _Schedule extends State<Schedule> {
                           child: const Text("Попробовать снова"),
                         ),
                       ],
-                    ),
+                    ) // Column
+                  ); // Center
                 }
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
