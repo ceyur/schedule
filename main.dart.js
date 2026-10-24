@@ -71617,7 +71617,7 @@ s.aE(new A.aff(s,a))},
 $S:15}
 A.aff.prototype={
 $0(){var s=this.a,r=this.b
-s.x=s.x+r-s.f*7
+s.x=s.x+(r-s.f)*7
 s.r=s.gwt().k6(A.cd(s.x-s.f*7,0,0,0).a)
 s.f=r
 s.z=s.oN()
