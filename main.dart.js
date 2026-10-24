@@ -23846,7 +23846,7 @@ $iFS:1}
 A.agN.prototype={
 $1(a){var s=A.cq().b
 s=s==null?null:s.canvasKitBaseUrl
-return(s==null?"https://www.gstatic.com/flutter-canvaskit/deb287481e3ce9468f3434937ced4240a70539ca/":s)+a},
+return(s==null?"https://www.gstatic.com/flutter-canvaskit/cf636b1dfb818dd6a3ff16e390e93b1a036969c8/":s)+a},
 $S:37}
 A.IJ.prototype={
 gkR(){var s=this.b
@@ -71616,10 +71616,10 @@ $1(a){var s=this.a
 s.aE(new A.aff(s,a))},
 $S:15}
 A.aff.prototype={
-$0(){var s=this.a
-s.f=this.b
-s.x-=7
+$0(){var s=this.a,r=this.b
+s.x=s.x+r-s.f*7
 s.r=s.gwt().k6(A.cd(s.x-s.f*7,0,0,0).a)
+s.f=r
 s.z=s.oN()
 s.w.Qg(s.x)},
 $S:0}
