@@ -132,7 +132,7 @@ class _Schedule extends State<Schedule> {
                   }, // onPageChanged
                   itemBuilder: (context, week) {
                     final monday = mondayOfWeek;
-                    final weekOffset = selectedWeekI - selectedWeekI;
+                    final weekOffset = selectedWeekI - startWeekI;
                     final nowDay = DateTime.now().weekday - 1;
                     
                     return Row(
