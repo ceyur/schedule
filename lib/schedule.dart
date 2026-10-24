@@ -266,10 +266,18 @@ class _Schedule extends State<Schedule> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            "${instrument["time_start"]}–${instrument["time_end"]}",
-                                            style: const TextStyle(color: Colors.grey, fontSize: 15),
-                                          ), // Text
+                                          Row(
+                                            children: [
+                                              Text(
+                                                instrument["number"],
+                                                style: const TextStyle(fontSize: 15),
+                                              ), // Text
+                                              Text(
+                                                "${instrument["time_start"]}–${instrument["time_end"]}",
+                                                style: const TextStyle(color: Colors.grey, fontSize: 15),
+                                              ), // Text
+                                            ], // children
+                                          ), // Row
                                           const SizedBox(height: 4),
                                           Text(
                                             instrument["subject"],
