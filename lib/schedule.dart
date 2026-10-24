@@ -193,6 +193,10 @@ class _Schedule extends State<Schedule> {
                 setState(() {
                   selectedDayI = day;
                   selectedDay = mondayOfWeek.add(Duration(days: selectedDayI - selectedWeekI * 7));
+                  if (selectedWeekI == selectedDayI / 7) {
+                    selectedWeekI = selectedDayI / 7;
+                    weekController.jumpToPage(selectedWeekI);
+                  }
                   schedule = getSchedule();
                 });
               }, // onPageChanged
