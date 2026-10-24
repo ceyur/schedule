@@ -137,7 +137,7 @@ class _Schedule extends State<Schedule> {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: List.generate(7, (index) {
-                        final day = monday.add(Duration(days: (week - startWeekI) * 7) + index));
+                        final day = monday.add(Duration(days: (week - startWeekI) * 7 + index));
                         final isToday = weekOffset == 0 && index == nowDay;
                     
                         return GestureDetector(
