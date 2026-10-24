@@ -71658,7 +71658,7 @@ q.x=this.b
 q.r=q.gwt().k6(A.cd(q.x-q.f*7,0,0,0).a)
 s=q.f
 r=B.d.cV(q.x/7)
-if(s===r){q.f=r
+if(s!==r){q.f=r
 q.e.Dq(r)}q.z=q.oN()},
 $S:0}
 A.afn.prototype={
