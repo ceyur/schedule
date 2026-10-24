@@ -269,7 +269,7 @@ class _Schedule extends State<Schedule> {
                                           Row(
                                             children: [
                                               Text(
-                                                instrument["number.ToString()"],
+                                                instrument["number"].ToString(),
                                                 style: const TextStyle(fontSize: 15),
                                               ), // Text
                                               Text(
