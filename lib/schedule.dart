@@ -131,14 +131,13 @@ class _Schedule extends State<Schedule> {
                     });
                   }, // onPageChanged
                   itemBuilder: (context, week) {
-                    final monday = monday.add(Duration(days: (week - startWeekI) * 7));;
                     final weekOffset = selectedWeekI - startWeekI;
                     final nowDay = DateTime.now().weekday - 1;
                     
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: List.generate(7, (index) {
-                        final day = monday.add(Duration(days: index));
+                        final day = monday.add(Duration(days: (week - startWeekI) * 7) + index));
                         final isToday = weekOffset == 0 && index == nowDay;
                     
                         return GestureDetector(
