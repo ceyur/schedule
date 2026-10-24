@@ -71705,7 +71705,7 @@ s.z=s.oN()},
 $S:0}
 A.afb.prototype={
 $2(a,b){var s=null,r=J.cC(this.a,b),q=J.bh(r),p=t.F
-return new A.d1(B.nF,new A.DC(0,new A.d4(A.oA(20),B.y),new A.d1(B.JL,A.qa(A.d([A.W2(A.oQ(A.d([A.qa(A.d([A.hz(q.i(r,"number"),s,B.a1C,s),A.hz(A.i(q.i(r,"time_start"))+"\u2013"+A.i(q.i(r,"time_end")),s,B.Fi,s)],p),B.aw,B.aL,B.b8,0),B.EY,A.hz(q.i(r,"subject"),s,B.Fj,s),B.EY,A.hz(q.i(r,"teacher"),s,B.Fi,s)],p),B.bq,B.aL,B.b8),1),B.a06,A.oQ(A.d([A.hz(q.i(r,"room"),s,B.Fj,s)],p),B.aw,B.aL,B.b8)],p),B.aw,B.aL,B.b8,0),s),s),s)},
+return new A.d1(B.nF,new A.DC(0,new A.d4(A.oA(20),B.y),new A.d1(B.JL,A.qa(A.d([A.W2(A.oQ(A.d([A.qa(A.d([A.hz(q.i(r,"number.ToString()"),s,B.a1C,s),A.hz(A.i(q.i(r,"time_start"))+"\u2013"+A.i(q.i(r,"time_end")),s,B.Fi,s)],p),B.aw,B.aL,B.b8,0),B.EY,A.hz(q.i(r,"subject"),s,B.Fj,s),B.EY,A.hz(q.i(r,"teacher"),s,B.Fi,s)],p),B.bq,B.aL,B.b8),1),B.a06,A.oQ(A.d([A.hz(q.i(r,"room"),s,B.Fj,s)],p),B.aw,B.aL,B.b8)],p),B.aw,B.aL,B.b8,0),s),s),s)},
 $S:483}
 A.qm.prototype={
 X(a){return this.a.X(a)}}
