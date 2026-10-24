@@ -219,6 +219,8 @@ class _Schedule extends State<Schedule> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
+                                overlayColor: Colors.transparent,
+                                enableFeedback: false,
                               ), // ElevatedButton.styleFrom
                               onPressed: () {
                                 setState(() {
@@ -236,10 +238,13 @@ class _Schedule extends State<Schedule> {
                     } // if
                     final instruments = snapshot.data!;
                     if (instruments.isEmpty) {
-                      return const Text(
-                        "В этот день нет пар",
-                        style: const TextStyle(fontSize: 20),
-                      ); // Text
+                      return const Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          "В этот день нет пар",
+                          style: TextStyle(fontSize: 20),
+                        ), // Text
+                      ); // Align
                     } // if
                     else {
                       return ListView.builder(
