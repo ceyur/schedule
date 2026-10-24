@@ -131,7 +131,7 @@ class _Schedule extends State<Schedule> {
                     });
                   }, // onPageChanged
                   itemBuilder: (context, week) {
-                    final monday = mondayOfWeek;
+                    final monday = monday.add(Duration(days: (week - startWeekI) * 7));;
                     final weekOffset = selectedWeekI - startWeekI;
                     final nowDay = DateTime.now().weekday - 1;
                     
