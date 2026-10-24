@@ -193,7 +193,7 @@ class _Schedule extends State<Schedule> {
                 setState(() {
                   selectedDayI = day;
                   selectedDay = mondayOfWeek.add(Duration(days: selectedDayI - selectedWeekI * 7));
-                  if (selectedWeekI == (selectedDayI / 7).toInt()) {
+                  if (selectedWeekI != (selectedDayI / 7).toInt()) {
                     selectedWeekI = (selectedDayI / 7).toInt();
                     weekController.jumpToPage(selectedWeekI);
                   }
