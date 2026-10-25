@@ -289,12 +289,23 @@ class _Schedule extends State<Schedule> {
                                         children: [
                                           Row(
                                             children: [
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.teal,
+                                                  borderRadius: BorderRadius.circular(5),
+                                                ),
+                                                child: Text(
+                                                  instrument["number"].toString(),
+                                                  style: const TextStyle(fontSize: 15, color: Colors.white),
+                                                ),
+                                              ),
+                                              // Text(
+                                              //   instrument["number"].toString(),
+                                              //   style: const TextStyle(fontSize: 15),
+                                              // ), // Text
                                               Text(
-                                                instrument["number"].toString(),
-                                                style: const TextStyle(fontSize: 15),
-                                              ), // Text
-                                              Text(
-                                                "${instrument["time_start"]}–${instrument["time_end"]}",
+                                                "$ {instrument["time_start"]}–${instrument["time_end"]}",
                                                 style: const TextStyle(color: Colors.grey, fontSize: 15),
                                               ), // Text
                                             ], // children
