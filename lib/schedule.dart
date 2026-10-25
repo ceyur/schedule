@@ -59,7 +59,7 @@ class _Schedule extends State<Schedule> {
           },
         );
     }
-    else if (selectedSchedule[1] == "room") {
+    else {
       return Supabase.instance.client
       .rpc(
           "pairsdayroom",
