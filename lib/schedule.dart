@@ -20,7 +20,7 @@ class _Schedule extends State<Schedule> {
     ["Шаидова Насиба Абдрашитовна", "teacher"],
     ["ОЗИВТ(ППК-2)-25-1-у", "group"],
   ];
-  selectedSchedule = mySchedule[0];
+  List<String> selectedSchedule = mySchedule[0];
 
   static const startWeekI = 100;
   final weekController = PageController(initialPage: startWeekI);
@@ -92,11 +92,11 @@ class _Schedule extends State<Schedule> {
                     PopupMenuButton(
                       position: PopupMenuPosition.under,
                       tooltip: "",
-                      initialValue: selectedSchedule,
-                      onSelected: (String value) {
+                      initialValue: selectedSchedule[0],
+                      onSelected: (List<String> value) {
                         setState(() {
                           selectedSchedule = value;
-                          // schedule = getSchedule();
+                          schedule = getSchedule();
                         });
                       }, // onSelected
                       child: Row(
@@ -111,7 +111,7 @@ class _Schedule extends State<Schedule> {
                       itemBuilder: (BuildContext context) => mySchedule.map((group) {
                         return PopupMenuItem(
                           value: group,
-                          child: Text(group),
+                          child: Text(group[0]),
                         ); // PopupMenuItem
                       }).toList(),
                     ), // PopupMenuButton
