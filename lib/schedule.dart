@@ -92,7 +92,7 @@ class _Schedule extends State<Schedule> {
                     PopupMenuButton(
                       position: PopupMenuPosition.under,
                       tooltip: "",
-                      initialValue: selectedSchedule[0],
+                      initialValue: selectedSchedule,
                       onSelected: (List<String> value) {
                         setState(() {
                           selectedSchedule = value;
@@ -102,7 +102,7 @@ class _Schedule extends State<Schedule> {
                       child: Row(
                         children: [
                           Text(
-                            selectedSchedule,
+                            selectedSchedule[0],
                             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ), // Text
                           const Icon(Icons.keyboard_arrow_down),
