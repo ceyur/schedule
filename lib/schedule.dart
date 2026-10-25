@@ -293,7 +293,7 @@ class _Schedule extends State<Schedule> {
                                                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
                                                 decoration: BoxDecoration(
                                                   color: Colors.teal,
-                                                  borderRadius: BorderRadius.circular(8),
+                                                  borderRadius: BorderRadius.circular(7),
                                                 ),
                                                 child: Text(
                                                   instrument["number"].toString(),
