@@ -313,7 +313,9 @@ class _Schedule extends State<Schedule> {
                                           ), // Text
                                           const SizedBox(height: 4),
                                           Text(
-                                            instrument["teacher"],
+                                            selectedSchedule[1] == "group"
+                                              ? instrument["teacher"]
+                                              : instrument["group_name"],
                                             style: const TextStyle(fontSize: 15, color: Colors.grey),
                                           ), // Text
                                         ], // children
