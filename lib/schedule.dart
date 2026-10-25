@@ -290,20 +290,16 @@ class _Schedule extends State<Schedule> {
                                           Row(
                                             children: [
                                               Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
                                                 decoration: BoxDecoration(
                                                   color: Colors.teal,
-                                                  borderRadius: BorderRadius.circular(5),
+                                                  borderRadius: BorderRadius.circular(8),
                                                 ),
                                                 child: Text(
                                                   instrument["number"].toString(),
                                                   style: const TextStyle(fontSize: 15, color: Colors.white),
                                                 ),
                                               ),
-                                              // Text(
-                                              //   instrument["number"].toString(),
-                                              //   style: const TextStyle(fontSize: 15),
-                                              // ), // Text
                                               Text(
                                                 " ${instrument["time_start"]}–${instrument["time_end"]}",
                                                 style: const TextStyle(color: Colors.grey, fontSize: 15),
