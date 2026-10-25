@@ -305,7 +305,7 @@ class _Schedule extends State<Schedule> {
                                               //   style: const TextStyle(fontSize: 15),
                                               // ), // Text
                                               Text(
-                                                "${ instrument["time_start"]}–${instrument["time_end"]}",
+                                                " ${instrument["time_start"]}–${instrument["time_end"]}",
                                                 style: const TextStyle(color: Colors.grey, fontSize: 15),
                                               ), // Text
                                             ], // children
