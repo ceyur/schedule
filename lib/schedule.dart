@@ -16,23 +16,21 @@ class _Schedule extends State<Schedule> {
     "июля", "августа", "сентября", "октября", "ноября", "декабря"
   ];
   static const mySchedule = [
-    "23-03 ИСиП",
-    "Шаидова Насиба Абдрашитовна",
-    "ОЗИВТ(ППК-2)-25-1-у"
+    ["23-03 ИСиП", "group"],
+    ["Шаидова Насиба Абдрашитовна", "teacher"],
+    ["ОЗИВТ(ППК-2)-25-1-у", "group"],
   ];
-  String selectedSchedule = mySchedule[0];
-// 100 * 7 + 100 * 7 = 1400
-// 700 : 100 = 7
-// 700 % 100 = 0
+  selectedSchedule = mySchedule[0];
+
   static const startWeekI = 100;
   final weekController = PageController(initialPage: startWeekI);
   int selectedWeekI = startWeekI;
-
+  
   DateTime selectedDay = DateTime.now();
   static int startDayI = startWeekI * 7 + DateTime.now().weekday - 1;
   final dayController = PageController(initialPage: startDayI);
-  int selectedDayI = startWeekI * 7 + DateTime.now().weekday - 1; // 700 + 4
-  // startWeekI * 7 % startWeekI
+  int selectedDayI = startWeekI * 7 + DateTime.now().weekday - 1;
+  
   DateTime monday = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
 
   DateTime get mondayOfWeek => monday.add(Duration(days: (selectedWeekI - startWeekI) * 7));
@@ -40,14 +38,37 @@ class _Schedule extends State<Schedule> {
   late Future<List<dynamic>> schedule;
 
   Future<List<dynamic>> getSchedule() {
-    return Supabase.instance.client
-    .rpc(
-        "pairsdaygroup",
-        params: {
-          "select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
-          "select_group": "23-03 ИСиП",
-        },
-      );
+    if (selectedSchedule[1] == "group")
+    {
+      return Supabase.instance.client
+      .rpc(
+          "pairsdaygroup",
+          params: {
+            "select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
+            "select_group": selectedSchedule[0],
+          },
+        );
+    }
+    else if (selectedSchedule[1] == "teacher") {
+      return Supabase.instance.client
+      .rpc(
+          "pairsdayteacher",
+          params: {
+            "select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
+            "select_teacher": selectedSchedule[0],
+          },
+        );
+    }
+    else if (selectedSchedule[1] == "room") {
+      return Supabase.instance.client
+      .rpc(
+          "pairsdayroom",
+          params: {
+            "select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
+            "select_room": selectedSchedule[0],
+          },
+        );
+    }
   } // getSchedule
 
   @override
