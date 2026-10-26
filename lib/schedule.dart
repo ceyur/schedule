@@ -101,7 +101,7 @@ class _Schedule extends State<Schedule> {
                       }, // onSelected
                       child: Row(
                         children: [
-                          child: Text(
+                          Text(
                             selectedSchedule[0],
                             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ), // Text
