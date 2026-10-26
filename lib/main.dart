@@ -58,7 +58,7 @@ class _MyApp extends State<MyApp> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(99),
               child: BottomNavigationBar(
-                backgroundColor: Colors.tealAccent,
+                backgroundColor: const Color(0xFF09DBDB),
                 selectedItemColor: Colors.black,
                 unselectedItemColor: Colors.teal, // Colors.black45,
                 selectedFontSize: 15,
