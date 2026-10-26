@@ -138,7 +138,7 @@ class _Schedule extends State<Schedule> {
               borderRadius: BorderRadius.circular(99),
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color(0xFF9EFCFF),
+                  color: const Color(0xFF9EFCFF), // 0xFFB2D8D8
                 ), // BoxDecoration
                 height: 69,
                 child: PageView.builder(
