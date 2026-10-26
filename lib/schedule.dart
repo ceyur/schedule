@@ -86,8 +86,9 @@ class _Schedule extends State<Schedule> {
             padding: const EdgeInsets.all(10),
             child: Row(
               children: [
-                Expanded(
-                  child: Column(
+                // Expanded(
+                  // child: 
+                Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       PopupMenuButton(
@@ -102,18 +103,18 @@ class _Schedule extends State<Schedule> {
                         }, // onSelected
                         child: Row(
                           children: [
-                            Expanded( // ограничиваем доступную ширину текста
-                              child: Text(
-                                selectedSchedule[0],
-                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            // Text(
-                            //   selectedSchedule[0],
-                            //   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                            // ), // Text
+                            // Expanded( // ограничиваем доступную ширину текста
+                            //   child: Text(
+                            //     selectedSchedule[0],
+                            //     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            //     maxLines: 1,
+                            //     overflow: TextOverflow.ellipsis,
+                            //   ),
+                            // ),
+                            Text(
+                              selectedSchedule[0],
+                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            ), // Text
                             const Icon(Icons.keyboard_arrow_down),
                           ], // children
                         ), // Row
@@ -133,7 +134,8 @@ class _Schedule extends State<Schedule> {
                       ), // Transform.translate
                     ], // children
                   ), // Column
-                ), // Expanded
+                // ), // Expanded
+                const Spacer(),
                 const Icon(Icons.filter_alt_outlined),
                 const Icon(Icons.calendar_month),
               ], // children
