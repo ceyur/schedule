@@ -82,6 +82,7 @@ class _Schedule extends State<Schedule> {
     return Scaffold(
       body: Column(
         children: [
+          // Выбор группы, преподавателя или кабинета
           Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
@@ -130,13 +131,14 @@ class _Schedule extends State<Schedule> {
               ], // children
             ), // Row
           ), // Padding
+          // Выбор недели
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(99),
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 179, 255, 255),
+                  color: const Color(0xFFB2D8D8),
                 ), // BoxDecoration
                 height: 69,
                 child: PageView.builder(
@@ -205,6 +207,7 @@ class _Schedule extends State<Schedule> {
               ), // Container
             ), // ClipRRect
           ), // Padding
+          // Область расписания
           Expanded(
             child: PageView.builder(
               controller: dayController,
