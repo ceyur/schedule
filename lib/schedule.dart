@@ -115,7 +115,8 @@ class _Schedule extends State<Schedule> {
         child: Text(
                               selectedSchedule[0],
                               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                            ), // Text),
+                            ), // Text
+                            ),
                             const Icon(Icons.keyboard_arrow_down),
                           ], // children
                         ), // Row
