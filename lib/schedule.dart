@@ -87,7 +87,7 @@ class _Schedule extends State<Schedule> {
             padding: const EdgeInsets.all(10),
             child: Row(
               children: [
-                child: Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     PopupMenuButton(
