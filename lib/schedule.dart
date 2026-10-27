@@ -25,12 +25,12 @@ class _Schedule extends State<Schedule> {
   static const startWeekI = 100;
   final weekController = PageController(initialPage: startWeekI);
   int selectedWeekI = startWeekI;
-  
+
   DateTime selectedDay = DateTime.now();
   static int startDayI = startWeekI * 7 + DateTime.now().weekday - 1;
   final dayController = PageController(initialPage: startDayI);
   int selectedDayI = startWeekI * 7 + DateTime.now().weekday - 1;
-  
+
   DateTime monday = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
 
   DateTime get mondayOfWeek => monday.add(Duration(days: (selectedWeekI - startWeekI) * 7));
@@ -42,32 +42,32 @@ class _Schedule extends State<Schedule> {
     {
       return Supabase.instance.client
       .rpc(
-          "pairsdaygroup",
-          params: {
-            "select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
-            "select_group": selectedSchedule[0],
-          },
-        );
+        "pairsdaygroup",
+        params: {
+          "select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
+          "select_group": selectedSchedule[0],
+        },
+      );
     }
     else if (selectedSchedule[1] == "teacher") {
       return Supabase.instance.client
       .rpc(
-          "pairsdayteacher",
-          params: {
-            "select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
-            "select_teacher": selectedSchedule[0],
-          },
-        );
+        "pairsdayteacher",
+        params: {
+          "select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
+          "select_teacher": selectedSchedule[0],
+        },
+      );
     }
     else {
       return Supabase.instance.client
       .rpc(
-          "pairsdayroom",
-          params: {
-            "select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
-            "select_room": selectedSchedule[0],
-          },
-        );
+        "pairsdayroom",
+        params: {
+          "select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
+          "select_room": selectedSchedule[0],
+        },
+      );
     }
   } // getSchedule
 
@@ -87,45 +87,47 @@ class _Schedule extends State<Schedule> {
             padding: const EdgeInsets.all(10),
             child: Row(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    PopupMenuButton(
-                      position: PopupMenuPosition.under,
-                      tooltip: "",
-                      initialValue: selectedSchedule,
-                      onSelected: (List<String> value) {
-                        setState(() {
-                          selectedSchedule = value;
-                          schedule = getSchedule();
-                        });
-                      }, // onSelected
-                      child: Row(
-                        children: [
-                          Text(
-                            selectedSchedule[0],
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                            overflow: TextOverflow.ellipsis,
-                          ), // Text
-                          const Icon(Icons.keyboard_arrow_down),
-                        ], // children
-                      ), // Row
-                      itemBuilder: (BuildContext context) => mySchedule.map((group) {
-                        return PopupMenuItem(
-                          value: group,
-                          child: Text(group[0]),
-                        ); // PopupMenuItem
-                      }).toList(),
-                    ), // PopupMenuButton
-                    Transform.translate(
-                      offset: const Offset(0, -5),
-                      child: Text(
-                        "${DateTime.now().day} ${months[DateTime.now().month - 1]}",
-                        textAlign: TextAlign.left,
-                      ), // Text
-                    ), // Transform.translate
-                  ], // children
-                ), // Column
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      PopupMenuButton(
+                        position: PopupMenuPosition.under,
+                        tooltip: "",
+                        initialValue: selectedSchedule,
+                        onSelected: (List<String> value) {
+                          setState(() {
+                              selectedSchedule = value;
+                              schedule = getSchedule();
+                            });
+                        }, // onSelected
+                        child: Row(
+                          children: [
+                            Text(
+                              selectedSchedule[0],
+                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.ellipsis,
+                            ), // Text
+                            const Icon(Icons.keyboard_arrow_down),
+                          ], // children
+                        ), // Row
+                        itemBuilder: (BuildContext context) => mySchedule.map((group) {
+                            return PopupMenuItem(
+                              value: group,
+                              child: Text(group[0]),
+                            ); // PopupMenuItem
+                          }).toList(),
+                      ), // PopupMenuButton
+                      Transform.translate(
+                        offset: const Offset(0, -5),
+                        child: Text(
+                          "${DateTime.now().day} ${months[DateTime.now().month - 1]}",
+                          textAlign: TextAlign.left,
+                        ), // Text
+                      ), // Transform.translate
+                    ], // children
+                  ), // Column
+                ),
                 const Spacer(),
                 const Icon(Icons.filter_alt_outlined),
                 const Icon(Icons.calendar_month),
@@ -147,61 +149,61 @@ class _Schedule extends State<Schedule> {
                   itemCount: startWeekI * 2,
                   onPageChanged: (week) {
                     setState(() {
-                      selectedDayI = selectedDayI + (week - selectedWeekI) * 7;
-                      selectedDay = mondayOfWeek.add(Duration(days: selectedDayI - selectedWeekI * 7));
-                      selectedWeekI = week;
-                      schedule = getSchedule();
-                      dayController.jumpToPage(selectedDayI);
-                    });
+                        selectedDayI = selectedDayI + (week - selectedWeekI) * 7;
+                        selectedDay = mondayOfWeek.add(Duration(days: selectedDayI - selectedWeekI * 7));
+                        selectedWeekI = week;
+                        schedule = getSchedule();
+                        dayController.jumpToPage(selectedDayI);
+                      });
                   }, // onPageChanged
                   itemBuilder: (context, week) {
                     final weekOffset = selectedWeekI - startWeekI;
                     final nowDay = DateTime.now().weekday - 1;
-                    
+
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: List.generate(7, (index) {
-                        final day = monday.add(Duration(days: (week - startWeekI) * 7 + index));
-                        final isToday = weekOffset == 0 && index == nowDay;
-                    
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedDayI = selectedWeekI * 7 + index;
-                              selectedDay = mondayOfWeek.add(Duration(days: selectedDayI - selectedWeekI * 7));
-                              schedule = getSchedule();
-                              dayController.jumpToPage(selectedDayI);
-                            });
-                          }, // onTap
-                          child: Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              border: isToday ? Border.all(color: Colors.black) : null,
-                              borderRadius: BorderRadius.circular(10),
+                          final day = monday.add(Duration(days: (week - startWeekI) * 7 + index));
+                          final isToday = weekOffset == 0 && index == nowDay;
+
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                  selectedDayI = selectedWeekI * 7 + index;
+                                  selectedDay = mondayOfWeek.add(Duration(days: selectedDayI - selectedWeekI * 7));
+                                  schedule = getSchedule();
+                                  dayController.jumpToPage(selectedDayI);
+                                });
+                            }, // onTap
+                            child: Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                border: isToday ? Border.all(color: Colors.black) : null,
+                                borderRadius: BorderRadius.circular(10),
+                              ), // Container
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    day.day.toString(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: index == selectedDayI - selectedWeekI * 7 ? Colors.black : Colors.teal,
+                                    ), // TextStyle
+                                  ), // Text
+                                  Text(
+                                    DateFormat("EEE", "ru").format(day).toUpperCase(),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: index == selectedDayI - selectedWeekI * 7 ? Colors.black : Colors.teal,
+                                    ), // TextStyle
+                                  ), // Text
+                                ], // children
+                              ), // Column
                             ), // Container
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  day.day.toString(),
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: index == selectedDayI - selectedWeekI * 7 ? Colors.black : Colors.teal,
-                                  ), // TextStyle
-                                ), // Text
-                                Text(
-                                  DateFormat("EEE", "ru").format(day).toUpperCase(),
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: index == selectedDayI - selectedWeekI * 7 ? Colors.black : Colors.teal,
-                                  ), // TextStyle
-                                ), // Text
-                              ], // children
-                            ), // Column
-                          ), // Container
-                        ); // GestureDetector
-                      }), // List.generate
+                          ); // GestureDetector
+                        }), // List.generate
                     ); // Row
                   }, // itemBuilder
                 ), // PageView.builder
@@ -215,14 +217,14 @@ class _Schedule extends State<Schedule> {
               itemCount: startDayI * 2,
               onPageChanged: (day) {
                 setState(() {
-                  selectedDayI = day;
-                  selectedDay = mondayOfWeek.add(Duration(days: selectedDayI - selectedWeekI * 7));
-                  if (selectedWeekI != (selectedDayI / 7).toInt()) {
-                    selectedWeekI = (selectedDayI / 7).toInt();
-                    weekController.jumpToPage(selectedWeekI);
-                  }
-                  schedule = getSchedule();
-                });
+                    selectedDayI = day;
+                    selectedDay = mondayOfWeek.add(Duration(days: selectedDayI - selectedWeekI * 7));
+                    if (selectedWeekI != (selectedDayI / 7).toInt()) {
+                      selectedWeekI = (selectedDayI / 7).toInt();
+                      weekController.jumpToPage(selectedWeekI);
+                    }
+                    schedule = getSchedule();
+                  });
               }, // onPageChanged
               itemBuilder: (context, day) {
                 return FutureBuilder<List<dynamic>>(
@@ -249,8 +251,8 @@ class _Schedule extends State<Schedule> {
                               ), // ElevatedButton.styleFrom
                               onPressed: () {
                                 setState(() {
-                                  schedule = getSchedule();
-                                }); // setState
+                                    schedule = getSchedule();
+                                  }); // setState
                               }, // onPressed
                               child: const Text("Попробовать снова"),
                             ), // ElevatedButton
@@ -275,71 +277,71 @@ class _Schedule extends State<Schedule> {
                       return ListView.builder(
                         itemCount: instruments.length,
                         itemBuilder: ((context, index) {
-                          final instrument = instruments[index];
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                            child: Card(
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ), // RoundedRectangleBorder
-                              child: Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.teal,
-                                                  borderRadius: BorderRadius.circular(7),
+                            final instrument = instruments[index];
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                              child: Card(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ), // RoundedRectangleBorder
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.teal,
+                                                    borderRadius: BorderRadius.circular(7),
+                                                  ),
+                                                  child: Text(
+                                                    instrument["number"].toString(),
+                                                    style: const TextStyle(fontSize: 15, color: Colors.white),
+                                                  ),
                                                 ),
-                                                child: Text(
-                                                  instrument["number"].toString(),
-                                                  style: const TextStyle(fontSize: 15, color: Colors.white),
-                                                ),
-                                              ),
-                                              Text(
-                                                " ${instrument["time_start"]}–${instrument["time_end"]}",
-                                                style: const TextStyle(color: Colors.grey, fontSize: 15),
-                                              ), // Text
-                                            ], // children
-                                          ), // Row
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            instrument["subject"],
-                                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                          ), // Text
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            selectedSchedule[1] == "group"
+                                                Text(
+                                                  " ${instrument["time_start"]}–${instrument["time_end"]}",
+                                                  style: const TextStyle(color: Colors.grey, fontSize: 15),
+                                                ), // Text
+                                              ], // children
+                                            ), // Row
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              instrument["subject"],
+                                              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                            ), // Text
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              selectedSchedule[1] == "group"
                                               ? instrument["teacher"]
                                               : instrument["group_name"],
-                                            style: const TextStyle(fontSize: 15, color: Colors.grey),
+                                              style: const TextStyle(fontSize: 15, color: Colors.grey),
+                                            ), // Text
+                                          ], // children
+                                        ), // Column
+                                      ), // Expanded
+                                      const SizedBox(width: 15),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            instrument["room"],
+                                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                           ), // Text
                                         ], // children
                                       ), // Column
-                                    ), // Expanded
-                                    const SizedBox(width: 15),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          instrument["room"],
-                                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                        ), // Text
-                                      ], // children
-                                    ), // Column
-                                  ], // children
-                                ), // Row
-                              ), // Padding
-                            ), // Card
-                          ); // Padding
-                        }), // itemBuilder
+                                    ], // children
+                                  ), // Row
+                                ), // Padding
+                              ), // Card
+                            ); // Padding
+                          }), // itemBuilder
                       ); // ListView.builder
                     } // else
                   }, // builder
