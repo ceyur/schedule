@@ -101,18 +101,20 @@ class _Schedule extends State<Schedule> {
                               schedule = getSchedule();
                             });
                         }, // onSelected
-                        child: Expanded(
-                          child: Row(
-                            children: [
-                              Text(
-                                selectedSchedule[0],
-                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ), // Text
-                              const Icon(Icons.keyboard_arrow_down),
-                            ], // children
-                          ), // Row
+                        child: Row(
+                          child: Expanded(
+                            child: Row(
+                              children: [
+                                Text(
+                                  selectedSchedule[0],
+                                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ), // Text
+                                const Icon(Icons.keyboard_arrow_down),
+                              ], // children
+                            ), // Row
+                          ),
                         ),
                         itemBuilder: (BuildContext context) => mySchedule.map((group) {
                             return PopupMenuItem(
