@@ -87,54 +87,49 @@ class _Schedule extends State<Schedule> {
             padding: const EdgeInsets.all(10),
             child: Row(
               children: [
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      PopupMenuButton(
-                        position: PopupMenuPosition.under,
-                        tooltip: "",
-                        initialValue: selectedSchedule,
-                        onSelected: (List<String> value) {
-                          setState(() {
-                              selectedSchedule = value;
-                              schedule = getSchedule();
-                            });
-                        }, // onSelected
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PopupMenuButton(
+                      position: PopupMenuPosition.under,
+                      tooltip: "",
+                      initialValue: selectedSchedule,
+                      onSelected: (List<String> value) {
+                        setState(() {
+                            selectedSchedule = value;
+                            schedule = getSchedule();
+                          });
+                      }, // onSelected
+                      child: SizedBox(
+                        width: double.infinity,
                         child: Row(
                           children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    selectedSchedule[0],
-                                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ), // Text
-                                  const Icon(Icons.keyboard_arrow_down),
-                                ], // children
-                              ), // Row
-                            ),
-                          ],
-                        ),
-                        itemBuilder: (BuildContext context) => mySchedule.map((group) {
-                            return PopupMenuItem(
-                              value: group,
-                              child: Text(group[0]),
-                            ); // PopupMenuItem
-                          }).toList(),
-                      ), // PopupMenuButton
-                      Transform.translate(
-                        offset: const Offset(0, -5),
-                        child: Text(
-                          "${DateTime.now().day} ${months[DateTime.now().month - 1]}",
-                          textAlign: TextAlign.left,
-                        ), // Text
-                      ), // Transform.translate
-                    ], // children
-                  ), // Column
-                ),
+                            Text(
+                              selectedSchedule[0],
+                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ), // Text
+                            const Icon(Icons.keyboard_arrow_down),
+                          ], // children
+                        ), // Row
+                      ),
+                      itemBuilder: (BuildContext context) => mySchedule.map((group) {
+                          return PopupMenuItem(
+                            value: group,
+                            child: Text(group[0]),
+                          ); // PopupMenuItem
+                        }).toList(),
+                    ), // PopupMenuButton
+                    Transform.translate(
+                      offset: const Offset(0, -5),
+                      child: Text(
+                        "${DateTime.now().day} ${months[DateTime.now().month - 1]}",
+                        textAlign: TextAlign.left,
+                      ), // Text
+                    ), // Transform.translate
+                  ], // children
+                ), // Column
                 const Spacer(),
                 const Icon(Icons.filter_alt_outlined),
                 const Icon(Icons.calendar_month),
