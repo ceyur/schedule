@@ -37,6 +37,12 @@ class _MyApp extends State<MyApp> {
   ]; // items
   
   int selectedPage = 0;
+
+  static const mySchedule = [
+    ["23-03 ИСиП", "group"],
+    ["Шаидова Насиба Абдрашитовна", "teacher"],
+    ["ОЗИВТ(ППК-2)-25-1-у", "group"],
+  ];
   
   @override
   Widget build(BuildContext context) {
