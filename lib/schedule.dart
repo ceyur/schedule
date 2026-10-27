@@ -87,7 +87,7 @@ class _Schedule extends State<Schedule> {
             padding: const EdgeInsets.all(10),
             child: Row(
               children: [
-                Flexible(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -107,6 +107,7 @@ class _Schedule extends State<Schedule> {
                               selectedSchedule[0],
                               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                               overflow: TextOverflow.ellipsis,
+                              maxLens: 1,
                             ), // Text
                             const Icon(Icons.keyboard_arrow_down),
                           ], // children
