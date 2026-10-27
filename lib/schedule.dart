@@ -87,7 +87,7 @@ class _Schedule extends State<Schedule> {
             padding: const EdgeInsets.all(10),
             child: Row(
               children: [
-                Expanded(
+                Flexible(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
