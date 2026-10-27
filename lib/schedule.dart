@@ -1,4 +1,3 @@
-// Рабочая версия
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:intl/date_symbol_data_local.dart";
@@ -16,11 +15,11 @@ class _Schedule extends State<Schedule> {
     "января", "февраля", "марта", "апреля", "мая", "июня",
     "июля", "августа", "сентября", "октября", "ноября", "декабря"
   ];
-  static const mySchedule = [
-    ["23-03 ИСиП", "group"],
-    ["Шаидова Насиба Абдрашитовна", "teacher"],
-    ["ОЗИВТ(ППК-2)-25-1-у", "group"],
-  ];
+  // static const mySchedule = [
+  //   ["23-03 ИСиП", "group"],
+  //   ["Шаидова Насиба Абдрашитовна", "teacher"],
+  //   ["ОЗИВТ(ППК-2)-25-1-у", "group"],
+  // ];
   List<String> selectedSchedule = mySchedule[0];
 
   static const startWeekI = 100;
