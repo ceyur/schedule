@@ -29,7 +29,7 @@ class MyApp extends StatefulWidget {
 } // MyApp
 
 class _MyApp extends State<MyApp> {
-  static const List<Widget> pages = [Schedule(), Comments(), Profile()];
+  static const List<Widget> pages = [Schedule(mySchedule), Comments(), Profile()];
   static const items = [
     BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month),),
     BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat),),
