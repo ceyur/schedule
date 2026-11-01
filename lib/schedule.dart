@@ -75,7 +75,7 @@ class _Schedule extends State<Schedule> {
   @override
   void initState() {
     super.initState();
-    selectedScgedule = widget.mySchedule[0];
+    selectedSchedule = widget.mySchedule[0];
     schedule = getSchedule();
   } // initState
 
