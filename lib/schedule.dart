@@ -21,7 +21,7 @@ class _Schedule extends State<Schedule> {
   //   ["Шаидова Насиба Абдрашитовна", "teacher"],
   //   ["ОЗИВТ(ППК-2)-25-1-у", "group"],
   // ];
-  List<String> selectedSchedule = widget.mySchedule[0];
+  late List<String> selectedSchedule;
 
   static const startWeekI = 100;
   final weekController = PageController(initialPage: startWeekI);
@@ -75,6 +75,7 @@ class _Schedule extends State<Schedule> {
   @override
   void initState() {
     super.initState();
+    selectedScgedule = widget.mySchedule[0];
     schedule = getSchedule();
   } // initState
 
