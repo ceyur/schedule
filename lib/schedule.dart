@@ -4,7 +4,8 @@ import "package:intl/date_symbol_data_local.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
 
 class Schedule extends StatefulWidget {
-  const Schedule({super.key});
+  const Schedule(this.mySchedule, {super.key});
+  final List<List<String>> mySchedule;
 
   @override
   State<Schedule> createState() => _Schedule();
@@ -20,7 +21,7 @@ class _Schedule extends State<Schedule> {
   //   ["Шаидова Насиба Абдрашитовна", "teacher"],
   //   ["ОЗИВТ(ППК-2)-25-1-у", "group"],
   // ];
-  List<String> selectedSchedule = mySchedule[0];
+  List<String> selectedSchedule = widget.mySchedule[0];
 
   static const startWeekI = 100;
   final weekController = PageController(initialPage: startWeekI);
@@ -109,7 +110,7 @@ class _Schedule extends State<Schedule> {
                           const Icon(Icons.keyboard_arrow_down),
                         ], // children
                       ), // Row
-                      itemBuilder: (BuildContext context) => mySchedule.map((group) {
+                      itemBuilder: (BuildContext context) => widget.mySchedule.map((group) {
                         return PopupMenuItem(
                           value: group,
                           child: Text(group[0]),
