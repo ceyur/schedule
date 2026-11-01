@@ -29,7 +29,13 @@ class MyApp extends StatefulWidget {
 } // MyApp
 
 class _MyApp extends State<MyApp> {
-  static const List<Widget> pages = [Schedule(mySchedule), Comments(), Profile()];
+  final mySchedule = [
+    ["23-03 ИСиП", "group"],
+    ["Шаидова Насиба Абдрашитовна", "teacher"],
+    ["ОЗИВТ(ППК-2)-25-1-у", "group"],
+  ];
+  
+  late final List<Widget> pages = [Schedule(mySchedule), Comments(), Profile()];
   static const items = [
     BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month),),
     BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat),),
@@ -38,12 +44,6 @@ class _MyApp extends State<MyApp> {
   
   int selectedPage = 0;
 
-  static const mySchedule = [
-    ["23-03 ИСиП", "group"],
-    ["Шаидова Насиба Абдрашитовна", "teacher"],
-    ["ОЗИВТ(ППК-2)-25-1-у", "group"],
-  ];
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
