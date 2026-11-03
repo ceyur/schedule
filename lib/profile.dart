@@ -3,7 +3,7 @@ import "package:intl/intl.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
 
-enum FilterType { groups, teachers }
+enum FilterType { group, teacher }
 
 class Profile extends StatefulWidget {
   const Profile(this.mySchedule, {super.key});
@@ -14,7 +14,7 @@ class Profile extends StatefulWidget {
 } // Profile
 
 class _Profile extends State<Profile> {
-  final selectedType = "group";
+  final selectedType = FilterType.group;
   
   void getList() async {
     final groups = await Supabase.instance.client
@@ -37,7 +37,6 @@ class _Profile extends State<Profile> {
       body: Column(
         children: [
           const SizedBox(height: 10),
-          // 2. Верхний переключатель (Material 3 SegmentedButton)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: SizedBox(
@@ -45,12 +44,12 @@ class _Profile extends State<Profile> {
               child: SegmentedButton<FilterType>(
                 segments: const <ButtonSegment<FilterType>>[
                   ButtonSegment<FilterType>(
-                    value: FilterType.groups,
+                    value: FilterType.group,
                     label: Text('Группы'),
                     icon: Icon(Icons.group),
                   ),
                   ButtonSegment<FilterType>(
-                    value: FilterType.teachers,
+                    value: FilterType.teacher,
                     label: Text('Преподаватели'),
                     icon: Icon(Icons.person),
                   ),
@@ -58,20 +57,18 @@ class _Profile extends State<Profile> {
                 selected: <FilterType>{selectedType},
                 onSelectionChanged: (Set<FilterType> newSelection) {
                   setState(() {
-                    if (selectedType == "teacher") selectedType = "group";
-                    else selectedType = "teacher";
+                    if (selectedType == FilterType.teacher) selectedType = FilterType.group;
+                    else selectedType = FilterType.teacher;
                   });
                 },
               ),
             ),
           ),
           const SizedBox(height: 10),
-          // 3. Список, который обновляется при изменении selectedType
           Expanded(
             child: FutureBuilder<List<String>>(
-              // Ключ заставляет FutureBuilder перезапускаться при смене типа
               key: ValueKey(selectedType), 
-              future: selectedType == "group" ? groups : teachers,
+              future: selectedType == FilterType.group ? FilterType.group : FilterType.teacher,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -84,7 +81,7 @@ class _Profile extends State<Profile> {
                 final listItems = snapshot.data!;
 
                 return ListView.builder(
-                  itemCount: listItems.count, // Ошибка в примере? Нет, itemCount: listItems.length
+                  itemCount: listItems.length,
                   itemCount: listItems.length,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   itemBuilder: (context, index) {
@@ -94,12 +91,11 @@ class _Profile extends State<Profile> {
                       child: ListTile(
                         title: Text(item),
                         leading: Icon(
-                          selectedType == "group"
+                          selectedType == FilterType.group
                               ? Icons.school
                               : Icons.assignment_ind,
                         ),
                         onTap: () {
-                          // Обработка клика по группе или преподу
                           print('Выбрано: $item');
                         },
                       ),
