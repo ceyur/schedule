@@ -13,7 +13,7 @@ import "package:schedule/profile.dart";
 // 	["ОЗИВТ(ППК-2)-25-1-у", Type.group],
 // ]; // mySchedule
 
-Future<void> main() sync {
+Future<void> main() async {
 	WidgetsFlutterBinding.ensureInitialized();
 	await initializeDateFormatting("ru_RU");
 
