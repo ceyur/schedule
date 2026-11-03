@@ -4,8 +4,7 @@ import "package:intl/date_symbol_data_local.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
 
 class Schedule extends StatefulWidget {
-  const Schedule(this.mySchedule, {super.key});
-  final List<List<String>> mySchedule;
+  const Schedule({super.key});
 
   @override
   State<Schedule> createState() => _Schedule();
@@ -16,12 +15,8 @@ class _Schedule extends State<Schedule> {
     "января", "февраля", "марта", "апреля", "мая", "июня",
     "июля", "августа", "сентября", "октября", "ноября", "декабря"
   ];
-  // static const mySchedule = [
-  //   ["23-03 ИСиП", "group"],
-  //   ["Шаидова Насиба Абдрашитовна", "teacher"],
-  //   ["ОЗИВТ(ППК-2)-25-1-у", "group"],
-  // ];
-  late List<String> selectedSchedule;
+
+  late List<FilterType> selectedSchedule;
 
   static const startWeekI = 100;
   final weekController = PageController(initialPage: startWeekI);
@@ -39,7 +34,7 @@ class _Schedule extends State<Schedule> {
   late Future<List<dynamic>> schedule;
 
   Future<List<dynamic>> getSchedule() {
-    if (selectedSchedule[1] == "group")
+    if (selectedSchedule[1] == FilterType.group)
     {
       return Supabase.instance.client
       .rpc(
@@ -50,7 +45,7 @@ class _Schedule extends State<Schedule> {
           },
         );
     }
-    else if (selectedSchedule[1] == "teacher") {
+    else if (selectedSchedule[1] == FilterType.teacher) {
       return Supabase.instance.client
       .rpc(
           "pairsdayteacher",
@@ -318,7 +313,7 @@ class _Schedule extends State<Schedule> {
                                           ), // Text
                                           const SizedBox(height: 4),
                                           Text(
-                                            selectedSchedule[1] == "group"
+                                            selectedSchedule[1] == FilterType.group
                                               ? instrument["teacher"]
                                               : instrument["group_name"],
                                             style: const TextStyle(fontSize: 15, color: Colors.grey),
