@@ -2,9 +2,15 @@ import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
+import 'package:shared_preferences/shared_preferences.dart';
 import "package:schedule/schedule.dart";
 import "package:schedule/comments.dart";
 import "package:schedule/profile.dart";
+
+
+
+// Получаем доступ к хранилищу
+// final prefs = await SharedPreferences.getInstance();
 
 // enum Type { group, teacher }
 // final List<List<dynamic>> mySchedule = [
