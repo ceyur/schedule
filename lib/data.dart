@@ -4,3 +4,5 @@ final List<List<dynamic>> mySchedule = [
 	["Шаидова Насиба Абдрашитовна", Type.teacher],
 	["ОЗИВТ(ППК-2)-25-1-у", Type.group],
 ]; // mySchedule
+
+
