@@ -68,7 +68,7 @@ class _Profile extends State<Profile> {
           Expanded(
             child: FutureBuilder<List<String>>(
               key: ValueKey(selectedType), 
-              future: selectedType == FilterType.group ? FilterType.group : FilterType.teacher,
+              future: selectedType == FilterType.group ? FilterType.teacher : FilterType.group,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
