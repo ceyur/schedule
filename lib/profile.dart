@@ -15,16 +15,16 @@ class Profile extends StatefulWidget {
 
 class _Profile extends State<Profile> {
   FilterType selectedType = FilterType.group;
-  Future<List<String>>? groups;
-  Future<List<String>>? teachers;
+  Future<List<String>> groups;
+  Future<List<String>> teachers;
   
-  void getGroups() async {
-    final groups = await Supabase.instance.client
+  Future<List<String>> getGroups() async {
+    return await Supabase.instance.client
       .from('groups')
       .select('group_name');
   }
-  void getTeachers() async {
-    final teachers = await Supabase.instance.client
+  Future<List<String>> getTeachers() async {
+    return await Supabase.instance.client
       .from('teachers')
       .select('teacher');
   }
