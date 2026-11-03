@@ -89,30 +89,6 @@ class _Profile extends State<Profile> {
 									itemCount: listItems.length,
 									padding: const EdgeInsets.symmetric(horizontal: 16),
 									itemBuilder: (context, index) {
-										// final item = listItems[index] as Map<String, dynamic>; // Явно приводим к Map
-										
-										// // Достаем строку по ключу в зависимости от выбранного фильтра
-										// final String displayName = selectedType == Type.group
-										// 		? item["group_name"]?.toString() ?? ""
-										// 		: item["teacher"]?.toString() ?? "";
-	
-										// return Card(
-										// 	margin: const EdgeInsets.symmetric(vertical: 6),
-										// 	child: ListTile(
-										// 		title: Text(displayName),
-										// 		leading: Icon(
-										// 			selectedType == Type.group
-										// 					? Icons.school
-										// 					: Icons.assignment_ind,
-										// 		), // leading
-										// 		onTap: () {
-										// 			print("Выбрано: $displayName");
-										// 		}, // onTap
-										// 	), // ListTile
-										// ); // Card
-
-
-
 										final item = listItems[index] as Map<String, dynamic>;
 
 										final String displayName = selectedType == Type.group
@@ -120,12 +96,16 @@ class _Profile extends State<Profile> {
 											: item["teacher"]?.toString() ?? "";
 									
 										bool isFavorite = false;
+										int foundIndex = -1;
+										int counter = 0;
 										
-										for (var entry in mySchedule) {
-											if (entry.length >= 2 && entry[0] == displayName && entry[1] == selectedType) {
+										for (var element in mySchedule) {
+											if (element.length >= 2 && element[0] == displayName && element[1] == selectedType) {
+												foundIndex = counter;
 												isFavorite = true;
 												break;
 											}
+											counter++;
 										}
 										
 										return Card(
@@ -140,7 +120,12 @@ class _Profile extends State<Profile> {
 													color: isFavorite ? Colors.orange : Colors.grey,
 												),
 												onTap: () {
-													print("Выбрано: $displayName");
+													if (isFavorite) {
+														mySchedule.removeAt(foundIndex);
+													}
+													else {
+														mySchedule.add([displayName, selectedType]);
+													}
 												},
 											),
 										);
