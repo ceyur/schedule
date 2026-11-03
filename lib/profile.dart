@@ -18,12 +18,12 @@ class _Profile extends State<Profile> {
   Future<List<String>> groups;
   Future<List<String>> teachers;
   
-  Future<List<String>> getGroups() async {
+  Future<List<dynamic>> getGroups() async {
     return await Supabase.instance.client
       .from('groups')
       .select('group_name');
   }
-  Future<List<String>> getTeachers() async {
+  Future<List<dynamic>> getTeachers() async {
     return await Supabase.instance.client
       .from('teachers')
       .select('teacher');
