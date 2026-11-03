@@ -15,8 +15,8 @@ class Profile extends StatefulWidget {
 
 class _Profile extends State<Profile> {
   FilterType selectedType = FilterType.group;
-  Future<List<String>> groups;
-  Future<List<String>> teachers;
+  Future<List<dynamic>> groups;
+  Future<List<dynamic>> teachers;
   
   Future<List<dynamic>> getGroups() async {
     return await Supabase.instance.client
