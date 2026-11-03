@@ -7,10 +7,10 @@ import "package:schedule/comments.dart";
 import "package:schedule/profile.dart";
 
 enum FilterType { group, teacher }
-final List<(String, FilterType)> mySchedule = [
-  ("23-03 ИСиП", FilterType.group),
-  ("Шаидова Насиба Абдрашитовна", FilterType.teacher),
-  ("ОЗИВТ(ППК-2)-25-1-у", FilterType.group),
+final List<List<dynamic>> mySchedule = [
+  ["23-03 ИСиП", FilterType.group],
+  ["Шаидова Насиба Абдрашитовна", FilterType.teacher],
+  ["ОЗИВТ(ППК-2)-25-1-у", FilterType.group],
 ];
 
 Future<void> main() async {
