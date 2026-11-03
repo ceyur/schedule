@@ -70,7 +70,7 @@ class _Schedule extends State<Schedule> {
   @override
   void initState() {
     super.initState();
-    selectedSchedule = widget.mySchedule[0];
+    selectedSchedule = mySchedule[0];
     schedule = getSchedule();
   } // initState
 
@@ -106,7 +106,7 @@ class _Schedule extends State<Schedule> {
                           const Icon(Icons.keyboard_arrow_down),
                         ], // children
                       ), // Row
-                      itemBuilder: (BuildContext context) => widget.mySchedule.map((group) {
+                      itemBuilder: (BuildContext context) => mySchedule.map((group) {
                         return PopupMenuItem(
                           value: group,
                           child: Text(group[0]),
