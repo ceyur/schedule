@@ -120,12 +120,14 @@ class _Profile extends State<Profile> {
 													color: isFavorite ? Colors.orange : Colors.grey,
 												),
 												onTap: () {
-													if (isFavorite) {
-														mySchedule.removeAt(foundIndex);
-													}
-													else {
-														mySchedule.add([displayName, selectedType]);
-													}
+													setState(() {
+														if (isFavorite) {
+															mySchedule.removeAt(foundIndex);
+														}
+														else {
+															mySchedule.add([displayName, selectedType]);
+														}
+													}); // setState
 												},
 											),
 										);
