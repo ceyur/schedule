@@ -34,7 +34,7 @@ class _MyApp extends State<MyApp> {
     ["ОЗИВТ(ППК-2)-25-1-у", "group"],
   ];
   
-  late final List<Widget> pages = [Schedule(mySchedule), Comments(), Profile()];
+  late final List<Widget> pages = [Schedule(mySchedule), Comments(), Profile(mySchedule)];
   static const items = [
     BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month),),
     BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat),),
