@@ -15,11 +15,15 @@ class Profile extends StatefulWidget {
 
 class _Profile extends State<Profile> {
   FilterType selectedType = FilterType.group;
+  Future<List<String>>? groups;
+  Future<List<String>>? teachers;
   
-  void getList() async {
+  void getGroups() async {
     final groups = await Supabase.instance.client
       .from('groups')
       .select('group_name');
+  }
+  void getTeachers() async {
     final teachers = await Supabase.instance.client
       .from('teachers')
       .select('teacher');
@@ -28,7 +32,8 @@ class _Profile extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    getList();
+    groups = getGroups();
+    teachers = getTeachers();
   } // initState
 
   @override
@@ -68,7 +73,7 @@ class _Profile extends State<Profile> {
           Expanded(
             child: FutureBuilder<List<String>>(
               key: ValueKey(selectedType), 
-              future: selectedType == FilterType.group ? teachers : groups,
+              future: selectedType == FilterType.group ? groups : teachers,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
