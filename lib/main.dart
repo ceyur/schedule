@@ -6,12 +6,12 @@ import "package:schedule/schedule.dart";
 import "package:schedule/comments.dart";
 import "package:schedule/profile.dart";
 
-enum Type { group, teacher }
-final List<List<dynamic>> mySchedule = [
-	["23-03 ИСиП", Type.group],
-	["Шаидова Насиба Абдрашитовна", Type.teacher],
-	["ОЗИВТ(ППК-2)-25-1-у", Type.group],
-]; // mySchedule
+// enum Type { group, teacher }
+// final List<List<dynamic>> mySchedule = [
+// 	["23-03 ИСиП", Type.group],
+// 	["Шаидова Насиба Абдрашитовна", Type.teacher],
+// 	["ОЗИВТ(ППК-2)-25-1-у", Type.group],
+// ]; // mySchedule
 
 Future<void> main() sync {
 	WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +35,7 @@ class MyApp extends StatefulWidget {
 } // MyApp
 
 class _MyApp extends State<MyApp> {
-	late final List<Widget> pages = [Schedule(mySchedule, Type), Comments(), Profile(mySchedule, Type)];
+	late final List<Widget> pages = [Schedule(), Comments(), Profile()];
 	static const items = [
 		BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month),),
 		BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat),),
