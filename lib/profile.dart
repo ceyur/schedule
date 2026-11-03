@@ -71,7 +71,7 @@ class _Profile extends State<Profile> {
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: FutureBuilder<List<String>>(
+            child: FutureBuilder<List<dynamic>>(
               key: ValueKey(selectedType), 
               future: selectedType == FilterType.group ? groups : teachers,
               builder: (context, snapshot) {
