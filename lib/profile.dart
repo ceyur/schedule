@@ -15,8 +15,8 @@ class Profile extends StatefulWidget {
 
 class _Profile extends State<Profile> {
   FilterType selectedType = FilterType.group;
-  Future<List<dynamic>> groups;
-  Future<List<dynamic>> teachers;
+  late Future<List<dynamic>> groups;
+  late Future<List<dynamic>> teachers;
   
   Future<List<dynamic>> getGroups() async {
     return await Supabase.instance.client
@@ -89,18 +89,24 @@ class _Profile extends State<Profile> {
                   itemCount: listItems.length,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   itemBuilder: (context, index) {
-                    final item = listItems[index];
+                    final item = listItems[index] as Map<String, dynamic>; // Явно приводим к Map
+                    
+                    // Достаем строку по ключу в зависимости от выбранного фильтра
+                    final String displayName = selectedType == FilterType.group
+                        ? item['group_name']?.toString() ?? ''
+                        : item['teacher']?.toString() ?? '';
+
                     return Card(
                       margin: const EdgeInsets.symmetric(vertical: 6),
                       child: ListTile(
-                        title: Text(item),
+                        title: Text(displayName), // Теперь здесь строка, а не Map
                         leading: Icon(
                           selectedType == FilterType.group
                               ? Icons.school
                               : Icons.assignment_ind,
                         ),
                         onTap: () {
-                          print('Выбрано: $item');
+                          print('Выбрано: $displayName');
                         },
                       ),
                     );
