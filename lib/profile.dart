@@ -2,118 +2,81 @@ import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
+import "package:schedule/schedule.dart";
+import "package:schedule/comments.dart";
+import "package:schedule/profile.dart";
+import "package:schedule/data.dart";
 
-class Profile extends StatefulWidget {
-  const Profile({super.key});
+Future<void> main() sync {
+	WidgetsFlutterBinding.ensureInitialized();
+	await initializeDateFormatting("ru_RU");
 
-  @override
-  State<Profile> createState() => _Profile();
-} // Profile
+	await Supabase.initialize(
+		url: "https://opgbfhxtmsyxhgwzxhbk.supabase.co",
+		anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wZ2JmaHh0bXN5eGhnd3p4aGJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MzQyNDUsImV4cCI6MjEwODUxMDI0NX0.5F04aHDye9i9nzSfD3dZQX-39blWcFwBIbHEWjwhq8w",
+		// publishableKey: "sb_publishable_F5iQTu_jSHTlkVTsfmTVaQ_OlYME8mu",
+		// anonKey: const String.fromEnvironment("SUPABASE_ANON_KEY", defaultValue: "YOUR_FALLBACK_KEY"),
+	);
 
-class _Profile extends State<Profile> {
-  FilterType selectedType = FilterType.group;
-  late Future<List<dynamic>> groups;
-  late Future<List<dynamic>> teachers;
-  
-  Future<List<dynamic>> getGroups() async {
-    return await Supabase.instance.client
-      .from('groups')
-      .select('group_name');
-  }
-  Future<List<dynamic>> getTeachers() async {
-    return await Supabase.instance.client
-      .from('teachers')
-      .select('teacher');
-  }
+	runApp(MyApp());
+} // main
 
-  @override
-  void initState() {
-    super.initState();
-    groups = getGroups();
-    teachers = getTeachers();
-  } // initState
+class MyApp extends StatefulWidget {
+	const MyApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: SizedBox(
-              width: double.infinity,
-              child: SegmentedButton<FilterType>(
-                segments: const <ButtonSegment<FilterType>>[
-                  ButtonSegment<FilterType>(
-                    value: FilterType.group,
-                    label: Text('Группы'),
-                    icon: Icon(Icons.group),
-                  ),
-                  ButtonSegment<FilterType>(
-                    value: FilterType.teacher,
-                    label: Text('Преподаватели'),
-                    icon: Icon(Icons.person),
-                  ),
-                ],
-                selected: <FilterType>{selectedType},
-                onSelectionChanged: (Set<FilterType> newSelection) {
-                  setState(() {
-                    if (selectedType == FilterType.teacher) selectedType = FilterType.group;
-                    else selectedType = FilterType.teacher;
-                  });
-                },
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: FutureBuilder<List<dynamic>>(
-              key: ValueKey(selectedType), 
-              future: selectedType == FilterType.group ? groups : teachers,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Ошибка: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('Данные не найдены'));
-                }
+	@override
+	State<MyApp> createState() => _MyApp();
+} // MyApp
 
-                final listItems = snapshot.data!;
+class _MyApp extends State<MyApp> {
+	late final List<Widget> pages = [Schedule(), Comments(), Profile(mySchedule, Type)];
+	static const items = [
+		BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month),),
+		BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat),),
+		BottomNavigationBarItem(label: "Профиль", icon: Icon(Icons.account_circle),),
+	]; // items
+	
+	int selectedPage = 0;
 
-                return ListView.builder(
-                  itemCount: listItems.length,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemBuilder: (context, index) {
-                    final item = listItems[index] as Map<String, dynamic>; // Явно приводим к Map
-                    
-                    // Достаем строку по ключу в зависимости от выбранного фильтра
-                    final String displayName = selectedType == FilterType.group
-                        ? item['group_name']?.toString() ?? ''
-                        : item['teacher']?.toString() ?? '';
-
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 6),
-                      child: ListTile(
-                        title: Text(displayName), // Теперь здесь строка, а не Map
-                        leading: Icon(
-                          selectedType == FilterType.group
-                              ? Icons.school
-                              : Icons.assignment_ind,
-                        ),
-                        onTap: () {
-                          print('Выбрано: $displayName');
-                        },
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+	@override
+	Widget build(BuildContext context) {
+		return MaterialApp(
+			debugShowCheckedModeBanner: false,
+			title: items[selectedPage].label,
+			home: Scaffold(
+				body: IndexedStack(
+					index: selectedPage,
+					children: pages,
+				), // IndexedStack
+				bottomNavigationBar: Theme(
+					data: ThemeData(
+						splashFactory: NoSplash.splashFactory,
+						highlightColor: Colors.transparent,
+						hoverColor: Colors.transparent,
+					), // ThemeData
+					child: Padding(
+						padding: const EdgeInsets.all(10),
+						child: ClipRRect(
+							borderRadius: BorderRadius.circular(99),
+							child: BottomNavigationBar(
+								backgroundColor: const Color(0xFF27D8D2),
+								selectedItemColor: Colors.black,
+								unselectedItemColor: Colors.teal, // Colors.black45
+								selectedFontSize: 15,
+								unselectedFontSize: 15,
+								items: items,
+								currentIndex: selectedPage,
+								onTap: (index) {
+									setState(() {
+										selectedPage = index;
+										// title = items[index].label;
+									});
+								}, // onTap
+							), // BottomNavigationBar
+						), // ClipRRect
+					), // Padding
+				), // Theme
+			), // Scaffold
+		); // MaterialApp
+	} // build
+} // _MyApp
