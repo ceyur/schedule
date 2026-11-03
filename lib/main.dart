@@ -6,6 +6,13 @@ import "package:schedule/schedule.dart";
 import "package:schedule/comments.dart";
 import "package:schedule/profile.dart";
 
+enum FilterType { group, teacher }
+final List<(String, FilterType)> mySchedule = [
+  ("23-03 ИСиП", FilterType.group),
+  ("Шаидова Насиба Абдрашитовна", FilterType.teacher),
+  ("ОЗИВТ(ППК-2)-25-1-у", FilterType.group),
+];
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting("ru_RU");
@@ -28,13 +35,7 @@ class MyApp extends StatefulWidget {
 } // MyApp
 
 class _MyApp extends State<MyApp> {
-  final mySchedule = [
-    ["23-03 ИСиП", "group"],
-    ["Шаидова Насиба Абдрашитовна", "teacher"],
-    ["ОЗИВТ(ППК-2)-25-1-у", "group"],
-  ];
-  
-  late final List<Widget> pages = [Schedule(mySchedule), Comments(), Profile(mySchedule)];
+  late final List<Widget> pages = [Schedule(), Comments(), Profile()];
   static const items = [
     BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month),),
     BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat),),
