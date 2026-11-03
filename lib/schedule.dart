@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+/import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
@@ -16,7 +16,7 @@ class _Schedule extends State<Schedule> {
     "июля", "августа", "сентября", "октября", "ноября", "декабря"
   ];
 
-  late List<FilterType> selectedSchedule;
+  late List<dynamic> selectedSchedule;
 
   static const startWeekI = 100;
   final weekController = PageController(initialPage: startWeekI);
@@ -91,7 +91,7 @@ class _Schedule extends State<Schedule> {
                       position: PopupMenuPosition.under,
                       tooltip: "",
                       initialValue: selectedSchedule,
-                      onSelected: (List<String> value) {
+                      onSelected: (List<dynamic> value) {
                         setState(() {
                           selectedSchedule = value;
                           schedule = getSchedule();
