@@ -12,7 +12,7 @@ class Profile extends StatefulWidget {
 } // Profile
 
 class _Profile extends State<Profile> {
-	FilterType selectedType = FilterType.group;
+	Type selectedType = Type.group;
 	late Future<List<dynamic>> groups;
 	late Future<List<dynamic>> teachers;
 	
@@ -44,24 +44,24 @@ class _Profile extends State<Profile> {
 						padding: const EdgeInsets.symmetric(horizontal: 10),
 						child: SizedBox(
 							width: double.infinity,
-							child: SegmentedButton<FilterType>(
-								segments: const <ButtonSegment<FilterType>>[
-									ButtonSegment<FilterType>(
-										value: FilterType.group,
+							child: SegmentedButton<Type>(
+								segments: const <ButtonSegment<Type>>[
+									ButtonSegment<Type>(
+										value: Type.group,
 										label: Text("Группы"),
 										icon: Icon(Icons.group),
 									), // ButtonSegment
-									ButtonSegment<FilterType>(
-										value: FilterType.teacher,
+									ButtonSegment<Type>(
+										value: Type.teacher,
 										label: Text("Преподаватели"),
 										icon: Icon(Icons.person),
 									), // ButtonSegment
 								], // segments
-								selected: <FilterType>{selectedType},
-								onSelectionChanged: (Set<FilterType> newSelection) {
+								selected: <Type>{selectedType},
+								onSelectionChanged: (Set<Type> newSelection) {
 									setState(() {
-										if (selectedType == FilterType.teacher) selectedType = FilterType.group;
-										else selectedType = FilterType.teacher;
+										if (selectedType == Type.teacher) selectedType = Type.group;
+										else selectedType = Type.teacher;
 									}); // setState
 								}, // onSelectionChanged
 							), // SegmentedButton
@@ -71,7 +71,7 @@ class _Profile extends State<Profile> {
 					Expanded(
 						child: FutureBuilder<List<dynamic>>(
 							key: ValueKey(selectedType), 
-							future: selectedType == FilterType.group ? groups : teachers,
+							future: selectedType == Type.group ? groups : teachers,
 							builder: (context, snapshot) {
 								if (snapshot.connectionState == ConnectionState.waiting) {
 									return const Center(child: CircularProgressIndicator());
@@ -92,7 +92,7 @@ class _Profile extends State<Profile> {
 										final item = listItems[index] as Map<String, dynamic>; // Явно приводим к Map
 										
 										// Достаем строку по ключу в зависимости от выбранного фильтра
-										final String displayName = selectedType == FilterType.group
+										final String displayName = selectedType == Type.group
 												? item["group_name"]?.toString() ?? ""
 												: item["teacher"]?.toString() ?? "";
 
@@ -101,7 +101,7 @@ class _Profile extends State<Profile> {
 											child: ListTile(
 												title: Text(displayName), // Теперь здесь строка, а не Map
 												leading: Icon(
-													selectedType == FilterType.group
+													selectedType == Type.group
 															? Icons.school
 															: Icons.assignment_ind,
 												), // leading
