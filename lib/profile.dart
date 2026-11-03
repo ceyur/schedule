@@ -3,6 +3,8 @@ import "package:intl/intl.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
 
+enum FilterType { groups, teachers }
+
 class Profile extends StatefulWidget {
   const Profile(this.mySchedule, {super.key});
   final List<List<String>> mySchedule;
