@@ -89,27 +89,67 @@ class _Profile extends State<Profile> {
 									itemCount: listItems.length,
 									padding: const EdgeInsets.symmetric(horizontal: 16),
 									itemBuilder: (context, index) {
-										final item = listItems[index] as Map<String, dynamic>; // Явно приводим к Map
+										// final item = listItems[index] as Map<String, dynamic>; // Явно приводим к Map
 										
-										// Достаем строку по ключу в зависимости от выбранного фильтра
-										final String displayName = selectedType == Type.group
-												? item["group_name"]?.toString() ?? ""
-												: item["teacher"]?.toString() ?? "";
+										// // Достаем строку по ключу в зависимости от выбранного фильтра
+										// final String displayName = selectedType == Type.group
+										// 		? item["group_name"]?.toString() ?? ""
+										// 		: item["teacher"]?.toString() ?? "";
+	
+										// return Card(
+										// 	margin: const EdgeInsets.symmetric(vertical: 6),
+										// 	child: ListTile(
+										// 		title: Text(displayName),
+										// 		leading: Icon(
+										// 			selectedType == Type.group
+										// 					? Icons.school
+										// 					: Icons.assignment_ind,
+										// 		), // leading
+										// 		onTap: () {
+										// 			print("Выбрано: $displayName");
+										// 		}, // onTap
+										// 	), // ListTile
+										// ); // Card
 
-										return Card(
+
+
+										final item = listItems[index] as Map<String, dynamic>;
+
+										  // Достаем отображаемое имя и ID (ID нужен только если позже захочешь перейти на проверку по ID)
+										  final String displayName = selectedType == Type.group
+											  ? item["group_name"]?.toString() ?? ""
+											  : item["teacher"]?.toString() ?? "";
+										
+										  // --- ГЛАВНОЕ: проверка, есть ли это в mySchedule ---
+										  bool isFavorite = false;
+										  
+										  // Ищем совпадение по названию и типу
+										  for (var entry in mySchedule) {
+											if (entry.length >= 2 && entry[0] == displayName && entry[1] == selectedType) {
+											  isFavorite = true;
+											  break;
+											}
+										  }
+										  // -----------------------------------------------------
+										
+										  return Card(
 											margin: const EdgeInsets.symmetric(vertical: 6),
 											child: ListTile(
-												title: Text(displayName), // Теперь здесь строка, а не Map
-												leading: Icon(
-													selectedType == Type.group
-															? Icons.school
-															: Icons.assignment_ind,
-												), // leading
-												onTap: () {
-													print("Выбрано: $displayName");
-												}, // onTap
-											), // ListTile
-										); // Card
+											  title: Text(displayName),
+											  leading: Icon(
+												selectedType == Type.group ? Icons.school : Icons.assignment_ind,
+											  ),
+											  // Звезда справа: цвет и иконка зависят от isFavorite
+											  trailing: Icon(
+												isFavorite ? Icons.star : Icons.star_border,
+												color: isFavorite ? Colors.orange : Colors.grey,
+											  ),
+											  onTap: () {
+												print("Выбрано: $displayName");
+												// Тут можно добавить логику добавления/удаления из mySchedule
+											  },
+											),
+										  );
 									}, // itemBuilder
 								); // ListView.builder
 							}, // builder
