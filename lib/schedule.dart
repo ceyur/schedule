@@ -35,7 +35,7 @@ class _Schedule extends State<Schedule> {
   late Future<List<dynamic>> schedule;
 
   Future<List<dynamic>> getSchedule() {
-    if (selectedSchedule[1] == FilterType.group)
+    if (selectedSchedule[1] == Type.group)
     {
       return Supabase.instance.client
       .rpc(
@@ -46,7 +46,7 @@ class _Schedule extends State<Schedule> {
           },
         );
     }
-    else if (selectedSchedule[1] == FilterType.teacher) {
+    else if (selectedSchedule[1] == Type.teacher) {
       return Supabase.instance.client
       .rpc(
           "pairsdayteacher",
@@ -314,7 +314,7 @@ class _Schedule extends State<Schedule> {
                                           ), // Text
                                           const SizedBox(height: 4),
                                           Text(
-                                            selectedSchedule[1] == FilterType.group
+                                            selectedSchedule[1] == Type.group
                                               ? instrument["teacher"]
                                               : instrument["group_name"],
                                             style: const TextStyle(fontSize: 15, color: Colors.grey),
