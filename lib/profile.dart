@@ -68,7 +68,7 @@ class _Profile extends State<Profile> {
           Expanded(
             child: FutureBuilder<List<String>>(
               key: ValueKey(selectedType), 
-              future: selectedType == FilterType.group ? FilterType.teacher : FilterType.group,
+              future: selectedType == FilterType.group ? teachers : groups,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -81,7 +81,6 @@ class _Profile extends State<Profile> {
                 final listItems = snapshot.data!;
 
                 return ListView.builder(
-                  itemCount: listItems.length,
                   itemCount: listItems.length,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   itemBuilder: (context, index) {
