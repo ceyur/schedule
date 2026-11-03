@@ -55,7 +55,7 @@ class _Profile extends State<Profile> {
                     icon: Icon(Icons.person),
                   ),
                 ],
-                selected: <FilterType>{_selectedType},
+                selected: <FilterType>{selectedType},
                 onSelectionChanged: (Set<FilterType> newSelection) {
                   setState(() {
                     if (selectedType == "teacher") selectedType = "group";
@@ -66,7 +66,7 @@ class _Profile extends State<Profile> {
             ),
           ),
           const SizedBox(height: 10),
-          // 3. Список, который обновляется при изменении _selectedType
+          // 3. Список, который обновляется при изменении selectedType
           Expanded(
             child: FutureBuilder<List<String>>(
               // Ключ заставляет FutureBuilder перезапускаться при смене типа
