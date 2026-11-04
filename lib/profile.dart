@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:intl/date_symbol_data_local.dart";
-import "package:shared_preferences/shared_preferences.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
+import "package:shared_preferences/shared_preferences.dart";
 import "package:schedule/data.dart";
 
 class Profile extends StatefulWidget {
@@ -16,7 +16,11 @@ class _Profile extends State<Profile> {
 	Type selectedType = Type.group;
 	late Future<List<dynamic>> groups;
 	late Future<List<dynamic>> teachers;
+	late final data;
 	
+	Future<SharedPreferences> getData() async {
+		return await SharedPreferences.getInstance();
+	}
 	Future<List<dynamic>> getGroups() async {
 		return await Supabase.instance.client
 			.from("groups")
@@ -31,6 +35,7 @@ class _Profile extends State<Profile> {
 	@override
 	void initState() {
 		super.initState();
+		data = getData();
 		groups = getGroups();
 		teachers = getTeachers();
 	} // initState
@@ -124,9 +129,11 @@ class _Profile extends State<Profile> {
 													setState(() {
 														if (isFavorite) {
 															mySchedule.removeAt(foundIndex);
+															data.rermove(dispayName);
 														}
 														else {
 															mySchedule.add([displayName, selectedType]);
+															data.add([displayName, selectedType]);
 														}
 													}); // setState
 												},
