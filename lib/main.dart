@@ -18,6 +18,11 @@ Future<void> main() async {
 		// anonKey: const String.fromEnvironment("SUPABASE_ANON_KEY", defaultValue: "YOUR_FALLBACK_KEY"),
 	);
 	
+	data = await SharedPreferences.getInstance();
+	mySchedule = data.getKeys().map((key) {
+		return [key, Type.values.byName(data.getString(key)!)];
+	}).toList();
+	
 	runApp(MyApp());
 } // main
 
