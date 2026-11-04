@@ -1,17 +1,29 @@
 # Расписание
 
-Расписание занятий УрГЭУ.
+Удобное расписание занятий в одном месте. Быстро находите нужную группу и переключайтесь между неделями. Подходит как студентам, так и преподавателям.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+Веб‑приложение для просмотра расписания учащихся и преподавателей. Всё самое важное — в одной карточке: предмет, преподаватель, кабинет, время. Переключение между неделями — свайпами или выбором даты.
 
-A few resources to get you started if this is your first Flutter project:
+Доступ без регистрации: расписание видят все посетители сайта.  
+Проект развёрнут на GitHub Pages: [ceyur.github.io/schedule](https://ceyur.github.io/schedule)
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## ✨ Что умеет
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Быстрый поиск группы — сразу видите пары на текущую неделю.
+- Навигация по неделям — свайпы (PageView.builder) + выбор даты.
+- Наглядные карточки: время внутри карточки, номер пары в тёмном блоке, остальные данные компактно.
+- Адаптивность — удобно и на телефоне, и на ПК.
+- PWA — можно добавить на домашний экран (iOS/Android).
+- Данные из базы — синхронизация с Supabase (PostgreSQL), без ручного ввода.
+- Локальное сохранение выбора — SharedPreferences запоминает выбранную группу на устройстве.
+
+## 🛠 Технологии
+
+- Flutter Web — интерфейс и логика.
+- Dart — вся бизнес‑логика, работа с датами, валидация.
+- Supabase (PostgreSQL + RLS) — хранение расписания, безопасный SELECT без авторизации.
+- GitHub Pages — хостинг.
+- SharedPreferences — локальное хранение selected_schedule.
+- intl — форматирование дат и времени.
