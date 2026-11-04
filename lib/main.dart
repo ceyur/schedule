@@ -20,9 +20,11 @@ Future<void> main() async {
 	);
 	
 	data = await SharedPreferences.getInstance();
-	mySchedule = data.getKeys().map((key) {
-		return [key, Type.values.byName(data.getString(key)!)];
-	}).toList();
+	if (data.getKeys().length != 0 ) {
+		mySchedule = data.getKeys().map((key) {
+			return [key, Type.values.byName(data.getString(key)!)];
+		}).toList();
+	}
 	
 	runApp(MyApp());
 } // main
