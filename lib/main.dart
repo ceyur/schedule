@@ -29,14 +29,30 @@ class MyApp extends StatefulWidget {
 } // MyApp
 
 class _MyApp extends State<MyApp> {
-	late final List<Widget> pages = [Schedule(), Comments(), Profile()];
 	static const items = [
 		BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month),),
 		BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat),),
 		BottomNavigationBarItem(label: "Профиль", icon: Icon(Icons.account_circle),),
 	]; // items
+	late final List<Widget> pages = [Schedule(), Comments(), Profile()];
+	late SharedPreferences data;
 	
 	int selectedPage = 0;
+		
+	void getData() async {
+		data = await SharedPreferences.getInstance();
+		if (data.getKeys().length != 0 ) {
+			mySchedule = prefs.getKeys().map((key) {
+				return [key, Type.values.byName(prefs.getString(key)!)];
+			}).toList();
+		}
+	} // getData
+	
+	@override
+	void initState() {
+		super.initState();
+		getData();
+	} // initState
 	
 	@override
 	Widget build(BuildContext context) {
