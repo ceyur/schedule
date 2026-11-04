@@ -48,7 +48,8 @@ class _Profile extends State<Profile> {
 					const SizedBox(height: 10),
 					Padding(
 						padding: const EdgeInsets.symmetric(horizontal: 10),
-						child: Expanded(
+						child: SizedBox(
+							width: double.infinity,
 							child: SegmentedButton<Type>(
 								segments: const <ButtonSegment<Type>>[
 									ButtonSegment<Type>(
