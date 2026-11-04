@@ -7,39 +7,39 @@ import "package:schedule/data.dart";
 
 class Profile extends StatefulWidget {
 	const Profile({super.key});
-
+	
 	@override
 	State<Profile> createState() => _Profile();
 } // Profile
 
 class _Profile extends State<Profile> {
 	Type selectedType = Type.group;
+	late SharedPreferences data;
 	late Future<List<dynamic>> groups;
 	late Future<List<dynamic>> teachers;
-	late SharedPreferences data;
 	
 	void getData() async {
 		data = await SharedPreferences.getInstance();
-	}
-	Future<List<dynamic>> getGroups() async {
-		return await Supabase.instance.client
+	} // getData
+	void getGroups() async {
+		groups = await Supabase.instance.client
 			.from("groups")
 			.select("group_name");
 	} // getGroups
-	Future<List<dynamic>> getTeachers() async {
-		return await Supabase.instance.client
+	void getTeachers() async {
+		teachers = await Supabase.instance.client
 			.from("teachers")
 			.select("teacher");
 	} // getTeachers
-
+	
 	@override
 	void initState() {
 		super.initState();
 		getData();
-		groups = getGroups();
-		teachers = getTeachers();
+		getGroups();
+		getTeachers();
 	} // initState
-
+	
 	@override
 	Widget build(BuildContext context) {
 		return Scaffold(
@@ -48,8 +48,7 @@ class _Profile extends State<Profile> {
 					const SizedBox(height: 10),
 					Padding(
 						padding: const EdgeInsets.symmetric(horizontal: 10),
-						child: SizedBox(
-							width: double.infinity,
+						child: Expanded(
 							child: SegmentedButton<Type>(
 								segments: const <ButtonSegment<Type>>[
 									ButtonSegment<Type>(
