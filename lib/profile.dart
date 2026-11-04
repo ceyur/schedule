@@ -18,8 +18,8 @@ class _Profile extends State<Profile> {
 	late Future<List<dynamic>> teachers;
 	late final data;
 	
-	Future<SharedPreferences> getData() async {
-		return await SharedPreferences.getInstance();
+	void getData() async {
+		final data = await SharedPreferences.getInstance();
 	}
 	Future<List<dynamic>> getGroups() async {
 		return await Supabase.instance.client
@@ -35,7 +35,7 @@ class _Profile extends State<Profile> {
 	@override
 	void initState() {
 		super.initState();
-		data = getData();
+		getData();
 		groups = getGroups();
 		teachers = getTeachers();
 	} // initState
