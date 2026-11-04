@@ -41,7 +41,6 @@ class _MyApp extends State<MyApp> {
 		BottomNavigationBarItem(label: "Профиль", icon: Icon(Icons.account_circle),),
 	]; // items
 	late final List<Widget> pages = [Schedule(), Comments(), Profile()];
-	late SharedPreferences data;
 	
 	int selectedPage = 0;
 	
