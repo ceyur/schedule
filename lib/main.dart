@@ -43,21 +43,6 @@ class _MyApp extends State<MyApp> {
 	late SharedPreferences data;
 	
 	int selectedPage = 0;
-		
-	void getData() async {
-		data = await SharedPreferences.getInstance();
-		if (data.getKeys().length != 0 ) {
-			mySchedule = data.getKeys().map((key) {
-				return [key, Type.values.byName(data.getString(key)!)];
-			}).toList();
-		}
-	} // getData
-	
-	@override
-	void initState() {
-		super.initState();
-		getData();
-	} // initState
 	
 	@override
 	Widget build(BuildContext context) {
