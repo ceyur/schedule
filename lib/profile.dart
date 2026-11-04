@@ -88,19 +88,19 @@ class _Profile extends State<Profile> {
 								else if (!snapshot.hasData || snapshot.data!.isEmpty) {
 									return const Center(child: Text("Данные не найдены"));
 								}
-
+								
 								final listItems = snapshot.data!;
-
+								
 								return ListView.builder(
 									itemCount: listItems.length,
 									padding: const EdgeInsets.symmetric(horizontal: 16),
 									itemBuilder: (context, index) {
 										final item = listItems[index] as Map<String, dynamic>;
-
+										
 										final String displayName = selectedType == Type.group
 											? item["group_name"]?.toString() ?? ""
 											: item["teacher"]?.toString() ?? "";
-									
+										
 										bool isFavorite = false;
 										int foundIndex = -1;
 										int counter = 0;
@@ -120,11 +120,11 @@ class _Profile extends State<Profile> {
 												title: Text(displayName),
 												leading: Icon(
 													selectedType == Type.group ? Icons.school : Icons.assignment_ind,
-												),
+												), // Icon
 												trailing: Icon(
 													isFavorite ? Icons.star : Icons.star_border,
 													color: isFavorite ? Colors.orange : Colors.grey,
-												),
+												), // Icon
 												onTap: () {
 													setState(() {
 														if (isFavorite) {
@@ -136,9 +136,9 @@ class _Profile extends State<Profile> {
 															data.setString(displayName, selectedType.name);
 														}
 													}); // setState
-												},
-											),
-										);
+												}, // onTap
+											), // ListTile
+										); // Card
 									}, // itemBuilder
 								); // ListView.builder
 							}, // builder
