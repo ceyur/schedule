@@ -6,6 +6,7 @@ import "package:shared_preferences/shared_preferences.dart";
 import "package:schedule/schedule.dart";
 import "package:schedule/comments.dart";
 import "package:schedule/profile.dart";
+import "package:schedule/data.dart";
 
 Future<void> main() async {
 	WidgetsFlutterBinding.ensureInitialized();
