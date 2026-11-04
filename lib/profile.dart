@@ -16,10 +16,10 @@ class _Profile extends State<Profile> {
 	Type selectedType = Type.group;
 	late Future<List<dynamic>> groups;
 	late Future<List<dynamic>> teachers;
-	// late final data;
+	late SharedPreferences data;
 	
 	void getData() async {
-		final data = await SharedPreferences.getInstance();
+		data = await SharedPreferences.getInstance();
 	}
 	Future<List<dynamic>> getGroups() async {
 		return await Supabase.instance.client
@@ -129,11 +129,11 @@ class _Profile extends State<Profile> {
 													setState(() {
 														if (isFavorite) {
 															mySchedule.removeAt(foundIndex);
-															data.remove(displayName);
+															data.setString(displayName, selectedType.name);
 														}
 														else {
 															mySchedule.add([displayName, selectedType]);
-															data.add([displayName, selectedType]);
+															data.remove(displayName);
 														}
 													}); // setState
 												},
