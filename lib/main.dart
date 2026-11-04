@@ -42,8 +42,8 @@ class _MyApp extends State<MyApp> {
 	void getData() async {
 		data = await SharedPreferences.getInstance();
 		if (data.getKeys().length != 0 ) {
-			mySchedule = prefs.getKeys().map((key) {
-				return [key, Type.values.byName(prefs.getString(key)!)];
+			mySchedule = data.getKeys().map((key) {
+				return [key, Type.values.byName(data.getString(key)!)];
 			}).toList();
 		}
 	} // getData
