@@ -1,3 +1,5 @@
+import "package:shared_preferences/shared_preferences.dart";
+
 enum Type { group, teacher }
 late SharedPreferences data;
 List<List<dynamic>> mySchedule = [
