@@ -21,13 +21,13 @@ class _Profile extends State<Profile> {
 	void getData() async {
 		data = await SharedPreferences.getInstance();
 	} // getData
-	void getGroups() async {
-		groups = await Supabase.instance.client
+	Future<List<dynamic>> getGroups() async {
+		return await Supabase.instance.client
 			.from("groups")
 			.select("group_name");
 	} // getGroups
-	void getTeachers() async {
-		teachers = await Supabase.instance.client
+	Future<List<dynamic>> getTeachers() async {
+		return await Supabase.instance.client
 			.from("teachers")
 			.select("teacher");
 	} // getTeachers
@@ -36,8 +36,8 @@ class _Profile extends State<Profile> {
 	void initState() {
 		super.initState();
 		getData();
-		getGroups();
-		getTeachers();
+		groups = getGroups();
+		teachers = getTeachers();
 	} // initState
 	
 	@override
