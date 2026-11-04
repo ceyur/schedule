@@ -1,4 +1,4 @@
-const CACHE = 'schedule-cache-v1';
+const CACHE = 'schedule_v1';
 
 const CORE = [
   './',
