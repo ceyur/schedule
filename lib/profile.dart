@@ -129,7 +129,7 @@ class _Profile extends State<Profile> {
 													setState(() {
 														if (isFavorite) {
 															mySchedule.removeAt(foundIndex);
-															data.rermove(dispayName);
+															data.remove(dispayName);
 														}
 														else {
 															mySchedule.add([displayName, selectedType]);
