@@ -16,7 +16,7 @@ class _Profile extends State<Profile> {
 	Type selectedType = Type.group;
 	late Future<List<dynamic>> groups;
 	late Future<List<dynamic>> teachers;
-	late final data;
+	// late final data;
 	
 	void getData() async {
 		final data = await SharedPreferences.getInstance();
