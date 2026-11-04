@@ -1,11 +1,11 @@
 {
     "name": "Расписание",
     "short_name": "Расписание",
+    "description": "Удобное расписание занятий в одном месте. Быстро находите нужную группу и переключайтесь между неделями. Подходит как студентам, так и преподавателям.",
     "start_url": ".",
-    "display": "standalone",
     "background_color": "#7FFFD4",
     "theme_color": "#7FFFD4",
-    "description": "Расписание заниятий",
+    "display": "standalone",
     "orientation": "portrait",
     "icons": [
 		{
