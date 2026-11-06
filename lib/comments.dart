@@ -159,15 +159,15 @@ class _Comments extends State<Comments> {
 								style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
 							),
 							const SizedBox(height: 8),
-							..._themeModes.map((mode) {
+							...themeModes.map((mode) {
 								final isSelected = themeNotifier.value == mode;
 								return ListTile(
 									leading: Icon(
-										_themeIcons[mode],
+										themeIcons[mode],
 										color: isSelected ? Colors.blue : Colors.grey,
 									),
 									title: Text(
-										_themeNames[mode]!,
+										themeNames[mode]!,
 										style: TextStyle(fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
 									),
 									trailing: isSelected
