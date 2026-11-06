@@ -56,7 +56,7 @@ class _Comments extends State<Comments> {
     try {
       final response = await Supabase.instance.client
           .from('profiles')
-          .select('name, picture_url')
+          .select('name, avatar_url')
           .eq('id', userId)
           .maybeSingle(); // maybeSingle вернет null, если профиль еще не создан
 
