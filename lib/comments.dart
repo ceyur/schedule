@@ -194,18 +194,22 @@ class _Comments extends State<Comments> {
             ),
           ),
         ),
-        // const SizedBox(height: 16), // Отступ между карточками
+        const SizedBox(height: 16),
 
-        // 2. Карточка выбора темы
-        // Card(
-        //   child: ListTile(
-        //     leading: const Icon(Icons.topic, color: Colors.blue, size: 30),
-        //     title: const Text("Тема", style: TextStyle(fontWeight: FontWeight.bold)),
-        //     subtitle: Text(_selectedTheme ?? "Не выбрана"),
-        //     trailing: const Icon(Icons.chevron_right),
-        //     onTap: _showThemeSelector,
-        //   ),
-        // ),
+        // Карточка выбора темы оформления
+        Card(
+          child: ListTile(
+            leading: Icon(
+              _themeIcons[themeNotifier.value]!,
+              color: Colors.orange,
+              size: 30,
+            ),
+            title: const Text("Тема оформления", style: TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Text(_themeNames[themeNotifier.value]!),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: _showThemeSelector,
+          ),
+        ),
 
       ],
     );
