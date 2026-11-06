@@ -217,7 +217,7 @@ class _Comments extends State<Comments> {
         children: [
           const SizedBox(height: 10),
           Text(
-            _isRegistering ? "Регистрация" : "Авторизация"
+            _isRegistering ? "Регистрация" : "Авторизация",
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
