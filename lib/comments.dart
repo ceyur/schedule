@@ -194,17 +194,6 @@ class _Comments extends State<Comments> {
             ),
           ),
         ),
-        const SizedBox(height: 24),
-        const Text(
-          "Список комментариев:",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 16),
-        const Expanded(
-          child: Center(
-            child: Text("Здесь будут отображаться комментарии"),
-          ),
-        ),
       ],
     );
   }
