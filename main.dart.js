@@ -89711,7 +89711,7 @@ $S:0}
 A.amP.prototype={
 $0(){var s=this.a,r=this.b
 s.f=A.bF(r.h(0,"name"))
-s.r=A.bF(r.h(0,"picture_url"))},
+s.r=A.bF(r.h(0,"avatar_url"))},
 $S:0}
 A.amQ.prototype={
 $0(){return this.a.d=!1},
