@@ -141,6 +141,37 @@ class _Comments extends State<Comments> {
     });
   }
 
+  void _showThemeSelector() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return ListView.builder(
+          shrinkWrap: true,
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          itemCount: _availableThemes.length,
+          itemBuilder: (context, index) {
+            final theme = _availableThemes[index];
+            final isSelected = _selectedTheme == theme;
+            return ListTile(
+              leading: Icon(
+                isSelected ? Icons.check_circle : Icons.radio_button_unchecked,
+                color: isSelected ? Colors.blue : Colors.grey,
+              ),
+              title: Text(theme, style: TextStyle(fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)),
+              onTap: () {
+                setState(() => _selectedTheme = theme);
+                Navigator.pop(context);
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -194,6 +225,19 @@ class _Comments extends State<Comments> {
             ),
           ),
         ),
+        const SizedBox(height: 16), // Отступ между карточками
+
+        // 2. Карточка выбора темы
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.topic, color: Colors.blue, size: 30),
+            title: const Text("Тема", style: TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Text(_selectedTheme ?? "Не выбрана"),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: _showThemeSelector,
+          ),
+        ),
+
       ],
     );
   }
