@@ -63,7 +63,7 @@ class _Comments extends State<Comments> {
       if (response != null) {
         setState(() {
           _userName = response["name"] as String?;
-          _userAvatar = response["picture_url"] as String?;
+          _userAvatar = response["avatar_url"] as String?;
         });
       }
     } catch (e) {
