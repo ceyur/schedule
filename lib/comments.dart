@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
+import "package:schedule/profile.dart";
 import "package:schedule/data.dart";
 
 class Comments extends StatefulWidget {
@@ -185,6 +186,22 @@ class _Comments extends State<Comments> {
 			},
 		);
 	}
+
+	Future<void> _showGroupSelector() async {
+		// Переходим на экран выбора и ждём результат
+		final selectedGroup = await Navigator.push<String>(
+			context,
+			MaterialPageRoute(
+				builder: (context) => const Profile(), // ← имя вашего экрана
+			),
+		);
+
+		// Если пользователь что-то выбрал — сохраняем
+		if (selectedGroup != null && selectedGroup.isNotEmpty) {
+			setState(() => _selectedGroup = selectedGroup);
+			// TODO: Здесь можно сохранить выбор в Supabase
+		}
+	}
 	
 	@override
 	Widget build(BuildContext context) {
@@ -240,7 +257,6 @@ class _Comments extends State<Comments> {
 					),
 				),
 				const SizedBox(height: 16),
-
 				// Карточка выбора темы оформления
 				Card(
 					child: ListTile(
@@ -255,7 +271,16 @@ class _Comments extends State<Comments> {
 						onTap: _showThemeSelector,
 					),
 				),
-
+				const SizedBox(height: 16),
+				// 3. Карточка выбора группы
+				Card(
+					child: ListTile(
+						leading: const Icon(Icons.groups, color: Colors.green, size: 30),
+						title: const Text("Группа", style: TextStyle(fontWeight: FontWeight.bold)),
+						subtitle: Text(_selectedGroup ?? "Не выбрана"),
+						trailing: const Icon(Icons.chevron_right),
+						onTap: _showGroupSelector,
+					),
 			],
 		);
 	}
