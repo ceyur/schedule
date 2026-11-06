@@ -47,11 +47,11 @@ class _MyApp extends State<MyApp> {
 	int selectedPage = 0;
 	
 	@override
-	Widget build(BuildContext context) {		
+	Widget build(BuildContext context) {
 		return ValueListenableBuilder<ThemeMode>(
 			valueListenable: themeNotifier,
 			builder: (context, themeMode, _) {
-				MaterialApp(
+				return MaterialApp(
 					debugShowCheckedModeBanner: false,
 					themeMode: themeMode,
 					theme: ThemeData.light(useMaterial3: true),
