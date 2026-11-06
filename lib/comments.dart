@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class CommentsScreen extends StatefulWidget {
-  const CommentsScreen({super.key});
+class Comments extends StatefulWidget {
+  const Comments({super.key});
 
   @override
-  State<CommentsScreen> createState() => _CommentsScreenState();
+  State<Comments> createState() => _Comments();
 }
 
-class _CommentsScreenState extends State<CommentsScreen> {
+class _Comments extends State<Comments> {
   bool _isLoading = true;
   bool _isLoggedIn = false;
   
