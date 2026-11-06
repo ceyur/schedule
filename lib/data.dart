@@ -7,3 +7,27 @@ List<List<dynamic>> mySchedule = [
 	["Шаидова Насиба Абдрашитовна", Type.teacher],
 	["ОЗИВТ(ППК-2)-25-1-у", Type.group],
 ];
+
+
+  // >>> ПЕРЕМЕННЫЕ ДЛЯ ТЕМЫ ОФОРМЛЕНИЯ <<<
+  final List<ThemeMode> _themeModes = [
+    ThemeMode.light,
+    ThemeMode.dark,
+    ThemeMode.system,
+  ];
+
+  final Map<ThemeMode, String> _themeNames = {
+    ThemeMode.light: 'Светлая',
+    ThemeMode.dark: 'Тёмная',
+    ThemeMode.system: 'Системная',
+  };
+
+  final Map<ThemeMode, IconData> _themeIcons = {
+    ThemeMode.light: Icons.light_mode,
+    ThemeMode.dark: Icons.dark_mode,
+    ThemeMode.system: Icons.brightness_auto,
+  };
+
+
+// Глобальный контроллер темы (чтобы был доступен из любого места)
+final themeNotifier = ValueNotifier<ThemeMode>(ThemeMode.system);
