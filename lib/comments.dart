@@ -43,7 +43,8 @@ class _Comments extends State<Comments> {
     if (session != null) {
       setState(() => _isLoggedIn = true);
       await _loadProfile(session.user.id);
-    } else {
+    }
+    else {
       setState(() {
         _isLoggedIn = false;
         _isLoading = false;
@@ -102,7 +103,8 @@ class _Comments extends State<Comments> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Проверьте почту для подтверждения!')),
         );
-      } else {
+      }
+      else {
         await Supabase.instance.client.auth.signInWithPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
@@ -148,9 +150,6 @@ class _Comments extends State<Comments> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Комментарии'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: _isLoggedIn ? _buildLoggedInView() : _buildLoggedOutView(),
