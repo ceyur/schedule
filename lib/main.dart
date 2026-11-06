@@ -47,43 +47,51 @@ class _MyApp extends State<MyApp> {
 	int selectedPage = 0;
 	
 	@override
-	Widget build(BuildContext context) {
-		return MaterialApp(
-			debugShowCheckedModeBanner: false,
-			title: items[selectedPage].label,
-			home: Scaffold(
-				body: IndexedStack(
-					index: selectedPage,
-					children: pages,
-				), // IndexedStack
-				bottomNavigationBar: Theme(
-					data: ThemeData(
-						splashFactory: NoSplash.splashFactory,
-						highlightColor: Colors.transparent,
-						hoverColor: Colors.transparent,
-					), // ThemeData
-					child: Padding(
-						padding: const EdgeInsets.all(10),
-						child: ClipRRect(
-							borderRadius: BorderRadius.circular(99),
-							child: BottomNavigationBar(
-								backgroundColor: const Color(0xFF27D8D2),
-								selectedItemColor: Colors.black,
-								unselectedItemColor: Colors.teal, // Colors.black45
-								selectedFontSize: 15,
-								unselectedFontSize: 15,
-								items: items,
-								currentIndex: selectedPage,
-								onTap: (index) {
-									setState(() {
-										selectedPage = index;
-									}); // setState
-								}, // onTap
-							), // BottomNavigationBar
-						), // ClipRRect
-					), // Padding
-				), // Theme
-			), // Scaffold
-		); // MaterialApp
+	Widget build(BuildContext context) {		
+		return ValueListenableBuilder<ThemeMode>(
+			valueListenable: themeNotifier,
+			builder: (context, themeMode, _) {
+				MaterialApp(
+					debugShowCheckedModeBanner: false,
+					themeMode: themeMode,
+					theme: ThemeData.light(useMaterial3: true),
+							darkTheme: ThemeData.dark(useMaterial3: true),
+					title: items[selectedPage].label,
+					home: Scaffold(
+						body: IndexedStack(
+							index: selectedPage,
+							children: pages,
+						), // IndexedStack
+						bottomNavigationBar: Theme(
+							data: ThemeData(
+								splashFactory: NoSplash.splashFactory,
+								highlightColor: Colors.transparent,
+								hoverColor: Colors.transparent,
+							), // ThemeData
+							child: Padding(
+								padding: const EdgeInsets.all(10),
+								child: ClipRRect(
+									borderRadius: BorderRadius.circular(99),
+									child: BottomNavigationBar(
+										backgroundColor: const Color(0xFF27D8D2),
+										selectedItemColor: Colors.black,
+										unselectedItemColor: Colors.teal, // Colors.black45
+										selectedFontSize: 15,
+										unselectedFontSize: 15,
+										items: items,
+										currentIndex: selectedPage,
+										onTap: (index) {
+											setState(() {
+												selectedPage = index;
+											}); // setState
+										}, // onTap
+									), // BottomNavigationBar
+								), // ClipRRect
+							), // Padding
+						), // Theme
+					), // Scaffold
+				); // MaterialApp
+			},
+		);
 	} // build
 } // _MyApp
