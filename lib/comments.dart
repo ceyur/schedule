@@ -215,15 +215,6 @@ class _Comments extends State<Comments> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 40),
-          const Icon(Icons.lock_outline, size: 64, color: Colors.grey),
-          const SizedBox(height: 16),
-          const Text(
-            'Войдите или зарегистрируйтесь,\nчтобы видеть профиль и оставлять комментарии',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16, color: Colors.grey),
-          ),
-          const SizedBox(height: 32),
           Card(
             elevation: 4,
             child: Padding(
