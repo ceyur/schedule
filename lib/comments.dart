@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import "package:flutter/material.dart";
+import "package:supabase_flutter/supabase_flutter.dart";
 
 class Comments extends StatefulWidget {
   const Comments({super.key});
@@ -55,19 +55,19 @@ class _Comments extends State<Comments> {
   Future<void> _loadProfile(String userId) async {
     try {
       final response = await Supabase.instance.client
-          .from('profiles')
-          .select('name, avatar_url')
-          .eq('id', userId)
+          .from("profiles")
+          .select("name, avatar_url")
+          .eq("id", userId)
           .maybeSingle(); // maybeSingle вернет null, если профиль еще не создан
 
       if (response != null) {
         setState(() {
-          _userName = response['name'] as String?;
-          _userAvatar = response['picture_url'] as String?;
+          _userName = response["name"] as String?;
+          _userAvatar = response["picture_url"] as String?;
         });
       }
     } catch (e) {
-      debugPrint('Ошибка загрузки профиля: $e');
+      debugPrint("Ошибка загрузки профиля: $e");
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -79,14 +79,14 @@ class _Comments extends State<Comments> {
     // Простая валидация без FormKey, чтобы избежать ошибок копирования
     if (_emailController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Пожалуйста, заполните email и пароль')),
+        const SnackBar(content: Text("Пожалуйста, заполните email и пароль")),
       );
       return;
     }
 
     if (_isRegistering && _nameController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Пожалуйста, введите имя')),
+        const SnackBar(content: Text("Пожалуйста, введите имя")),
       );
       return;
     }
@@ -97,11 +97,11 @@ class _Comments extends State<Comments> {
         await Supabase.instance.client.auth.signUp(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
-          data: {'name': _nameController.text.trim()},
+          data: {"name": _nameController.text.trim()},
         );
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Проверьте почту для подтверждения!')),
+          const SnackBar(content: Text("Проверьте почту для подтверждения!")),
         );
       }
       else {
@@ -119,11 +119,11 @@ class _Comments extends State<Comments> {
       setState(() => _isRegistering = false);
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Ошибка: ${e.message}')),
+        SnackBar(content: Text("Ошибка: ${e.message}")),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Неизвестная ошибка: $e')),
+        SnackBar(content: Text("Неизвестная ошибка: $e")),
       );
     } finally {
       if (mounted) {
@@ -177,9 +177,9 @@ class _Comments extends State<Comments> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Добро пожаловать,', style: TextStyle(color: Colors.grey)),
+                      const Text("Добро пожаловать,", style: TextStyle(color: Colors.grey)),
                       Text(
-                        _userName ?? 'Пользователь',
+                        _userName ?? "Пользователь",
                         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -188,7 +188,7 @@ class _Comments extends State<Comments> {
                 IconButton(
                   icon: const Icon(Icons.logout, color: Colors.red),
                   onPressed: _logout,
-                  tooltip: 'Выйти',
+                  tooltip: "Выйти",
                 ),
               ],
             ),
@@ -196,13 +196,13 @@ class _Comments extends State<Comments> {
         ),
         const SizedBox(height: 24),
         const Text(
-          'Список комментариев:',
+          "Список комментариев:",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
         const Expanded(
           child: Center(
-            child: Text('Здесь будут отображаться комментарии'),
+            child: Text("Здесь будут отображаться комментарии"),
           ),
         ),
       ],
@@ -215,23 +215,21 @@ class _Comments extends State<Comments> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 10),
-          Text(
-            _isRegistering ? "Регистрация" : "Авторизация",
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
           Card(
             elevation: 4,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
+                  Text(
+                    _isRegistering ? "Регистрация" : "Авторизация",
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                   if (_isRegistering) ...[
                     TextField(
                       controller: _nameController,
                       decoration: const InputDecoration(
-                        labelText: 'Ваше имя',
+                        labelText: "Ваше имя",
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -240,7 +238,7 @@ class _Comments extends State<Comments> {
                   TextField(
                     controller: _emailController,
                     decoration: const InputDecoration(
-                      labelText: 'Email',
+                      labelText: "Email",
                       border: OutlineInputBorder(),
                     ),
                     keyboardType: TextInputType.emailAddress,
@@ -249,7 +247,7 @@ class _Comments extends State<Comments> {
                   TextField(
                     controller: _passwordController,
                     decoration: const InputDecoration(
-                      labelText: 'Пароль',
+                      labelText: "Пароль",
                       border: OutlineInputBorder(),
                     ),
                     obscureText: true,
@@ -261,7 +259,7 @@ class _Comments extends State<Comments> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: _handleAuth,
-                            child: Text(_isRegistering ? 'Зарегистрироваться' : 'Войти'),
+                            child: Text(_isRegistering ? "Зарегистрироваться" : "Войти"),
                           ),
                         ),
                   TextButton(
@@ -272,8 +270,8 @@ class _Comments extends State<Comments> {
                       _nameController.clear();
                     },
                     child: Text(_isRegistering
-                        ? 'Уже есть аккаунт? Войти'
-                        : 'Нет аккаунта? Зарегистрироваться'),
+                        ? "Уже есть аккаунт? Войти"
+                        : "Нет аккаунта? Зарегистрироваться"),
                   ),
                 ],
               ),
