@@ -274,6 +274,7 @@ class _Comments extends State<Comments> {
 						trailing: const Icon(Icons.chevron_right),
 						onTap: _showGroupSelector,
 					),
+				),
 			],
 		);
 	}
