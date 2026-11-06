@@ -89586,7 +89586,7 @@ var $async$yq=A.G(function(b,c){if(b===1){p.push(c)
 s=q}for(;;)switch(s){case 0:q=3
 k=$.ek().b
 k===$&&A.a()
-k=k.Jo("profiles").D8("name, picture_url")
+k=k.Jo("profiles").D8("name, avatar_url")
 j=k.amj("id","eq."+a)
 k=A.ayJ(k.a8R(j),k.$ti.c)
 i=k.a
