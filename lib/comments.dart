@@ -215,6 +215,12 @@ class _Comments extends State<Comments> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(height: 10),
+          Text(
+            _isRegistering ? "Регистрация" : "Авторизация"
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
           Card(
             elevation: 4,
             child: Padding(
