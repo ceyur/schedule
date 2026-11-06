@@ -11,19 +11,19 @@ List<List<dynamic>> mySchedule = [
 
 
   // >>> ПЕРЕМЕННЫЕ ДЛЯ ТЕМЫ ОФОРМЛЕНИЯ <<<
-  final List<ThemeMode> _themeModes = [
+  final List<ThemeMode> themeModes = [
     ThemeMode.light,
     ThemeMode.dark,
     ThemeMode.system,
   ];
 
-  final Map<ThemeMode, String> _themeNames = {
+  final Map<ThemeMode, String> themeNames = {
     ThemeMode.light: 'Светлая',
     ThemeMode.dark: 'Тёмная',
     ThemeMode.system: 'Системная',
   };
 
-  final Map<ThemeMode, IconData> _themeIcons = {
+  final Map<ThemeMode, IconData> themeIcons = {
     ThemeMode.light: Icons.light_mode,
     ThemeMode.dark: Icons.dark_mode,
     ThemeMode.system: Icons.brightness_auto,
