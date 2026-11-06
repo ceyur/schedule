@@ -189,18 +189,12 @@ class _Comments extends State<Comments> {
 
 	Future<void> _showGroupSelector() async {
 		// Переходим на экран выбора и ждём результат
-		final selectedGroup = await Navigator.push<String>(
+		await Navigator.push<String>(
 			context,
 			MaterialPageRoute(
 				builder: (context) => const Profile(), // ← имя вашего экрана
 			),
 		);
-
-		// Если пользователь что-то выбрал — сохраняем
-		if (selectedGroup != null && selectedGroup.isNotEmpty) {
-			setState(() => _selectedGroup = selectedGroup);
-			// TODO: Здесь можно сохранить выбор в Supabase
-		}
 	}
 	
 	@override
@@ -276,8 +270,7 @@ class _Comments extends State<Comments> {
 				Card(
 					child: ListTile(
 						leading: const Icon(Icons.groups, color: Colors.green, size: 30),
-						title: const Text("Группа", style: TextStyle(fontWeight: FontWeight.bold)),
-						subtitle: Text(_selectedGroup ?? "Не выбрана"),
+						title: const Text("Выбрать избранные группы", style: TextStyle(fontWeight: FontWeight.bold)),
 						trailing: const Icon(Icons.chevron_right),
 						onTap: _showGroupSelector,
 					),
