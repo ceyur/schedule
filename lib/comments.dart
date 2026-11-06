@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
+import "package:schedule/data.dart";
 
 class Comments extends StatefulWidget {
   const Comments({super.key});
