@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Загрузка...</title>
-    <script type="text/javascript">
-        var path = window.location.pathname;
-        if (!path.endsWith("index.html")) {
-            window.location.replace("/schedule/index.html?redirect=" + encodeURIComponent(path));
-        }
-    </script>
+	<meta charset="UTF-8">
+	<meta content="IE=Edge" http-equiv="X-UA-Compatible">
+	<meta name="description" content="Расписание">
+
+	<base href="/schedule/">
+
+	<script type="text/javascript">
+		const urlParams = new URLSearchParams(window.location.search);
+		const redirectPath = urlParams.get("redirect");
+		
+		if (redirectPath) {
+			window.history.replaceState({}, document.title, redirectPath);
+		}
+	</script>
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-title" content="Расписание">
+
+	<link rel="manifest" href="manifest.json">
+	<title>Расписание</title>
+	<link rel="stylesheet" type="text/css" href="flutter_bootstrap.js">
 </head>
-<body></body>
+<body>
+	<script src="flutter_bootstrap.js" async></script>
+</body>
 </html>
