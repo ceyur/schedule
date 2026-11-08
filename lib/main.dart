@@ -3,10 +3,10 @@ import "package:intl/intl.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
 import "package:shared_preferences/shared_preferences.dart";
-import "package:schedule/schedule.dart";
-import "package:schedule/comments.dart";
-import "package:schedule/profile.dart";
 import "package:schedule/data.dart";
+import "package:schedule/schedule.dart";
+import "package:schedule/profile.dart";
+import "package:schedule/comments.dart";
 
 Future<void> main() async {
 	WidgetsFlutterBinding.ensureInitialized();
@@ -20,11 +20,11 @@ Future<void> main() async {
 	);
 	
 	data = await SharedPreferences.getInstance();
-	if (data.getKeys().length != 0 ) {
+	if (data.getKeys().length != 0) {
 		mySchedule = data.getKeys().map((key) {
 			return [key, Type.values.byName(data.getString(key)!)];
 		}).toList();
-	}
+	} // if
 	
 	runApp(MyApp());
 } // main
@@ -55,43 +55,36 @@ class _MyApp extends State<MyApp> {
 					debugShowCheckedModeBanner: false,
 					themeMode: themeMode,
 					theme: ThemeData.light(useMaterial3: true),
-							darkTheme: ThemeData.dark(useMaterial3: true),
+						darkTheme: ThemeData.dark(useMaterial3: true),
 					title: items[selectedPage].label,
 					home: Scaffold(
 						body: IndexedStack(
 							index: selectedPage,
 							children: pages,
 						), // IndexedStack
-						bottomNavigationBar: Theme(
-							data: ThemeData(
-								splashFactory: NoSplash.splashFactory,
-								highlightColor: Colors.transparent,
-								hoverColor: Colors.transparent,
-							), // ThemeData
-							child: Padding(
-								padding: const EdgeInsets.all(10),
-								child: ClipRRect(
-									borderRadius: BorderRadius.circular(99),
-									child: BottomNavigationBar(
-										backgroundColor: const Color(0xFF27D8D2),
-										selectedItemColor: Colors.black,
-										unselectedItemColor: Colors.teal, // Colors.black45
-										selectedFontSize: 15,
-										unselectedFontSize: 15,
-										items: items,
-										currentIndex: selectedPage,
-										onTap: (index) {
-											setState(() {
-												selectedPage = index;
-											}); // setState
-										}, // onTap
-									), // BottomNavigationBar
-								), // ClipRRect
-							), // Padding
-						), // Theme
+						bottomNavigationBar: Padding(
+							padding: const EdgeInsets.all(10),
+							child: ClipRRect(
+								borderRadius: BorderRadius.circular(99),
+								child: BottomNavigationBar(
+									backgroundColor: const Color(0xFF27D8D2),
+									selectedItemColor: Colors.black,
+									unselectedItemColor: Colors.teal, // Colors.black45
+									selectedFontSize: 15,
+									unselectedFontSize: 15,
+									items: items,
+									currentIndex: selectedPage,
+									onTap: (index) {
+										setState(() {
+											selectedPage = index;
+										}); // setState
+									}, // onTap
+								), // BottomNavigationBar
+							), // ClipRRect
+						), // Padding
 					), // Scaffold
 				); // MaterialApp
-			},
-		);
+			}, // builder
+		); // ValueListenableBuilder
 	} // build
 } // _MyApp
