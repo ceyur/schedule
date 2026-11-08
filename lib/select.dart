@@ -60,6 +60,7 @@ class _Select extends State<Select> {
 								),
 								onPressed: () {
 									context.go('/profile');
+									Navigator.of(context).pop();
 								},
 							),
 						),
