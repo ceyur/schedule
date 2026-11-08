@@ -53,15 +53,13 @@ class _Select extends State<Select> {
 						child: Padding(
 							padding: const EdgeInsets.only(top: 10, right: 10),
 							child: IconButton(
-								icon: const Icon(Icons.close), // Крестик по центру
+								icon: const Icon(Icons.close),
 								style: IconButton.styleFrom(
-									shape: const CircleBorder(), // Делает кнопку строго круглой
+									shape: const CircleBorder(),
 								),
 								onPressed: () {
-									Navigator.push(
-										context,
-										MaterialPageRoute(builder: (context) => const Profile()),
-									);
+									tabIndexNotifier.value = 2;
+									Navigator.pop(context);
 								},
 							),
 						),
