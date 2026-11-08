@@ -42,48 +42,51 @@ class _MyApp extends State<MyApp> {
 		BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat),),
 		BottomNavigationBarItem(label: "Профиль", icon: Icon(Icons.account_circle),),
 	]; // items
-	late final List<Widget> pages = [Schedule(), Comments(), Profile()];
-	
-	int selectedPage = 0;
+	late final List<Widget> pages = const [Schedule(), Comments(), Profile()];
 	
 	@override
 	Widget build(BuildContext context) {
 		return ValueListenableBuilder<ThemeMode>(
 			valueListenable: themeNotifier,
 			builder: (context, themeMode, _) {
-				return MaterialApp(
-					debugShowCheckedModeBanner: false,
-					themeMode: themeMode,
-					theme: ThemeData.light(useMaterial3: true),
-						darkTheme: ThemeData.dark(useMaterial3: true),
-					title: items[selectedPage].label,
-					home: Scaffold(
-						body: IndexedStack(
-							index: selectedPage,
-							children: pages,
-						), // IndexedStack
-						bottomNavigationBar: Padding(
-							padding: const EdgeInsets.all(10),
-							child: ClipRRect(
-								borderRadius: BorderRadius.circular(99),
-								child: BottomNavigationBar(
-									backgroundColor: const Color(0xFF27D8D2),
-									selectedItemColor: Colors.black,
-									unselectedItemColor: Colors.teal, // Colors.black45
-									selectedFontSize: 15,
-									unselectedFontSize: 15,
-									items: items,
-									currentIndex: selectedPage,
-									onTap: (index) {
-										setState(() {
-											selectedPage = index;
-										}); // setState
-									}, // onTap
-								), // BottomNavigationBar
-							), // ClipRRect
-						), // Padding
-					), // Scaffold
-				); // MaterialApp
+				return ValueListenableBuilder<int>(
+					valueListenable: tabIndexNotifier,
+					builder: (context, selectedIndex, _) {
+						return MaterialApp(
+							debugShowCheckedModeBanner: false,
+							themeMode: themeMode,
+							theme: ThemeData.light(useMaterial3: true),
+								darkTheme: ThemeData.dark(useMaterial3: true),
+							title: items[selectedPage].label,
+							home: Scaffold(
+								body: IndexedStack(
+									index: selectedPage,
+									children: pages,
+								), // IndexedStack
+								bottomNavigationBar: Padding(
+									padding: const EdgeInsets.all(10),
+									child: ClipRRect(
+										borderRadius: BorderRadius.circular(99),
+										child: BottomNavigationBar(
+											backgroundColor: const Color(0xFF27D8D2),
+											selectedItemColor: Colors.black,
+											unselectedItemColor: Colors.teal, // Colors.black45
+											selectedFontSize: 15,
+											unselectedFontSize: 15,
+											items: items,
+											currentIndex: selectedPage,
+											onTap: (index) {
+												setState(() {
+													tabIndexNotifier.value = index;
+												}); // setState
+											}, // onTap
+										), // BottomNavigationBar
+									), // ClipRRect
+								), // Padding
+							), // Scaffold
+						); // MaterialApp
+					}
+				);
 			}, // builder
 		); // ValueListenableBuilder
 	} // build
