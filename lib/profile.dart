@@ -192,7 +192,7 @@ class _Profile extends State<Profile> {
 		await Navigator.push<String>(
 			context,
 			MaterialPageRoute(
-				builder: (context) => const Profile(), // ← имя вашего экрана
+				builder: (context) => const Select(), // ← имя вашего экрана
 			),
 		);
 	}
