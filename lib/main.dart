@@ -57,10 +57,10 @@ class _MyApp extends State<MyApp> {
 							themeMode: themeMode,
 							theme: ThemeData.light(useMaterial3: true),
 								darkTheme: ThemeData.dark(useMaterial3: true),
-							title: items[selectedPage].label,
+							title: items[tabIndexNotifier.value].label,
 							home: Scaffold(
 								body: IndexedStack(
-									index: selectedPage,
+									index: tabIndexNotifier.value,
 									children: pages,
 								), // IndexedStack
 								bottomNavigationBar: Padding(
@@ -74,7 +74,7 @@ class _MyApp extends State<MyApp> {
 											selectedFontSize: 15,
 											unselectedFontSize: 15,
 											items: items,
-											currentIndex: selectedPage,
+											currentIndex: tabIndexNotifier.value,
 											onTap: (index) {
 												setState(() {
 													tabIndexNotifier.value = index;
