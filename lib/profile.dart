@@ -420,62 +420,75 @@ class _Profile extends State<Profile> {
 	}
 
 	Future<void> _deleteAccount() async {
-		final confirm = await showDialog<bool>(
-			context: context,
-			builder: (context) => AlertDialog(
-				title: const Text("Удалить аккаунт?", style: TextStyle(color: Colors.red)),
-				content: const Text(
-					"Это действие необратимо. Ваш профиль и все локально сохраненные избранные группы будут безвозвратно удалены.",
-				),
-				actions: [
-					TextButton(
-						onPressed: () => Navigator.pop(context, false),
-						child: const Text("Отмена"),
-					),
-					TextButton(
-						onPressed: () => Navigator.pop(context, true),
-						style: TextButton.styleFrom(foregroundColor: Colors.red),
-						child: const Text("Удалить", style: TextStyle(fontWeight: FontWeight.bold)),
-					),
-				],
-			),
-		);
-
-		if (confirm != true) return;
-		setState(() => _isFormLoading = true);
-
-		try {
-			final userId = Supabase.instance.client.auth.currentUser?.id;
-			if (userId == null) throw Exception("Пользователь не авторизован");
-
-			await Supabase.instance.client.from("profiles").delete().eq("id", userId);
-			await data.clear();
-			mySchedule.clear();
-			await Supabase.instance.client.auth.signOut();
-
-			if (!mounted) return;
-			setState(() {
-				_isLoggedIn = false;
-				_userName = null;
-				_userAvatar = null;
-				_userPhone = null;
-				_userBirthDate = null;
-				_userEmail = null;
-				_isFormLoading = false;
-			});
-
-			if (mounted) {
-				ScaffoldMessenger.of(context).showSnackBar(
-					const SnackBar(content: Text("Аккаунт успешно удален")),
-				);
-			}
-		} catch (e) {
-			if (!mounted) return;
-			setState(() => _isFormLoading = false);
-			ScaffoldMessenger.of(context).showSnackBar(
-				SnackBar(content: Text("Ошибка при удалении: $e")),
-			);
-		}
+	  final confirm = await showDialog<bool>(
+	    context: context,
+	    builder: (context) => AlertDialog(
+	      title: const Text("Удалить аккаунт?", style: TextStyle(color: Colors.red)),
+	      content: const Text(
+	        "Это действие необратимо. Ваш профиль и все данные будут безвозвратно удалены.",
+	      ),
+	      actions: [
+	        TextButton(
+	          onPressed: () => Navigator.pop(context, false),
+	          child: const Text("Отмена"),
+	        ),
+	        TextButton(
+	          onPressed: () => Navigator.pop(context, true),
+	          style: TextButton.styleFrom(foregroundColor: Colors.red),
+	          child: const Text("Удалить", style: TextStyle(fontWeight: FontWeight.bold)),
+	        ),
+	      ],
+	    ),
+	  );
+	
+	  if (confirm != true) return;
+	  setState(() => _isFormLoading = true);
+	
+	  try {
+	    final userId = Supabase.instance.client.auth.currentUser?.id;
+	    if (userId == null) throw Exception("Пользователь не авторизован");
+	
+	    // Вызываем Edge Function для полного удаления
+	    final response = await Supabase.instance.client.functions.invoke(
+	      'delete-user',
+	      body: {'userId': userId},
+	    );
+	
+	    if (response.status != 200) {
+	      throw Exception("Ошибка удаления: ${response.data}");
+	    }
+	
+	    // Очищаем локальные данные
+	    await data.clear();
+	    mySchedule.clear();
+	    
+	    // Выходим из системы (на случай если Edge Function не успела)
+	    await Supabase.instance.client.auth.signOut();
+	
+	    if (!mounted) return;
+	    setState(() {
+	      _isLoggedIn = false;
+	      _userName = null;
+	      _userAvatar = null;
+	      _userPhone = null;
+	      _userBirthDate = null;
+	      _userEmail = null;
+	      _isFormLoading = false;
+	    });
+	
+	    if (mounted) {
+	      ScaffoldMessenger.of(context).showSnackBar(
+	        const SnackBar(content: Text("Аккаунт полностью удален")),
+	      );
+	    }
+	  } catch (e) {
+	    debugPrint("ОШИБКА УДАЛЕНИЯ: $e");
+	    if (!mounted) return;
+	    setState(() => _isFormLoading = false);
+	    ScaffoldMessenger.of(context).showSnackBar(
+	      SnackBar(content: Text("Ошибка при удалении: $e")),
+	    );
+	  }
 	}
 
 	@override
