@@ -241,11 +241,6 @@ class _Profile extends State<Profile> {
 										],
 									),
 								),
-								IconButton(
-									icon: const Icon(Icons.logout, color: Colors.red),
-									onPressed: ,
-									tooltip: "Выйти",
-								),
 							],
 						),
 					),
