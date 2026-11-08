@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 enum Type { group, teacher, room }
@@ -10,7 +10,6 @@ List<List<dynamic>> mySchedule = [
 ];
 
 
-// >>> ПЕРЕМЕННЫЕ ДЛЯ ТЕМЫ ОФОРМЛЕНИЯ <<<
 final List<ThemeMode> themeModes = [
 	ThemeMode.light,
 	ThemeMode.dark,
@@ -18,9 +17,9 @@ final List<ThemeMode> themeModes = [
 ];
 
 final Map<ThemeMode, String> themeNames = {
-	ThemeMode.light: 'Светлая',
-	ThemeMode.dark: 'Тёмная',
-	ThemeMode.system: 'Системная',
+	ThemeMode.light: "Светлая",
+	ThemeMode.dark: "Тёмная",
+	ThemeMode.system: "Системная",
 };
 
 final Map<ThemeMode, IconData> themeIcons = {
@@ -30,5 +29,4 @@ final Map<ThemeMode, IconData> themeIcons = {
 };
 
 
-// Глобальный контроллер темы (чтобы был доступен из любого места)
 final themeNotifier = ValueNotifier<ThemeMode>(ThemeMode.system);
