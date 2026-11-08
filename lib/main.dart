@@ -73,6 +73,9 @@ final GoRouter appRouter = GoRouter(
 
 Future<void> main() async {
 	WidgetsFlutterBinding.ensureInitialized();
+
+	setPathUrlStrategy(); 
+	
 	await initializeDateFormatting("ru_RU");
 	
 	await Supabase.initialize(
