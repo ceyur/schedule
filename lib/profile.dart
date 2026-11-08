@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
-import "package:schedule/profile.dart";
+import "package:schedule/select.dart";
 import "package:schedule/data.dart";
 
 class Profile extends StatefulWidget {
