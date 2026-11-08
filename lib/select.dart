@@ -15,14 +15,10 @@ class Select extends StatefulWidget {
 
 class _Select extends State<Select> {
 	Type selectedType = Type.group;
-	late SharedPreferences data;
 	late Future<List<dynamic>> groups;
 	late Future<List<dynamic>> teachers;
 	late Future<List<dynamic>> rooms;
-	
-	void getData() async {
-		data = await SharedPreferences.getInstance();
-	} // getData
+
 	Future<List<dynamic>> getGroups() async {
 		return await Supabase.instance.client
 			.from("groups")
@@ -42,7 +38,6 @@ class _Select extends State<Select> {
 	@override
 	void initState() {
 		super.initState();
-		getData();
 		groups = getGroups();
 		teachers = getTeachers();
 		rooms = getRooms();
