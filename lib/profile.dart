@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
-import "package:schedule/select.dart";
 import "package:schedule/data.dart";
+import "package:schedule/select.dart";
 
 class Profile extends StatefulWidget {
 	const Profile({super.key});
@@ -243,7 +243,7 @@ class _Profile extends State<Profile> {
 								),
 								IconButton(
 									icon: const Icon(Icons.logout, color: Colors.red),
-									onPressed: _logout,
+									onPressed: ,
 									tooltip: "Выйти",
 								),
 							],
@@ -273,6 +273,14 @@ class _Profile extends State<Profile> {
 						title: const Text("Выбрать избранные группы", style: TextStyle(fontWeight: FontWeight.bold)),
 						trailing: const Icon(Icons.chevron_right),
 						onTap: _showGroupSelector,
+					),
+				),
+				const SizedBox(height: 16),
+				Card(
+					child: ListTile(
+						title: const Text("Выйти", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+						trailing: const Icon(Icons.logout, color: Colors.red),
+						onTap: _logout,
 					),
 				),
 			],
