@@ -30,3 +30,4 @@ final Map<ThemeMode, IconData> themeIcons = {
 
 
 final themeNotifier = ValueNotifier<ThemeMode>(ThemeMode.system);
+ValueNotifier<int> tabIndexNotifier = ValueNotifier<int>(0);
