@@ -5,14 +5,14 @@ import "package:supabase_flutter/supabase_flutter.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:schedule/data.dart";
 
-class Profile extends StatefulWidget {
-	const Profile({super.key});
+class Select extends StatefulWidget {
+	const Select({super.key});
 	
 	@override
-	State<Profile> createState() => _Profile();
-} // Profile
+	State<Select> createState() => _Select();
+} // Select
 
-class _Profile extends State<Profile> {
+class _Select extends State<Select> {
 	Type selectedType = Type.group;
 	late SharedPreferences data;
 	late Future<List<dynamic>> groups;
@@ -148,4 +148,4 @@ class _Profile extends State<Profile> {
 			), // Column
 		); // Scaffold
 	} // build
-} // _Profile
+} // _Select
