@@ -60,7 +60,7 @@ class _Profile extends State<Profile> {
 					.from("profiles")
 					.select("name, avatar_url")
 					.eq("id", userId)
-					.maybeSingle(); // maybeSingle вернет null, если профиль еще не создан
+					.maybeSingle();
 
 			if (response != null) {
 				setState(() {
