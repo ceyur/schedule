@@ -11,67 +11,6 @@ import "package:schedule/schedule.dart";
 import "package:schedule/profile.dart";
 import "package:schedule/comments.dart";
 
-final GoRouter appRouter = GoRouter(
-  initialLocation: '/schedule',
-  routes: [
-    StatefulShellRoute.indexedStack(
-      builder: (context, state, navigationShell) {
-        return Scaffold(
-          body: navigationShell, 
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.all(10),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(99),
-              child: BottomNavigationBar(
-                backgroundColor: const Color(0xFF27D8D2),
-                selectedItemColor: Colors.black,
-                unselectedItemColor: Colors.teal,
-                selectedFontSize: 15,
-                unselectedFontSize: 15,
-                items: const [
-                  BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month)),
-                  BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat)),
-                  BottomNavigationBarItem(label: "Профиль", icon: Icon(Icons.account_circle)),
-                ],
-                currentIndex: navigationShell.currentIndex,
-                onTap: (index) {
-                  navigationShell.goBranch(index);
-                },
-              ),
-            ),
-          ),
-        );
-      },
-      branches: [
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/schedule',
-              builder: (context, state) => const Schedule(),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/comments',
-              builder: (context, state) => const Comments(),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/profile',
-              builder: (context, state) => const Profile(),
-            ),
-          ],
-        ),
-      ],
-    ),
-  ],
-);
-
 Future<void> main() async {
 	WidgetsFlutterBinding.ensureInitialized();
 
@@ -96,27 +35,83 @@ Future<void> main() async {
 	runApp(MyApp());
 } // main
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
 	const MyApp({super.key});
-	
-	@override
-	State<MyApp> createState() => _MyApp();
-} // MyApp
 
-class _MyApp extends State<MyApp> {
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: themeNotifier,
-      builder: (context, themeMode, _) {
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          themeMode: themeMode,
-          theme: ThemeData.light(useMaterial3: true),
-          darkTheme: ThemeData.dark(useMaterial3: true),
-          routerConfig: appRouter,
-        );
-      },
-    );
-  }
+	@override
+	Widget build(BuildContext context) {
+		return ValueListenableBuilder<ThemeMode>(
+			valueListenable: themeNotifier,
+			builder: (context, themeMode, _) {
+				return MaterialApp.router(
+					debugShowCheckedModeBanner: false,
+					themeMode: themeMode,
+					theme: ThemeData.light(useMaterial3: true),
+					darkTheme: ThemeData.dark(useMaterial3: true),
+					routerConfig: router,
+				);
+			},
+		);
+	}
 }
+
+final router = GoRouter(
+	initialLocation: "/schedule/",
+	routes: [
+		StatefulShellRoute.indexedStack(
+			builder: (context, state, navigationShell) {
+				return Scaffold(
+					body: navigationShell, 
+					bottomNavigationBar: Padding(
+						padding: const EdgeInsets.all(10),
+						child: ClipRRect(
+							borderRadius: BorderRadius.circular(99),
+							child: BottomNavigationBar(
+								backgroundColor: const Color(0xFF27D8D2),
+								selectedItemColor: Colors.black,
+								unselectedItemColor: Colors.teal,
+								selectedFontSize: 15,
+								unselectedFontSize: 15,
+								items: const [
+									BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month)),
+									BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat)),
+									BottomNavigationBarItem(label: "Профиль", icon: Icon(Icons.account_circle)),
+								],
+								currentIndex: navigationShell.currentIndex,
+								onTap: (index) {
+									navigationShell.goBranch(index);
+								},
+							),
+						),
+					),
+				);
+			},
+			branches: [
+				StatefulShellBranch(
+					routes: [
+						GoRoute(
+							path: "/main/",
+							builder: (context, state) => const Schedule(),
+						),
+					],
+				),
+				StatefulShellBranch(
+					routes: [
+						GoRoute(
+							path: "/comments/",
+							builder: (context, state) => const Comments(),
+						),
+					],
+				),
+				StatefulShellBranch(
+					routes: [
+						GoRoute(
+							path: "/profile/",
+							builder: (context, state) => const Profile(),
+						),
+					],
+				),
+			],
+		),
+	],
+);
