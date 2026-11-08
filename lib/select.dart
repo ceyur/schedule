@@ -97,7 +97,7 @@ class _Select extends State<Select> {
 								selected: <Type>{selectedType},
 								onSelectionChanged: (Set<Type> newSelection) {
 									setState(() {
-										selectedType = newSelection;
+										selectedType = newSelection.first;
 									}); // setState
 								}, // onSelectionChanged
 							), // SegmentedButton
