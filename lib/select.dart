@@ -3,6 +3,7 @@ import "package:intl/intl.dart";
 import "package:intl/date_symbol_data_local.dart";
 import "package:supabase_flutter/supabase_flutter.dart";
 import "package:shared_preferences/shared_preferences.dart";
+import "package:schedule/profile.dart";
 import "package:schedule/data.dart";
 
 class Select extends StatefulWidget {
@@ -31,6 +32,11 @@ class _Select extends State<Select> {
 			.from("teachers")
 			.select("teacher");
 	} // getTeachers
+	Future<List<dynamic>> getRooms() async {
+		return await Supabase.instance.client
+			.from("rooms")
+			.select("room");
+	} // getRooms
 	
 	@override
 	void initState() {
@@ -38,6 +44,7 @@ class _Select extends State<Select> {
 		getData();
 		groups = getGroups();
 		teachers = getTeachers();
+		rooms = getRooms();
 	} // initState
 	
 	@override
@@ -45,6 +52,24 @@ class _Select extends State<Select> {
 		return Scaffold(
 			body: Column(
 				children: [
+					Align(
+						alignment: Alignment.topRight,
+						child: Padding(
+							padding: const EdgeInsets.only(top: 10, right: 10),
+							child: IconButton(
+								icon: const Icon(Icons.close), // Крестик по центру
+								style: IconButton.styleFrom(
+									shape: const CircleBorder(), // Делает кнопку строго круглой
+								),
+								onPressed: () {
+									Navigator.push(
+										context,
+										MaterialPageRoute(builder: (context) => const Profile()),
+									);
+								},
+							),
+						),
+					),
 					const SizedBox(height: 10),
 					Padding(
 						padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -62,12 +87,16 @@ class _Select extends State<Select> {
 										label: Text("Преподаватели"),
 										icon: Icon(Icons.person),
 									), // ButtonSegment
+									ButtonSegment<Type>(
+										value: Type.room,
+										label: Text("Аудитории"),
+										icon: Icon(Icons.person),
+									), // ButtonSegment
 								], // segments
 								selected: <Type>{selectedType},
 								onSelectionChanged: (Set<Type> newSelection) {
 									setState(() {
-										if (selectedType == Type.teacher) selectedType = Type.group;
-										else selectedType = Type.teacher;
+										selectedType = newSelection;
 									}); // setState
 								}, // onSelectionChanged
 							), // SegmentedButton
@@ -77,7 +106,7 @@ class _Select extends State<Select> {
 					Expanded(
 						child: FutureBuilder<List<dynamic>>(
 							key: ValueKey(selectedType), 
-							future: selectedType == Type.group ? groups : teachers,
+							future: selectedType == Type.group ? groups : selectedType == Type.teacher ? teachers : rooms,
 							builder: (context, snapshot) {
 								if (snapshot.connectionState == ConnectionState.waiting) {
 									return const Center(child: CircularProgressIndicator());
@@ -99,7 +128,9 @@ class _Select extends State<Select> {
 										
 										final String displayName = selectedType == Type.group
 											? item["group_name"]?.toString() ?? ""
-											: item["teacher"]?.toString() ?? "";
+											: selectedType == Type.teacher
+												? item["teacher"]?.toString() ?? ""
+												: item["room"]?.toString() ?? "";
 										
 										bool isFavorite = false;
 										int foundIndex = -1;
