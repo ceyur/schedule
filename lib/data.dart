@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:shared_preferences/shared_preferences.dart";
 
-enum Type { group, teacher }
+enum Type { group, teacher, room }
 late SharedPreferences data;
 List<List<dynamic>> mySchedule = [
 	["23-03 ИСиП", Type.group],
