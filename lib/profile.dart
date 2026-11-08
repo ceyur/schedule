@@ -543,14 +543,19 @@ class _Profile extends State<Profile> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Card(
-                  child: ListTile(
-                    leading: Icon(themeIcons[themeNotifier.value]!, color: Colors.orange, size: 30),
-                    title: const Text("Тема оформления", style: TextStyle(fontWeight: FontWeight.bold)),
-                    subtitle: Text(themeNames[themeNotifier.value]!),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: _showThemeSelector,
-                  ),
+                ValueListenableBuilder<ThemeMode>(
+                  valueListenable: themeNotifier,
+                  builder: (context, currentTheme, child) {
+                    return Card(
+                      child: ListTile(
+                        leading: Icon(themeIcons[themeNotifier.value]!, color: Colors.orange, size: 30),
+                        title: const Text("Тема оформления", style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(themeNames[themeNotifier.value]!),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: _showThemeSelector,
+                      ),
+                    ),
+                  },
                 ),
                 const SizedBox(height: 10),
                 Card(
