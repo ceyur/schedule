@@ -18,6 +18,7 @@ class _Select extends State<Select> {
 	late SharedPreferences data;
 	late Future<List<dynamic>> groups;
 	late Future<List<dynamic>> teachers;
+	late Future<List<dynamic>> rooms;
 	
 	void getData() async {
 		data = await SharedPreferences.getInstance();
