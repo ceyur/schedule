@@ -58,8 +58,7 @@ class _Select extends State<Select> {
 									shape: const CircleBorder(),
 								),
 								onPressed: () {
-									tabIndexNotifier.value = 2;
-									Navigator.pop(context);
+									context.go('/profile');
 								},
 							),
 						),
