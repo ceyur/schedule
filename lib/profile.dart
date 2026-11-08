@@ -3,14 +3,14 @@ import "package:supabase_flutter/supabase_flutter.dart";
 import "package:schedule/profile.dart";
 import "package:schedule/data.dart";
 
-class Comments extends StatefulWidget {
-	const Comments({super.key});
+class Profile extends StatefulWidget {
+	const Profile({super.key});
 
 	@override
-	State<Comments> createState() => _Comments();
-}
+	State<Profile> createState() => _Profile();
+} // Profile
 
-class _Comments extends State<Comments> {
+class _Profile extends State<Profile> {
 	bool _isLoading = true;
 	bool _isLoggedIn = false;
 	
