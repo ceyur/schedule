@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
 }
 
 final router = GoRouter(
-	initialLocation: "/schedule/",
+	initialLocation: "/main",
 	routes: [
 		StatefulShellRoute.indexedStack(
 			builder: (context, state, navigationShell) {
@@ -90,7 +90,7 @@ final router = GoRouter(
 				StatefulShellBranch(
 					routes: [
 						GoRoute(
-							path: "/main/",
+							path: "/main",
 							builder: (context, state) => const Schedule(),
 						),
 					],
@@ -98,7 +98,7 @@ final router = GoRouter(
 				StatefulShellBranch(
 					routes: [
 						GoRoute(
-							path: "/comments/",
+							path: "/comments",
 							builder: (context, state) => const Comments(),
 						),
 					],
@@ -106,7 +106,7 @@ final router = GoRouter(
 				StatefulShellBranch(
 					routes: [
 						GoRoute(
-							path: "/profile/",
+							path: "/profile",
 							builder: (context, state) => const Profile(),
 						),
 					],
