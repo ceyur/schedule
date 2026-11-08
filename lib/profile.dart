@@ -147,15 +147,15 @@ class _Profile extends State<Profile> {
 			),
 			builder: (context) {
 				return Padding(
-					padding: const EdgeInsets.symmetric(vertical: 16),
+					padding: const EdgeInsets.symmetric(vertical: 10),
 					child: Column(
 						mainAxisSize: MainAxisSize.min,
 						children: [
 							const Text(
 								"Выберите тему",
-								style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+								style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
 							),
-							const SizedBox(height: 8),
+							const SizedBox(height: 10),
 							...themeModes.map((mode) {
 								final isSelected = themeNotifier.value == mode;
 								return ListTile(
@@ -268,7 +268,7 @@ class _Profile extends State<Profile> {
 
 		return Scaffold(
 			body: Padding(
-				padding: const EdgeInsets.all(16.0),
+				padding: const EdgeInsets.all(10),
 				child: _isLoggedIn ? _buildLoggedInView() : _buildLoggedOutView(),
 			),
 		);
