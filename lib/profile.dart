@@ -14,11 +14,9 @@ class _Profile extends State<Profile> {
 	bool _isLoading = true;
 	bool _isLoggedIn = false;
 	
-	// Данные профиля
 	String? _userName;
 	String? _userAvatar;
 
-	// Контроллеры для формы
 	final _emailController = TextEditingController();
 	final _passwordController = TextEditingController();
 	final _nameController = TextEditingController();
@@ -78,7 +76,6 @@ class _Profile extends State<Profile> {
 	}
 
 	Future<void> _handleAuth() async {
-		// Простая валидация без FormKey, чтобы избежать ошибок копирования
 		if (_emailController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
 			ScaffoldMessenger.of(context).showSnackBar(
 				const SnackBar(content: Text("Пожалуйста, заполните email и пароль")),
@@ -113,7 +110,6 @@ class _Profile extends State<Profile> {
 				);
 			}
 			
-			// После успеха обновляем состояние и очищаем поля
 			await _checkAuth();
 			_emailController.clear();
 			_passwordController.clear();
@@ -156,7 +152,7 @@ class _Profile extends State<Profile> {
 						mainAxisSize: MainAxisSize.min,
 						children: [
 							const Text(
-								'Выберите тему',
+								"Выберите тему",
 								style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
 							),
 							const SizedBox(height: 8),
@@ -175,7 +171,7 @@ class _Profile extends State<Profile> {
 											? const Icon(Icons.check_circle, color: Colors.blue)
 											: null,
 									onTap: () {
-										themeNotifier.value = mode; // Меняем глобальную тему
+										themeNotifier.value = mode;
 										Navigator.pop(context);
 									},
 								);
@@ -188,13 +184,78 @@ class _Profile extends State<Profile> {
 	}
 
 	Future<void> _showGroupSelector() async {
-		// Переходим на экран выбора и ждём результат
 		await Navigator.push<String>(
 			context,
 			MaterialPageRoute(
-				builder: (context) => const Select(), // ← имя вашего экрана
+				builder: (context) => const Select(),
 			),
 		);
+	}
+
+	Future<void> _deleteAccount() async {
+		// 1. Показываем диалог подтверждения
+		final confirm = await showDialog<bool>(
+			context: context,
+			builder: (context) => AlertDialog(
+				title: const Text("Удалить аккаунт?", style: TextStyle(color: Colors.red)),
+				content: const Text(
+					"Это действие необратимо. Ваш профиль и все локально сохраненные избранные группы будут безвозвратно удалены.",
+				),
+				actions: [
+					TextButton(
+						onPressed: () => Navigator.pop(context, false),
+						child: const Text("Отмена"),
+					),
+					TextButton(
+						onPressed: () => Navigator.pop(context, true),
+						style: TextButton.styleFrom(foregroundColor: Colors.red),
+						child: const Text("Удалить", style: TextStyle(fontWeight: FontWeight.bold)),
+					),
+				],
+			),
+		);
+
+		// Если пользователь нажал "Отмена" или закрыл диалог, прерываем выполнение
+		if (confirm != true) return;
+
+		setState(() => _isFormLoading = true);
+
+		try {
+			final userId = Supabase.instance.client.auth.currentUser?.id;
+			if (userId == null) throw Exception("Пользователь не авторизован");
+
+			// 2. Удаляем запись из таблицы profiles
+			await Supabase.instance.client.from("profiles").delete().eq("id", userId);
+
+			// 3. Очищаем локальные данные (избранные группы)
+			await data.clear();
+			mySchedule.clear();
+
+			// 4. Выходим из системы
+			await Supabase.instance.client.auth.signOut();
+
+			if (!mounted) return;
+
+			// 5. Обновляем состояние UI
+			setState(() {
+				_isLoggedIn = false;
+				_userName = null;
+				_userAvatar = null;
+				_isFormLoading = false;
+			});
+
+			if (mounted) {
+				ScaffoldMessenger.of(context).showSnackBar(
+					const SnackBar(content: Text("Аккаунт успешно удален")),
+				);
+			}
+		} catch (e) {
+			if (!mounted) return;
+			setState(() => _isFormLoading = false);
+			ScaffoldMessenger.of(context).showSnackBar(
+				SnackBar(content: Text("Ошибка при удалении: $e")),
+			);
+		}
 	}
 	
 	@override
@@ -220,7 +281,7 @@ class _Profile extends State<Profile> {
 			children: [
 				Card(
 					child: Padding(
-						padding: const EdgeInsets.all(16.0),
+						padding: const EdgeInsets.all(10),
 						child: Row(
 							children: [
 								CircleAvatar(
@@ -228,7 +289,7 @@ class _Profile extends State<Profile> {
 									backgroundImage: _userAvatar != null ? NetworkImage(_userAvatar!) : null,
 									child: _userAvatar == null ? const Icon(Icons.person, size: 30) : null,
 								),
-								const SizedBox(width: 16),
+								const SizedBox(width: 10),
 								Expanded(
 									child: Column(
 										crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,7 +306,7 @@ class _Profile extends State<Profile> {
 						),
 					),
 				),
-				const SizedBox(height: 16),
+				const SizedBox(height: 10),
 				// Карточка выбора темы оформления
 				Card(
 					child: ListTile(
@@ -260,7 +321,7 @@ class _Profile extends State<Profile> {
 						onTap: _showThemeSelector,
 					),
 				),
-				const SizedBox(height: 16),
+				const SizedBox(height: 10),
 				// 3. Карточка выбора группы
 				Card(
 					child: ListTile(
@@ -270,12 +331,20 @@ class _Profile extends State<Profile> {
 						onTap: _showGroupSelector,
 					),
 				),
-				const SizedBox(height: 16),
+				const SizedBox(height: 10),
 				Card(
 					child: ListTile(
 						title: const Text("Выйти", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
 						trailing: const Icon(Icons.logout, color: Colors.red),
 						onTap: _logout,
+					),
+				),
+				const SizedBox(height: 10),
+				Card(
+					child: ListTile(
+						title: const Text("Удалить аккаунт", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+						trailing: const Icon(Icons.delete_forever, color: Colors.red),
+						onTap: _deleteAccount,
 					),
 				),
 			],
@@ -291,13 +360,14 @@ class _Profile extends State<Profile> {
 					Card(
 						elevation: 4,
 						child: Padding(
-							padding: const EdgeInsets.all(16.0),
+							padding: const EdgeInsets.all(20),
 							child: Column(
 								children: [
 									Text(
 										_isRegistering ? "Регистрация" : "Авторизация",
 										style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
 									),
+									const SizedBox(height: 10),
 									if (_isRegistering) ...[
 										TextField(
 											controller: _nameController,
@@ -306,7 +376,7 @@ class _Profile extends State<Profile> {
 												border: OutlineInputBorder(),
 											),
 										),
-										const SizedBox(height: 16),
+										const SizedBox(height: 10),
 									],
 									TextField(
 										controller: _emailController,
@@ -316,7 +386,7 @@ class _Profile extends State<Profile> {
 										),
 										keyboardType: TextInputType.emailAddress,
 									),
-									const SizedBox(height: 16),
+									const SizedBox(height: 10),
 									TextField(
 										controller: _passwordController,
 										decoration: const InputDecoration(
@@ -325,7 +395,7 @@ class _Profile extends State<Profile> {
 										),
 										obscureText: true,
 									),
-									const SizedBox(height: 24),
+									const SizedBox(height: 10),
 									_isFormLoading
 											? const CircularProgressIndicator()
 											: SizedBox(
