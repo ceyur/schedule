@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="/schedule/">
-	
 	<meta charset="UTF-8">
 	<meta content="IE=Edge" http-equiv="X-UA-Compatible">
-	<meta name="description" content="Удобное расписание занятий в одном месте. Быстро находите нужную группу и переключайтесь между неделями. Подходит как студентам, так и преподавателям.">
-	
-	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="description" content="Расписание">
+
+	<base href="/schedule/">
+
+	<script type="text/javascript">
+		const urlParams = new URLSearchParams(window.location.search);
+		const redirectPath = urlParams.get("redirect");
+		
+		if (redirectPath) {
+			window.history.replaceState({}, document.title, redirectPath);
+		}
+	</script>
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="apple-mobile-web-app-title" content="Расписание">
-	
-	<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-	
-	<title>Расписание</title>
+
 	<link rel="manifest" href="manifest.json">
+	<title>Расписание</title>
+	<link rel="stylesheet" type="text/css" href="flutter_bootstrap.js">
 </head>
 <body>
 	<script src="flutter_bootstrap.js" async></script>
