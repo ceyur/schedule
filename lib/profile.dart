@@ -186,9 +186,10 @@ class _Profile extends State<Profile> {
 
     try {
       // 1. Обновляем Email в системе авторизации (Supabase отправит письмо для подтверждения)
-      if (_editEmailController.text.trim() != _userEmail) {
+      if (_editEmailController.text.trim().isNotEmpty && 
+          _editEmailController.text.trim() != _userEmail) {
         await Supabase.instance.client.auth.updateUser(
-          email: _editEmailController.text.trim(),
+          UserAttributes(email: _editEmailController.text.trim()), // <-- ИСПРАВЛЕНО ЗДЕСЬ
         );
       }
 
