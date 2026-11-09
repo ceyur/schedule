@@ -9,24 +9,20 @@ List<List<dynamic>> mySchedule = [
 	["ОЗИВТ(ППК-2)-25-1-у", Type.group],
 ];
 
-
 final List<ThemeMode> themeModes = [
 	ThemeMode.light,
 	ThemeMode.dark,
 	ThemeMode.system,
 ];
-
 final Map<ThemeMode, String> themeNames = {
 	ThemeMode.light: "Светлая",
 	ThemeMode.dark: "Тёмная",
 	ThemeMode.system: "Системная",
 };
-
 final Map<ThemeMode, IconData> themeIcons = {
 	ThemeMode.light: Icons.light_mode,
 	ThemeMode.dark: Icons.dark_mode,
 	ThemeMode.system: Icons.brightness_auto,
 };
-
 
 final themeNotifier = ValueNotifier<ThemeMode>(ThemeMode.system);
