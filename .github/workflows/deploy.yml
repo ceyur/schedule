@@ -29,7 +29,7 @@ jobs:
         run: flutter pub get
       - name: Build Web
         run: |
-          flutter build web --base-href "/schedule/" --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+          flutter build web --base-href "/schedule/" --dart-define=SUPABASE_PUBLISHABLE_KEY=${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
       - name: Create 404.html
         run: cp build/web/index.html build/web/404.html
       - name: Deploy to GitHub Pages
