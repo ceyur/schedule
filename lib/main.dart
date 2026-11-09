@@ -23,7 +23,7 @@ Future<void> main() async {
 		anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wZ2JmaHh0bXN5eGhnd3p4aGJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MzQyNDUsImV4cCI6MjEwODUxMDI0NX0.5F04aHDye9i9nzSfD3dZQX-39blWcFwBIbHEWjwhq8w",
 		// publishableKey: "sb_publishable_F5iQTu_jSHTlkVTsfmTVaQ_OlYME8mu",
 		// anonKey: const String.fromEnvironment("SUPABASE_ANON_KEY", defaultValue: "YOUR_FALLBACK_KEY"),
-	);
+	); // Supabase.initialize
 	
 	data = await SharedPreferences.getInstance();
 	if (data.getKeys().length != 0) {
@@ -49,11 +49,11 @@ class MyApp extends StatelessWidget {
 					theme: ThemeData.light(useMaterial3: true),
 					darkTheme: ThemeData.dark(useMaterial3: true),
 					routerConfig: router,
-				);
-			},
-		);
-	}
-}
+				); // MaterialApp
+			}, // builder
+		); // ValueListenableBuilder
+	} // build
+} // MyApp
 
 final router = GoRouter(
 	initialLocation: "/main",
@@ -76,42 +76,42 @@ final router = GoRouter(
 									BottomNavigationBarItem(label: "Расписание", icon: Icon(Icons.calendar_month)),
 									BottomNavigationBarItem(label: "Отзывы", icon: Icon(Icons.chat)),
 									BottomNavigationBarItem(label: "Профиль", icon: Icon(Icons.account_circle)),
-								],
+								], // items
 								currentIndex: navigationShell.currentIndex,
 								onTap: (index) {
 									navigationShell.goBranch(index);
-								},
-							),
-						),
-					),
-				);
-			},
+								}, // onTap
+							), // BottomNavigationBar
+						), // ClipRRect
+					), // Padding
+				); // Scaffold
+			}, // builder
 			branches: [
 				StatefulShellBranch(
 					routes: [
 						GoRoute(
 							path: "/main",
 							builder: (context, state) => const Schedule(),
-						),
-					],
-				),
+						), // GoRoute
+					], // routes
+				), // StatefulShellBranch
 				StatefulShellBranch(
 					routes: [
 						GoRoute(
 							path: "/comments",
 							builder: (context, state) => const Comments(),
-						),
-					],
-				),
+						), // GoRoute
+					], // routes
+				), // StatefulShellBranch
 				StatefulShellBranch(
 					routes: [
 						GoRoute(
 							path: "/profile",
 							builder: (context, state) => const Profile(),
-						),
-					],
-				),
-			],
-		),
-	],
-);
+						), // GoRoute
+					], // routes
+				), // StatefulShellBranch
+			], // branches
+		), // StatefulShellRoute
+	], // routes
+); // GoRouter
