@@ -20,8 +20,9 @@ Future<void> main() async {
 	
 	await Supabase.initialize(
 		url: "https://opgbfhxtmsyxhgwzxhbk.supabase.co",
+		publishableKey: const String.fromEnvironment("SUPABASE_PUBLISHABLE_KEY"),
 		// anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wZ2JmaHh0bXN5eGhnd3p4aGJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MzQyNDUsImV4cCI6MjEwODUxMDI0NX0.5F04aHDye9i9nzSfD3dZQX-39blWcFwBIbHEWjwhq8w",
-		publishableKey: "sb_publishable_nLo4QeJ_DZciaV3UmOiZxA_gkdTLKsk",
+		// publishableKey: "sb_publishable_nLo4QeJ_DZciaV3UmOiZxA_gkdTLKsk",
 		// anonKey: const String.fromEnvironment("SUPABASE_ANON_KEY", defaultValue: "YOUR_FALLBACK_KEY"),
 	); // Supabase.initialize
 	
