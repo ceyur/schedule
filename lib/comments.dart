@@ -1,12 +1,390 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:intl/intl.dart';
 
-class Comments extends StatelessWidget {
-	const Comments({super.key});
+class Comments extends StatefulWidget {
+  const Comments({super.key});
 
-	@override
-	Widget build(BuildContext context) {
-		return Scaffold(
-			appBar: AppBar(title: const Text("Отзывы")),
-		); // Scaffold
-	} // build
-} // _Comments
+  @override
+  State<Comments> createState() => _CommentsState();
+}
+
+class _CommentsState extends State<Comments> {
+  final supabase = Supabase.instance.client;
+  
+  List<Map<String, dynamic>> _teachers = [];
+  List<Map<String, dynamic>> _reviews = [];
+  Map<String, dynamic>? _selectedTeacher;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTeachers();
+    _loadLatestReviews(); // Загружаем последние отзывы для базовой страницы
+  }
+
+  Future<void> _loadTeachers() async {
+    try {
+      final response = await supabase
+          .from('teachers')
+          .select('id, teacher')
+          .order('teacher', ascending: true);
+      
+      setState(() {
+        _teachers = List<Map<String, dynamic>>.from(response);
+      });
+    } catch (e) {
+      debugPrint('Ошибка загрузки преподавателей: $e');
+    }
+  }
+
+  Future<void> _loadLatestReviews() async {
+    setState(() => _isLoading = true);
+    try {
+      final response = await supabase
+          .from('reviews')
+          .select('*, teachers(teacher)')
+          .order('created_at', ascending: false)
+          .limit(20);
+      
+      setState(() {
+        _reviews = List<Map<String, dynamic>>.from(response);
+        _selectedTeacher = null;
+        _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Ошибка загрузки отзывов: $e');
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _loadReviewsForTeacher(int teacherId) async {
+    setState(() => _isLoading = true);
+    try {
+      final response = await supabase
+          .from('reviews')
+          .select('*, teachers(teacher)')
+          .eq('teacher_id', teacherId)
+          .order('created_at', ascending: false);
+      
+      setState(() {
+        _reviews = List<Map<String, dynamic>>.from(response);
+        _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Ошибка загрузки отзывов: $e');
+      setState(() => _isLoading = false);
+    }
+  }
+
+  void _showWriteReviewDialog() {
+    final authorController = TextEditingController();
+    final commentController = TextEditingController();
+    int selectedRating = 5;
+    int? selectedTeacherId;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: const Text('Оставить отзыв'),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DropdownButtonFormField<int>(
+                      decoration: const InputDecoration(
+                        labelText: 'Преподаватель',
+                        border: OutlineInputBorder(),
+                      ),
+                      items: _teachers.map((t) {
+                        return DropdownMenuItem<int>(
+                          value: t['id'] as int,
+                          child: Text(
+                            t['teacher'] as String,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setDialogState(() {
+                          selectedTeacherId = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    const Text('Оценка:', style: TextStyle(fontSize: 16)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(5, (index) {
+                        return IconButton(
+                          icon: Icon(
+                            index < selectedRating ? Icons.star : Icons.star_border,
+                            color: Colors.amber,
+                            size: 32,
+                          ),
+                          onPressed: () {
+                            setDialogState(() {
+                              selectedRating = index + 1;
+                            });
+                          },
+                        );
+                      }),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: authorController,
+                      decoration: const InputDecoration(
+                        labelText: 'Ваше имя',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: commentController,
+                      decoration: const InputDecoration(
+                        labelText: 'Ваш отзыв',
+                        border: OutlineInputBorder(),
+                      ),
+                      maxLines: 4,
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: Navigator.of(context).pop,
+                  child: const Text('Отмена'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (selectedTeacherId == null || 
+                        authorController.text.trim().isEmpty || 
+                        commentController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Пожалуйста, заполните все поля')),
+                      );
+                      return;
+                    }
+
+                    try {
+                      await supabase.from('reviews').insert({
+                        'teacher_id': selectedTeacherId,
+                        'author_name': authorController.text.trim(),
+                        'rating': selectedRating,
+                        'comment': commentController.text.trim(),
+                      });
+                      
+                      if (mounted) {
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Отзыв успешно добавлен!')),
+                        );
+                        
+                        // Обновляем список в зависимости от контекста
+                        if (_selectedTeacher != null && _selectedTeacher!['id'] == selectedTeacherId) {
+                          _loadReviewsForTeacher(selectedTeacherId!);
+                        } else {
+                          _loadLatestReviews();
+                        }
+                      }
+                    } catch (e) {
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Ошибка: $e')),
+                        );
+                      }
+                    }
+                  },
+                  child: const Text('Отправить'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Отзывы о преподавателях'),
+      ),
+      body: Column(
+        children: [
+          // Поле поиска с автодополнением
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Autocomplete<String>(
+              optionsBuilder: (TextEditingValue textEditingValue) {
+                if (textEditingValue.text.isEmpty) {
+                  return const Iterable<String>.empty();
+                }
+                return _teachers
+                    .map((t) => t['teacher'] as String)
+                    .where((String option) {
+                  return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                });
+              },
+              onSelected: (String selection) {
+                final teacher = _teachers.firstWhere((t) => t['teacher'] == selection);
+                setState(() {
+                  _selectedTeacher = teacher;
+                });
+                _loadReviewsForTeacher(teacher['id'] as int);
+              },
+              fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                return TextField(
+                  controller: textEditingController,
+                  focusNode: focusNode,
+                  decoration: InputDecoration(
+                    labelText: 'Поиск преподавателя',
+                    hintText: 'Введите ФИО преподавателя',
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    suffixIcon: _selectedTeacher != null
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              textEditingController.clear();
+                              setState(() => _selectedTeacher = null);
+                              _loadLatestReviews(); // Возврат к базовой странице
+                            },
+                          )
+                        : null,
+                  ),
+                );
+              },
+            ),
+          ),
+          
+          // Заголовок при выбранном преподавателе
+          if (_selectedTeacher != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Row(
+                children: [
+                  const Icon(Icons.person, size: 20, color: Colors.teal),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Отзывы о преподавателе: ${_selectedTeacher!['teacher']}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            
+          // Список отзывов
+          Expanded(
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _reviews.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'Отзывов пока нет. Будьте первым!',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: _reviews.length,
+                        itemBuilder: (context, index) {
+                          final review = _reviews[index];
+                          final teacherName = (review['teachers'] as Map?)?['teacher'] ?? 'Неизвестный преподаватель';
+                          final rating = review['rating'] as int;
+                          final comment = review['comment'] as String;
+                          final authorName = review['author_name'] as String;
+                          final createdAt = DateTime.parse(review['created_at'] as String);
+
+                          return Card(
+                            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            elevation: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          teacherName,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      Row(
+                                        children: List.generate(5, (starIndex) {
+                                          return Icon(
+                                            starIndex < rating ? Icons.star : Icons.star_border,
+                                            color: Colors.amber,
+                                            size: 20,
+                                          );
+                                        }),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    comment,
+                                    style: const TextStyle(fontSize: 14, height: 1.4),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        authorName,
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 12,
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      ),
+                                      Text(
+                                        DateFormat('dd.MM.yyyy HH:mm', 'ru_RU').format(createdAt),
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+          ),
+        ],
+      ),
+      // Кнопка для добавления нового отзыва
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _showWriteReviewDialog,
+        backgroundColor: const Color(0xFF27D8D2),
+        foregroundColor: Colors.black,
+        icon: const Icon(Icons.edit),
+        label: const Text('Написать отзыв'),
+      ),
+    );
+  }
+}
