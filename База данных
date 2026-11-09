@@ -1,4 +1,4 @@
---Создание таблиц
+-- Создание таблиц
 CREATE TABLE public.pairs (
 	id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
 	time_start text NOT NULL UNIQUE,
@@ -41,59 +41,84 @@ CREATE TABLE public.schedule (
 	CONSTRAINT schedule_teacher_id_fkey FOREIGN KEY (teacher_id) REFERENCES public.teachers(id),
 	CONSTRAINT schedule_room_id_fkey FOREIGN KEY (room_id) REFERENCES public.rooms(id)
 );
+CREATE TABLE public.profiles (
+	id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+	name text NOT NULL,
+	phone text UNIQUE,
+	birth_date date,
+	created_date timestamptz default now() NOT NULL,
+	avatar_url text,
+	CONSTRAINT profiles_pkey PRIMARY KEY (id),
+);
 
---Создание RLS
-alter table public.pairs enable row level security;
-alter table public.subjects enable row level security;
-alter table public.groups enable row level security;
-alter table public.teachers enable row level security;
-alter table public.rooms enable row level security;
-alter table public.schedule enable row level security;
+-- Создание RLS
+ALTER TABLE public.pairs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.subjects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.groups ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.teachers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.rooms ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.schedule ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
---Создание политик
-create policy "Enable read access for all users"
-on "public"."pairs"
-as PERMISSIVE
-for SELECT
-to public
-using (true);
+-- Создание политик
+CREATE POLICY "Enable read access for all users"
+ON "public"."pairs"
+AS PERMISSIVE
+FOR SELECT
+TO public
+USING (true);
 
-create policy "Enable read access for all users"
-on "public"."subjects"
-as PERMISSIVE
-for SELECT
-to public
-using (true);
+CREATE POLICY "Enable read access for all users"
+ON "public"."subjects"
+AS PERMISSIVE
+FOR SELECT
+TO public
+USING (true);
 
-create policy "Enable read access for all users"
-on "public"."groups"
-as PERMISSIVE
-for SELECT
-to public
-using (true);
+CREATE POLICY "Enable read access for all users"
+ON "public"."groups"
+AS PERMISSIVE
+FOR SELECT
+TO public
+USING (true);
 
-create policy "Enable read access for all users"
-on "public"."teachers"
-as PERMISSIVE
-for SELECT
-to public
-using (true);
+CREATE POLICY "Enable read access for all users"
+ON "public"."teachers"
+AS PERMISSIVE
+FOR SELECT
+TO public
+USING (true);
 
-create policy "Enable read access for all users"
-on "public"."rooms"
-as PERMISSIVE
-for SELECT
-to public
-using (true);
+CREATE POLICY "Enable read access for all users"
+ON "public"."rooms"
+AS PERMISSIVE
+FOR SELECT
+TO public
+USING (true);
 
-create policy "Enable read access for all users"
-on "public"."schedule"
-as PERMISSIVE
-for SELECT
-to public
-using (true);
+CREATE POLICY "Enable read access for all users"
+ON "public"."schedule"
+AS PERMISSIVE
+FOR SELECT
+TO public
+USING (true);
 
---Заполнение данными
+-- Политики для Profiles
+CREATE POLICY "Users can view own profile" 
+ON profiles FOR SELECT 
+USING (auth.uid() = id);
+
+CREATE POLICY "Users can update own profile" 
+ON profiles
+FOR UPDATE 
+USING (auth.uid() = id);
+
+CREATE POLICY "Users can insert own profile" 
+ON profiles
+FOR INSERT 
+WITH CHECK (auth.uid() = id);
+
+-- Заполнение данными
 INSERT INTO public.pairs (time_start, time_end)
 VALUES
 ("08:30", "10:00"),
