@@ -28341,7 +28341,7 @@ $.a23=$.a1V=null}if($.aD1() instanceof A.wY)$.b2w=A.b2v()
 s=2
 return A.p(A.dp(null,t.H),$async$Kc)
 case 2:s=3
-return A.p(A.anx("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wZ2JmaHh0bXN5eGhnd3p4aGJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MzQyNDUsImV4cCI6MjEwODUxMDI0NX0.5F04aHDye9i9nzSfD3dZQX-39blWcFwBIbHEWjwhq8w","https://opgbfhxtmsyxhgwzxhbk.supabase.co"),$async$Kc)
+return A.p(A.anx("sb_publishable_nLo4QeJ_DZciaV3UmOiZxA_gkdTLKsk","https://opgbfhxtmsyxhgwzxhbk.supabase.co"),$async$Kc)
 case 3:j=$.yr
 s=4
 return A.p(A.Rp(),$async$Kc)
