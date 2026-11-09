@@ -5,31 +5,26 @@ CREATE TABLE public.pairs (
 	time_end text NOT NULL UNIQUE,
 	CONSTRAINT pairs_pkey PRIMARY KEY (id)
 );
-
 CREATE TABLE public.subjects (
 	id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
 	subject text NOT NULL UNIQUE,
 	CONSTRAINT subjects_pkey PRIMARY KEY (id)
 );
-
 CREATE TABLE public.groups (
 	id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
 	group_name text NOT NULL UNIQUE,
 	CONSTRAINT groups_pkey PRIMARY KEY (id)
 );
-
 CREATE TABLE public.teachers (
 	id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
 	teacher text NOT NULL,
 	CONSTRAINT teachers_pkey PRIMARY KEY (id)
 );
-
 CREATE TABLE public.rooms (
 	id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
 	room text NOT NULL UNIQUE,
 	CONSTRAINT rooms_pkey PRIMARY KEY (id)
 );
-
 CREATE TABLE public.schedule (
 	id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
 	date date NOT NULL,
