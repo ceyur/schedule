@@ -315,7 +315,7 @@ RETURNS TABLE (
 	teacher TEXT,
 	room TEXT
 )
-LANGUAGE SQL
+LANGUAGE sql
 STABLE
 AS $$
 	SELECT
@@ -355,7 +355,7 @@ RETURNS TABLE (
 	teacher TEXT,
 	room TEXT
 )
-LANGUAGE SQL
+LANGUAGE sql
 STABLE
 AS $$
 	SELECT
@@ -395,7 +395,7 @@ RETURNS TABLE (
 	teacher TEXT,
 	room TEXT
 )
-LANGUAGE SQL
+LANGUAGE sql
 STABLE
 AS $$
 	SELECT
@@ -419,3 +419,20 @@ AS $$
 		AND r.room = select_room
 	ORDER BY p.id;
 $$;
+
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS trigger
+AS $$
+	BEGIN
+	INSERT INTO public.profiles (id, name)
+	VALUES (
+		NEW.id,
+		NEW.raw_user_meta_data->>"name"
+	);
+	RETURN NEW;
+	END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER on_auth_user_created
+	AFTER INSERT ON auth.users
+	FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
