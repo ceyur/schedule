@@ -21,7 +21,7 @@ class _CommentsState extends State<Comments> {
   void initState() {
     super.initState();
     _loadTeachers();
-    _loadLatestReviews(); // Загружаем последние отзывы для базовой страницы
+    _loadLatestReviews();
   }
 
   Future<void> _loadTeachers() async {
@@ -44,9 +44,9 @@ class _CommentsState extends State<Comments> {
     try {
       final response = await supabase
           .from('reviews')
-          .select('*, teachers(teacher)')
+          .select('id, teacher_id, rating, comment, created_at, teachers(teacher)')
           .order('created_at', ascending: false)
-          .limit(20);
+          .limit(50);
       
       setState(() {
         _reviews = List<Map<String, dynamic>>.from(response);
@@ -64,7 +64,7 @@ class _CommentsState extends State<Comments> {
     try {
       final response = await supabase
           .from('reviews')
-          .select('*, teachers(teacher)')
+          .select('id, teacher_id, rating, comment, created_at, teachers(teacher)')
           .eq('teacher_id', teacherId)
           .order('created_at', ascending: false);
       
@@ -79,7 +79,6 @@ class _CommentsState extends State<Comments> {
   }
 
   void _showWriteReviewDialog() {
-    final authorController = TextEditingController();
     final commentController = TextEditingController();
     int selectedRating = 5;
     int? selectedTeacherId;
@@ -136,17 +135,9 @@ class _CommentsState extends State<Comments> {
                     ),
                     const SizedBox(height: 16),
                     TextField(
-                      controller: authorController,
-                      decoration: const InputDecoration(
-                        labelText: 'Ваше имя',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
                       controller: commentController,
                       decoration: const InputDecoration(
-                        labelText: 'Ваш отзыв',
+                        labelText: 'Текст отзыва',
                         border: OutlineInputBorder(),
                       ),
                       maxLines: 4,
@@ -161,11 +152,9 @@ class _CommentsState extends State<Comments> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    if (selectedTeacherId == null || 
-                        authorController.text.trim().isEmpty || 
-                        commentController.text.trim().isEmpty) {
+                    if (selectedTeacherId == null || commentController.text.trim().isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Пожалуйста, заполните все поля')),
+                        const SnackBar(content: Text('Пожалуйста, выберите преподавателя и напишите отзыв')),
                       );
                       return;
                     }
@@ -173,7 +162,6 @@ class _CommentsState extends State<Comments> {
                     try {
                       await supabase.from('reviews').insert({
                         'teacher_id': selectedTeacherId,
-                        'author_name': authorController.text.trim(),
                         'rating': selectedRating,
                         'comment': commentController.text.trim(),
                       });
@@ -184,7 +172,6 @@ class _CommentsState extends State<Comments> {
                           const SnackBar(content: Text('Отзыв успешно добавлен!')),
                         );
                         
-                        // Обновляем список в зависимости от контекста
                         if (_selectedTeacher != null && _selectedTeacher!['id'] == selectedTeacherId) {
                           _loadReviewsForTeacher(selectedTeacherId!);
                         } else {
@@ -213,11 +200,10 @@ class _CommentsState extends State<Comments> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Отзывы о преподавателях'),
+        title: const Text('Отзывы'),
       ),
       body: Column(
         children: [
-          // Поле поиска с автодополнением
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Autocomplete<String>(
@@ -255,7 +241,7 @@ class _CommentsState extends State<Comments> {
                             onPressed: () {
                               textEditingController.clear();
                               setState(() => _selectedTeacher = null);
-                              _loadLatestReviews(); // Возврат к базовой странице
+                              _loadLatestReviews();
                             },
                           )
                         : null,
@@ -265,7 +251,6 @@ class _CommentsState extends State<Comments> {
             ),
           ),
           
-          // Заголовок при выбранном преподавателе
           if (_selectedTeacher != null)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -288,14 +273,13 @@ class _CommentsState extends State<Comments> {
               ),
             ),
             
-          // Список отзывов
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _reviews.isEmpty
                     ? const Center(
                         child: Text(
-                          'Отзывов пока нет. Будьте первым!',
+                          'Отзывов пока нет.',
                           style: TextStyle(color: Colors.grey),
                         ),
                       )
@@ -303,10 +287,9 @@ class _CommentsState extends State<Comments> {
                         itemCount: _reviews.length,
                         itemBuilder: (context, index) {
                           final review = _reviews[index];
-                          final teacherName = (review['teachers'] as Map?)?['teacher'] ?? 'Неизвестный преподаватель';
+                          final teacherName = (review['teachers'] as Map?)?['teacher'] ?? 'Преподаватель';
                           final rating = review['rating'] as int;
                           final comment = review['comment'] as String;
-                          final authorName = review['author_name'] as String;
                           final createdAt = DateTime.parse(review['created_at'] as String);
 
                           return Card(
@@ -349,16 +332,8 @@ class _CommentsState extends State<Comments> {
                                   ),
                                   const SizedBox(height: 12),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Text(
-                                        authorName,
-                                        style: TextStyle(
-                                          color: Colors.grey[600],
-                                          fontSize: 12,
-                                          fontStyle: FontStyle.italic,
-                                        ),
-                                      ),
                                       Text(
                                         DateFormat('dd.MM.yyyy HH:mm', 'ru_RU').format(createdAt),
                                         style: TextStyle(
@@ -377,7 +352,6 @@ class _CommentsState extends State<Comments> {
           ),
         ],
       ),
-      // Кнопка для добавления нового отзыва
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _showWriteReviewDialog,
         backgroundColor: const Color(0xFF27D8D2),
