@@ -2,32 +2,52 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main # Убедитесь, что ветка совпадает с вашей основной (в вашем репо это main)
 
 permissions:
-  contents: write
+  contents: write # Необходимо для записи собранного билда в ветку gh-pages
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      # 1. Клонируем репозиторий
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: subosito/flutter-action@v2
+      # 2. Устанавливаем Java (требуется для стабильной работы некоторых инструментов Flutter)
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          channel: stable
+          distribution: 'zulu'
+          java-version: '17'
 
+      # 3. Настраиваем Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' # Используем стабильную ветку
+          architecture: x64
+
+      # 4. Скачиваем зависимости приложения
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build web
-        run: flutter build web --base-href /schedule/
+      # 5. Собираем Web-версию с правильным base-href (КРИТИЧЕСКИ ВАЖНО для GitHub Pages)
+      #- name: Build Web
+      #  run: flutter build web --base-href "/schedule/"
 
-      - name: Create 404.html
-        run: cp build/web/index.html build/web/404.html
+      # 5. Собираем Web-версию с передачей секретных ключей окружения
+      - name: Build Web
+        run: |
+          flutter build web --base-href "/schedule/" --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+
+      # 6. Деплоим собранные файлы в ветку gh-pages
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/web
+          folder: build/web # Папка, куда Flutter складывает билд
+          branch: gh-pages # Ветка, из которой GitHub Pages будет брать сайт
