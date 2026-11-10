@@ -59,7 +59,7 @@ class _Select extends State<Select> {
 									shape: const CircleBorder(),
 								),
 								onPressed: () {
-									context.pop();
+									context.go('/profile');
 									Navigator.of(context).pop();
 								},
 							),
