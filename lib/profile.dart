@@ -16,6 +16,7 @@ class _Profile extends State<Profile> {
   bool _isLoading = true;
   bool _isLoggedIn = false;
   bool _isFormLoading = false;
+  bool _obscurePassword = true;
 
   String? _userName;
   String? _userAvatar;
@@ -645,12 +646,23 @@ class _Profile extends State<Profile> {
                   const SizedBox(height: 10),
                   TextField(
                     controller: _passwordController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: "Пароль",
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.lock_outline),
+                      border: const OutlineInputBorder(),
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
                     ),
-                    obscureText: true,
+                    obscureText: _obscurePassword,
                   ),
                   const SizedBox(height: 10),
                   _isFormLoading
