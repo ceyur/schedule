@@ -2,10 +2,10 @@ const CACHE = 'schedule_v1';
 
 const CORE = [
   './',
-  'index.html',
-  'flutter_bootstrap.js',
-  'manifest.json',
-  'favicon.svg',
+  './index.html',
+  './flutter_bootstrap.js',
+  './manifest.json',
+  './favicon.svg',
 ];
 
 self.addEventListener('install', (event) => {
