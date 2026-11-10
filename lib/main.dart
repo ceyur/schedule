@@ -58,6 +58,7 @@ class MyApp extends StatelessWidget {
 						Locale("ru", "RU"),
 						Locale("en", "US"),
 					],
+					locale: const Locale("ru", "RU"),
 					themeMode: themeMode,
 					theme: ThemeData.light(useMaterial3: true),
 					darkTheme: ThemeData.dark(useMaterial3: true),
