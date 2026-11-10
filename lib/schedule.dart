@@ -9,7 +9,7 @@ class Schedule extends StatefulWidget {
 
 	@override
 	State<Schedule> createState() => _Schedule();
-} // Schedule
+}
 
 class _Schedule extends State<Schedule> {
 	static const months = [
@@ -35,45 +35,71 @@ class _Schedule extends State<Schedule> {
 	late Future<List<dynamic>> schedule;
 
 	Future<List<dynamic>> getSchedule() {
-		if (selectedSchedule[1] == Type.group)
-		{
-			return Supabase.instance.client
-			.rpc(
-					"pairsdaygroup",
-					params: {
-						"select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
-						"select_group": selectedSchedule[0],
-					},
-				);
+		if (selectedSchedule[1] == Type.group) {
+			return Supabase.instance.client.rpc(
+				"pairsdaygroup",
+				params: {
+					"select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
+					"select_group": selectedSchedule[0],
+				},
+			);
+		} else if (selectedSchedule[1] == Type.teacher) {
+			return Supabase.instance.client.rpc(
+				"pairsdayteacher",
+				params: {
+					"select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
+					"select_teacher": selectedSchedule[0],
+				},
+			);
+		} else {
+			return Supabase.instance.client.rpc(
+				"pairsdayroom",
+				params: {
+					"select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
+					"select_room": selectedSchedule[0],
+				},
+			);
 		}
-		else if (selectedSchedule[1] == Type.teacher) {
-			return Supabase.instance.client
-			.rpc(
-					"pairsdayteacher",
-					params: {
-						"select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
-						"select_teacher": selectedSchedule[0],
-					},
-				);
+	}
+
+	Future<void> _openCalendar() async {
+		final DateTime? picked = await showDatePicker(
+			context: context,
+			initialDate: selectedDay,
+			firstDate: DateTime(2023),
+			lastDate: DateTime(2030),
+		);
+
+		if (picked != null && picked != selectedDay) {
+			setState(() {
+				selectedDay = picked;
+
+				// Нормализуем даты до полуночи, чтобы корректно посчитать разницу в днях
+				final DateTime now = DateTime.now();
+				final DateTime today = DateTime(now.year, now.month, now.day);
+				final DateTime pickedDate = DateTime(picked.year, picked.month, picked.day);
+				
+				// Считаем разницу в днях от сегодня
+				final int daysDifference = pickedDate.difference(today).inDays;
+				
+				// Обновляем индексы
+				selectedDayI = startDayI + daysDifference;
+				selectedWeekI = (selectedDayI / 7).toInt();
+				
+				// Обновляем данные и синхронизируем контроллеры прокрутки
+				schedule = getSchedule();
+				dayController.jumpToPage(selectedDayI);
+				weekController.jumpToPage(selectedWeekI);
+			});
 		}
-		else {
-			return Supabase.instance.client
-			.rpc(
-					"pairsdayroom",
-					params: {
-						"select_date": DateFormat("yyyy-MM-dd").format(selectedDay),
-						"select_room": selectedSchedule[0],
-					},
-				);
-		}
-	} // getSchedule
+	}
 
 	@override
 	void initState() {
 		super.initState();
 		selectedSchedule = mySchedule[0];
 		schedule = getSchedule();
-	} // initState
+	}
 
 	@override
 	Widget build(BuildContext context) {
@@ -97,46 +123,51 @@ class _Schedule extends State<Schedule> {
 													selectedSchedule = value;
 													schedule = getSchedule();
 												});
-											}, // onSelected
+											},
 											child: Row(
 												children: [
 													Text(
 														selectedSchedule[0],
 														style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-													), // Text
+													),
 													const Icon(Icons.keyboard_arrow_down),
-												], // children
-											), // Row
+												],
+											),
 											itemBuilder: (BuildContext context) => mySchedule.map((group) {
 												return PopupMenuItem(
 													value: group,
 													child: Text(group[0]),
-												); // PopupMenuItem
+												);
 											}).toList(),
-										), // PopupMenuButton
+										),
 										Transform.translate(
 											offset: const Offset(0, -5),
 											child: Text(
 												"${DateTime.now().day} ${months[DateTime.now().month - 1]}",
 												textAlign: TextAlign.left,
-											), // Text
-										), // Transform.translate
-									], // children
-								), // Column
+											),
+										),
+									],
+								),
 								const Spacer(),
-								const Icon(Icons.calendar_month),
-							], // children
-						), // Row
-					), // Padding
+								IconButton(
+									icon: const Icon(Icons.calendar_month, size: 28),
+									tooltip: 'Выбрать дату',
+									onPressed: _openCalendar,
+								),
+								
+							],
+						),
+					),
 					// Выбор недели
 					Padding(
 						padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
 						child: ClipRRect(
 							borderRadius: BorderRadius.circular(99),
 							child: Container(
-								decoration: BoxDecoration(
-									color: const Color(0xFF9EFCFF), // 0xFFB2D8D8
-								), // BoxDecoration
+								decoration: const BoxDecoration(
+									color: Color(0xFF9EFCFF),
+								),
 								height: 69,
 								child: PageView.builder(
 									controller: weekController,
@@ -149,7 +180,7 @@ class _Schedule extends State<Schedule> {
 											schedule = getSchedule();
 											dayController.jumpToPage(selectedDayI);
 										});
-									}, // onPageChanged
+									},
 									itemBuilder: (context, week) {
 										final weekOffset = selectedWeekI - startWeekI;
 										final nowDay = DateTime.now().weekday - 1;
@@ -168,13 +199,13 @@ class _Schedule extends State<Schedule> {
 															schedule = getSchedule();
 															dayController.jumpToPage(selectedDayI);
 														});
-													}, // onTap
+													},
 													child: Container(
 														padding: const EdgeInsets.all(5),
 														decoration: BoxDecoration(
 															border: isToday ? Border.all(color: Colors.black) : null,
 															borderRadius: BorderRadius.circular(10),
-														), // Container
+														),
 														child: Column(
 															mainAxisSize: MainAxisSize.min,
 															children: [
@@ -184,26 +215,26 @@ class _Schedule extends State<Schedule> {
 																		fontSize: 15,
 																		fontWeight: FontWeight.bold,
 																		color: index == selectedDayI - selectedWeekI * 7 ? Colors.black : Colors.teal,
-																	), // TextStyle
-																), // Text
+																	),
+																),
 																Text(
 																	DateFormat("EEE", "ru").format(day).toUpperCase(),
 																	style: TextStyle(
 																		fontSize: 15,
 																		color: index == selectedDayI - selectedWeekI * 7 ? Colors.black : Colors.teal,
-																	), // TextStyle
-																), // Text
-															], // children
-														), // Column
-													), // Container
-												); // GestureDetector
-											}), // List.generate
-										); // Row
-									}, // itemBuilder
-								), // PageView.builder
-							), // Container
-						), // ClipRRect
-					), // Padding
+																	),
+																),
+															],
+														),
+													),
+												);
+											}),
+										);
+									},
+								),
+							),
+						),
+					),
 					// Область расписания
 					Expanded(
 						child: PageView.builder(
@@ -219,7 +250,7 @@ class _Schedule extends State<Schedule> {
 									}
 									schedule = getSchedule();
 								});
-							}, // onPageChanged
+							},
 							itemBuilder: (context, day) {
 								return FutureBuilder<List<dynamic>>(
 									future: schedule,
@@ -230,26 +261,26 @@ class _Schedule extends State<Schedule> {
 													Padding(
 														padding: const EdgeInsets.all(10),
 														child: Text("Ошибка загрузки: ${snapshot.error}"),
-													), // Padding
+													),
 													ElevatedButton(
 														style: ElevatedButton.styleFrom(
 															elevation: 0,
 															overlayColor: Colors.transparent,
 															enableFeedback: false,
-														), // ElevatedButton.styleFrom
+														),
 														onPressed: () {
 															setState(() {
 																schedule = getSchedule();
-															}); // setState
-														}, // onPressed
+															});
+														},
 														child: const Text("Попробовать снова"),
-													), // ElevatedButton
-												], // children
-											); // Column
-										} // if
+													),
+												],
+											);
+										}
 										if (!snapshot.hasData) {
 											return const Center(child: CircularProgressIndicator());
-										} // if
+										}
 										final instruments = snapshot.data!;
 										if (instruments.isEmpty) {
 											return const Align(
@@ -257,10 +288,9 @@ class _Schedule extends State<Schedule> {
 												child: Text(
 													"В этот день нет пар",
 													style: TextStyle(fontSize: 20),
-												), // Text
-											); // Align
-										} // if
-										else {
+												),
+											);
+										} else {
 											return ListView.builder(
 												itemCount: instruments.length,
 												itemBuilder: ((context, index) {
@@ -271,7 +301,7 @@ class _Schedule extends State<Schedule> {
 															elevation: 0,
 															shape: RoundedRectangleBorder(
 																borderRadius: BorderRadius.circular(20),
-															), // RoundedRectangleBorder
+															),
 															child: Padding(
 																padding: const EdgeInsets.all(15),
 																child: Row(
@@ -296,48 +326,48 @@ class _Schedule extends State<Schedule> {
 																							Text(
 																								" ${instrument["time_start"]}–${instrument["time_end"]}",
 																								style: const TextStyle(color: Colors.grey, fontSize: 15),
-																							), // Text
-																						], // children
-																					), // Row
+																							),
+																						],
+																					),
 																					const SizedBox(height: 4),
 																					Text(
 																						instrument["subject"],
 																						style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-																					), // Text
+																					),
 																					const SizedBox(height: 4),
 																					Text(
 																						selectedSchedule[1] == Type.group
 																							? instrument["teacher"]
 																							: instrument["group_name"],
 																						style: const TextStyle(fontSize: 15, color: Colors.grey),
-																					), // Text
-																				], // children
-																			), // Column
-																		), // Expanded
+																					),
+																				],
+																			),
+																		),
 																		const SizedBox(width: 15),
 																		Column(
 																			children: [
 																				Text(
 																					instrument["room"],
 																					style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-																				), // Text
-																			], // children
-																		), // Column
-																	], // children
-																), // Row
-															), // Padding
-														), // Card
-													); // Padding
-												}), // itemBuilder
-											); // ListView.builder
-										} // else
-									}, // builder
-								); // FutureBuilder
-							}, // itemBuilder
-						), // PageView.builder
-					), // Expanded
-				], // children
-			), // Column
-		); // Scaffold
-	} // build
-} // _Schedule
+																				),
+																			],
+																		),
+																	],
+																),
+															),
+														),
+													);
+												}),
+											);
+										}
+									},
+								);
+							},
+						),
+					),
+				],
+			),
+		);
+	}
+}
