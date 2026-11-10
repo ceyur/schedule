@@ -49,6 +49,15 @@ class MyApp extends StatelessWidget {
 			builder: (context, themeMode, _) {
 				return MaterialApp.router(
 					debugShowCheckedModeBanner: false,
+					localizationsDelegates: const [
+						GlobalMaterialLocalizations.delegate,
+						GlobalWidgetsLocalizations.delegate,
+						GlobalCupertinoLocalizations.delegate,
+					],
+					supportedLocales: const [
+						Locale("ru", "RU"),
+						Locale("en", "US"),
+					],
 					themeMode: themeMode,
 					theme: ThemeData.light(useMaterial3: true),
 					darkTheme: ThemeData.dark(useMaterial3: true),
